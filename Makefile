@@ -2,10 +2,12 @@ NAME            =       ircserv
 
 CC              =       c++
 
-FLAG            =       -Wall -Wextra -Werror -std=c++98 -g 
+FLAG            =       -std=c++98 -g 
 
 C_FILE          =       main.cpp			\
 						Server.cpp			\
+						Client.cpp			\
+						Parsing.cpp			\
 
 
 SRC_DIR         =       ./src/
