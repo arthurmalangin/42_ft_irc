@@ -54,7 +54,7 @@ Server::~Server()
 Server& Server::operator=(const Server& src)
 {
     if (this == &src)
-        return *this;
+        return (*this);
     _port = src._port;
     _password = src._password;
     _ip = src._ip;
