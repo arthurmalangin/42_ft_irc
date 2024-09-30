@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 17:36:37 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/09/30 20:58:34 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,15 @@ void Server::authentication(int fd, const char *buffer)
 }
 
 /*====== Handle Data after getData ======*/
-void	handleData(char *buffer) {
-
+// TODO: La je vais faire des if vraiment moche, faudra vraimmmment faire un code plus propre
+void	Server::handleData(int fd, char *buffer) {
+    Parsing	parser;
+	parser.parseBuffer(buffer);
+    for (size_t i = 0; i < parser.message.size(); i++) {
+        if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving") {
+			disconnectClientByFd(fd);
+		}
+    }
 }
 
 void Server::getData(int fd)
@@ -212,7 +219,7 @@ void Server::getData(int fd)
 			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
 	}
 	
-	handleData(buffer);
+	handleData(fd, buffer);
 	
 	std::string txt(buffer);
 	std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 

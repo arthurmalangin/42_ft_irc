@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 17:30:16 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/09/30 19:42:54 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Server
 		void	getData(int fd);
 
 		/*====== Handle Data after getData() ======*/
-		void	handleData(char *buffer);
+		void	handleData(int fd, char *buffer);
 		/*====== Utils ======*/
 		void	disconnectClientByFd(int fd);
 		void	disconnectClientByInstance(Client client);
