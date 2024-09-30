@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 12:07:15 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:11:58 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ Client &Server::getClientByFd(int fd)
 
 void Server::disconnectClientByFd(int fd)
 {
+	std::cout << "disconnectClientByFd" << std::endl;
 	for (size_t i = 0; i < _fdList.size(); i++)
 	{
 		if (_fdList[i].fd == fd)
@@ -114,6 +115,9 @@ void Server::disconnectClientByFd(int fd)
 			_fdList.erase(_fdList.begin() + i);
 			break;
 		}
+	}
+	for (size_t i = 0; i < _clientList.size(); i++)
+	{
 		if (_clientList[i].getFd() == fd)
 		{
 			_clientList.erase(_clientList.begin() + i);
@@ -223,11 +227,15 @@ void Server::runServer(void)
 			if (_fdList[i].revents & POLLIN) // Si data a read dans le fd. On utilise & et pas == car c'est une comparaison de bit a bit
 			{
 				//std::cout << "It is: " << i << std::endl;
-				if (_fdList[i].fd != +_fdSrvSocket) // si fd a lire est celui du serveur, c'est un client qui veux se connecter, sinon c'est un client qui envoie des info a read
+				if (_fdList[i].fd != _fdSrvSocket) // si fd a lire est celui du serveur, c'est un client qui veux se connecter, sinon c'est un client qui envoie des info a read
 					getData(_fdList[i].fd);
 				else
 					acceptTheClient();
-			}
+			}/* else if (_fdList[i].fd != _fdSrvSocket) {
+				std::cout << "\e[1;31m" << "Debug before crash :<" << _fdList[i].fd << ">" << std::endl;
+				std::cout << "value of POLLIN: " << POLLIN << std::endl;
+				std::cout << "Value of actual revent: " << _fdList[i].revents << "\e[0;37m" << std::endl;
+			}*/
 		}
 	}
 }
