@@ -1,22 +1,22 @@
-NAME            =       ircserv
+NAME            =		ircserv
 
-CC              =       c++
+CC				=		c++
 
-FLAG            =       -std=c++98 -g 
+FLAG			=		-std=c++98 -g 
 
-C_FILE          =       main.cpp			\
+C_FILE			=		main.cpp			\
 						Server.cpp			\
 						Client.cpp			\
 						Parsing.cpp			\
 
 
-SRC_DIR         =       ./src/
+SRC_DIR			=		./src/
 
-INC_DIR         =       ./include/
+INC_DIR			=		./include/
 
-SRC                     =       $(addprefix $(SRC_DIR),$(C_FILE))
+SRC				=		$(addprefix $(SRC_DIR),$(C_FILE))
 
-OBJ                     =       $(SRC:.cpp=.o)
+OBJ				=		$(SRC:.cpp=.o)
 
 .cpp.o:
 	$(CC) $(FLAG) -c $< -o $@
