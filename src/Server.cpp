@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 20:58:34 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/01 00:04:07 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ std::string Server::getIp() const
 
 /*====== Utils ======*/
 
+int Server::sendMessage(int fd, std::string messageFormated) {
+	return (send(fd, messageFormated.c_str(), messageFormated.size(), 0));
+}
+
 Client &Server::getClientByFd(int fd)
 {
 	for (size_t i = 0; i < _clientList.size(); i++)
@@ -164,6 +168,27 @@ void Server::acceptTheClient(void)
 	std::cout << "New client <" << newClientFd << "> connect : " << inet_ntoa(newClientAddr.sin_addr) << std::endl;
 }
 
+void Server::sendMotd(int fd) {
+	std::vector<std::string> motd_lines;
+    motd_lines.push_back("-_-_-_- FT_IRC -_-_-_-");
+    motd_lines.push_back("Number of Users: xxx  ");
+    motd_lines.push_back("====                  ");
+    motd_lines.push_back("====                  ");
+    motd_lines.push_back("By Rwintgen & Amalangi");
+    motd_lines.push_back("-_-_-_-_-_-_-_-_-_-_- ");
+
+	sendMessage(fd, ":MyCheel.beer 375 : - Message of the Day - \r\n");
+	for (int i = 0; i < motd_lines.size(); i++) {
+		if (i == motd_lines.size() - 1)
+			sendMessage(fd, ":MyCheel.beer 376 : | " + motd_lines[i] + " | \r\n");
+		else
+			sendMessage(fd, ":MyCheel.beer 372 : | " + motd_lines[i] + " | \r\n");
+	}
+
+
+	
+}
+
 // TODO Possible probleme: si dans le premier echange de donnee/buffer il n'y a pas de password le client sera kick
 // peut etre qu'avec une mauvaise connexion il l'envoie en deuxieme buffer 
 void Server::authentication(int fd, const char *buffer)
@@ -177,13 +202,12 @@ void Server::authentication(int fd, const char *buffer)
 			if (parser.message[i][0] == "PASS" && parser.message[i].size() > 0 && parser.message[i][1] == this->_password)
 			{
 				getClientByFd(fd).setAuth(true);
+				sendMotd(fd);
 				std::cout << "\e[1;32m" << "Client <" << fd << "> Auth Success !" << "\e[0;37m" << std::endl;
 				return;
 			}
 		}
-
-		std::string	error_message = std::string(":MyChell.beer 464 ") + " : Mot de passe Incorrect\r\n";
-		send(fd, error_message.c_str(), error_message.size(), 0);
+		sendMessage(fd, ":MyChell.beer 464 : Mot de passe Incorrect\r\n");
 		std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for Auth Fail !" << "\e[0;37m" << std::endl;
 		disconnectClientByFd(fd);
 	}
@@ -196,7 +220,23 @@ void	Server::handleData(int fd, char *buffer) {
 	parser.parseBuffer(buffer);
     for (size_t i = 0; i < parser.message.size(); i++) {
         if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving") {
+			std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected !" << "\e[0;37m" << std::endl;
 			disconnectClientByFd(fd);
+		}
+		if (parser.message[i].size() > 0 && parser.message[i][0] == "PING") { 
+			// Le client envoie de maniere random un ping pour check la latence
+			// il faut juste repondre avec pong suivis de la meme chaine
+			sendMessage(fd, "PONG " + parser.message[i][1] + "\r\n");
+		}
+		if (toUpperString(parser.message[i][0]) == "MOTD")
+			sendMotd(fd);
+		if (parser.message[i][0] == "JOIN") {
+			// @rwintgen t'a juste a faire ton code ici pour le join de salon
+			/*
+				Va falloir trouver quel message envoyer
+
+			
+			*/
 		}
     }
 }

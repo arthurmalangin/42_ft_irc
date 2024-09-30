@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 19:42:54 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/09/30 23:57:47 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include "../include/Client.hpp"
 # include "../include/Parsing.hpp"
+# include "../src/utils.cpp"
 
 # define MAX_CLIENTS 100
 
@@ -55,6 +56,8 @@ class Server
 		/*====== Handle Data after getData() ======*/
 		void	handleData(int fd, char *buffer);
 		/*====== Utils ======*/
+		int		sendMessage(int fd, std::string messageFormated);
+		void 	sendMotd(int fd);
 		void	disconnectClientByFd(int fd);
 		void	disconnectClientByInstance(Client client);
 		Client	&getClientByFd(int fd);
