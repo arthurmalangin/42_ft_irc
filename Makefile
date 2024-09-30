@@ -9,7 +9,6 @@ C_FILE			=		main.cpp			\
 						Client.cpp			\
 						Parsing.cpp			\
 
-
 SRC_DIR			=		./src/
 
 INC_DIR			=		./include/

@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 00:04:07 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/01 00:56:48 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,15 @@ std::string Server::getIp() const
 
 /*====== Utils ======*/
 
+std::string toUpperStringg(std::string str) {
+    std::string lowerStr;
+
+    for (int i = 0; i < str.length(); ++i) {
+		lowerStr += toupper(str[i]);
+    }
+    return (lowerStr);
+}
+
 int Server::sendMessage(int fd, std::string messageFormated) {
 	return (send(fd, messageFormated.c_str(), messageFormated.size(), 0));
 }
@@ -177,10 +186,10 @@ void Server::sendMotd(int fd) {
     motd_lines.push_back("By Rwintgen & Amalangi");
     motd_lines.push_back("-_-_-_-_-_-_-_-_-_-_- ");
 
-	sendMessage(fd, ":MyCheel.beer 375 : - Message of the Day - \r\n");
+	sendMessage(fd, ":MyCheel.beer 375 : \n\n- Message of the Day - \r\n");
 	for (int i = 0; i < motd_lines.size(); i++) {
 		if (i == motd_lines.size() - 1)
-			sendMessage(fd, ":MyCheel.beer 376 : | " + motd_lines[i] + " | \r\n");
+			sendMessage(fd, ":MyCheel.beer 376 : | " + motd_lines[i] + " | \r\n\n\n");
 		else
 			sendMessage(fd, ":MyCheel.beer 372 : | " + motd_lines[i] + " | \r\n");
 	}
@@ -226,9 +235,10 @@ void	Server::handleData(int fd, char *buffer) {
 		if (parser.message[i].size() > 0 && parser.message[i][0] == "PING") { 
 			// Le client envoie de maniere random un ping pour check la latence
 			// il faut juste repondre avec pong suivis de la meme chaine
-			sendMessage(fd, "PONG " + parser.message[i][1] + "\r\n");
+			std::cout << "send pong return" << std::endl;
+			sendMessage(fd, "PONG :MyChell.beer " + parser.message[i][1] + "\r\n");
 		}
-		if (toUpperString(parser.message[i][0]) == "MOTD")
+		if (toUpperStringg(parser.message[i][0]) == "MOTD")
 			sendMotd(fd);
 		if (parser.message[i][0] == "JOIN") {
 			// @rwintgen t'a juste a faire ton code ici pour le join de salon
