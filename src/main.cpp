@@ -1,8 +1,10 @@
 #include "../include/Server.hpp"
 #include <stdlib.h>
 
-int main(int argc, char **argv) {
-    if (argc < 3) {
+int main(int argc, char **argv)
+{
+    if (argc < 3)
+    {
         std::cout << "Error, bad arguments: ./ircserv <port> <password>" << std::endl;
         return (1);
     }
