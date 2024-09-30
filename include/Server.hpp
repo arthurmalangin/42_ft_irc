@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 11:59:15 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:30:16 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ class Server
 		/*====== Get Data From Client ======*/
 		void	getData(int fd);
 
+		/*====== Handle Data after getData() ======*/
+		void	handleData(char *buffer);
 		/*====== Utils ======*/
 		void	disconnectClientByFd(int fd);
 		void	disconnectClientByInstance(Client client);

@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 17:11:58 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:36:37 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ Client &Server::getClientByFd(int fd)
 
 void Server::disconnectClientByFd(int fd)
 {
-	std::cout << "disconnectClientByFd" << std::endl;
+	std::cout << "disconnectClientByFd(" << fd << ")" << std::endl;
 	for (size_t i = 0; i < _fdList.size(); i++)
 	{
 		if (_fdList[i].fd == fd)
@@ -127,6 +127,7 @@ void Server::disconnectClientByFd(int fd)
 	close(fd);
 }
 
+//NotTested
 void Server::disconnectClientByInstance(Client client)
 {
 	for (size_t i = 0; i < _fdList.size(); i++)
@@ -188,6 +189,11 @@ void Server::authentication(int fd, const char *buffer)
 	}
 }
 
+/*====== Handle Data after getData ======*/
+void	handleData(char *buffer) {
+
+}
+
 void Server::getData(int fd)
 {
 	char	buffer[2048];
@@ -200,14 +206,13 @@ void Server::getData(int fd)
 		return ;
 	}
 	buffer[byteWrite] = '\0';
-	if (!getClientByFd(fd).isAuth())
-	{
+	if (!getClientByFd(fd).isAuth()) {
 		getClientByFd(fd).addAuthBuffer(std::string(buffer).substr(0, byteWrite));
 		if (getClientByFd(fd).getAuthBuffer().find("USER") != std::string::npos)
 			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
 	}
-	else
-		std::cout << "Client Already Auth" << std::endl;
+	
+	handleData(buffer);
 	
 	std::string txt(buffer);
 	std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 
