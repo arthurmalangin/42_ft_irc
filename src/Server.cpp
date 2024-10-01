@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 18:23:59 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:48:00 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ void Server::sendMotd(int fd) {
 	
 }
 
+// TODO Possible probleme: si dans le premier echange de donnee/buffer il n'y a pas de password le client sera kick
 // peut etre qu'avec une mauvaise connexion il l'envoie en deuxieme buffer 
 void Server::authentication(int fd, const char *buffer)
 {
