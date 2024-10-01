@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:10 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 12:08:10 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:49:31 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ class Client
 		int			getFd() const;
 		void		setFd(int fd);
 		std::string	getNick() const;
-		void		setNick(const std::string &nick);
+		void		setNick(std::string nick);
+		std::string getUser() const;
+		void		setUser(std::string user);
 		bool		isAuth() const;
 		void		setAuth(bool auth);
 		std::string	getAuthBuffer(void);
@@ -41,6 +43,7 @@ class Client
 		/*====== Attributes ======*/
 		int			_fd;
 		std::string	_nick;
+		std::string _user;
 		bool		_auth;
 		std::string	_authBuffer;
 };

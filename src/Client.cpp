@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 12:07:44 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:49:51 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,20 @@ void Client::setFd(int fd)
 	this->_fd = fd;
 }
 
+std::string Client::getUser() const {
+	return (this->_user);
+}
+
+void Client::setUser(std::string user) {
+	this->_user = user;
+}
+
 std::string Client::getNick() const
 {
 	return (this->_nick);
 }
 
-void Client::setNick(const std::string &nick)
+void Client::setNick(std::string nick)
 {
 	this->_nick = nick;
 }

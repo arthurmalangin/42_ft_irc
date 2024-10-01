@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 00:56:48 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:10:53 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,17 +208,25 @@ void Server::authentication(int fd, const char *buffer)
 	{
 		for (int i = 0; i < parser.message.size(); i++)
 		{
+			if (parser.message[i][0] == "NICK" && parser.message[i].size() > 0)
+				getClientByFd(fd).setNick(parser.message[i][1]);
+			if (parser.message[i][0] == "USER" && parser.message[i].size() > 0)
+				getClientByFd(fd).setUser(parser.message[i][1]);
 			if (parser.message[i][0] == "PASS" && parser.message[i].size() > 0 && parser.message[i][1] == this->_password)
 			{
 				getClientByFd(fd).setAuth(true);
 				sendMotd(fd);
-				std::cout << "\e[1;32m" << "Client <" << fd << "> Auth Success !" << "\e[0;37m" << std::endl;
-				return;
-			}
+				std::cout << "\e[1;32m" << "Client <" << fd << "> Auth Success !" << std::endl;
+			} 
+			//else {
+			// 	std::cout << "DEBUG: " << parser.message[i][0] << " " << parser.message[i][1] << std::endl;
+			// }
 		}
-		sendMessage(fd, ":MyChell.beer 464 : Mot de passe Incorrect\r\n");
-		std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for Auth Fail !" << "\e[0;37m" << std::endl;
-		disconnectClientByFd(fd);
+		if (!getClientByFd(fd).isAuth()) {
+			sendMessage(fd, ":MyChell.beer 464 : Mot de passe Incorrect\r\n");
+			std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for Auth Fail !" << "\e[0;37m" << std::endl;
+			disconnectClientByFd(fd);
+		}
 	}
 }
 
@@ -235,8 +243,8 @@ void	Server::handleData(int fd, char *buffer) {
 		if (parser.message[i].size() > 0 && parser.message[i][0] == "PING") { 
 			// Le client envoie de maniere random un ping pour check la latence
 			// il faut juste repondre avec pong suivis de la meme chaine
-			std::cout << "send pong return" << std::endl;
-			sendMessage(fd, "PONG :MyChell.beer " + parser.message[i][1] + "\r\n");
+			//std::cout << "send pong return" << std::endl;
+			sendMessage(fd, ":" + getClientByFd(fd).getNick() + "!" + getClientByFd(fd).getUser() + "@localhost PONG " + parser.message[i][1] + "\r\n");
 		}
 		if (toUpperStringg(parser.message[i][0]) == "MOTD")
 			sendMotd(fd);
@@ -272,7 +280,7 @@ void Server::getData(int fd)
 	handleData(fd, buffer);
 	
 	std::string txt(buffer);
-	std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 
+	//std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 
 }
 
 /*====== Init the server ======*/

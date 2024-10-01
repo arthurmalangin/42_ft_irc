@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parsing.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:15 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 12:06:06 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:40:26 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 
 Parsing::Parsing(void)
 {
-	std::cout << "Default Parsing constructor called" << std::endl;
+	//std::cout << "Default Parsing constructor called" << std::endl;
 }
 
 Parsing::~Parsing(void)
 {
-	std::cout << "Default Parsing constructor called" << std::endl;
+	//std::cout << "Default Parsing constructor called" << std::endl;
 }
 
 Parsing::Parsing(const Parsing &src)
@@ -75,5 +75,5 @@ void Parsing::parseBuffer(std::string buffer)
 		else if (buffer[i] != '\r')
 			tmp += buffer[i];
 	}
-	parseMessage(message);
+	//parseMessage(message);
 }
