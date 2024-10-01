@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 11:59:15 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:08:46 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@
 # include <arpa/inet.h>
 # include <netinet/in.h>
 # include <fcntl.h>
+
 # include "../include/Client.hpp"
 # include "../include/Parsing.hpp"
+# include "../include/Channel.hpp"
 
 # define MAX_CLIENTS 100
+
+class Channel;
 
 class Server
 {
@@ -58,17 +62,26 @@ class Server
 		Client	&getClientByFd(int fd);
 		void	authentication(int fd, const char *buffer);
 
+		/*====== Channel management ======*/
+		void	createChannel(const std::string& channelName);
+		void	addClientToChannel(const std::string& channelName, unsigned int clientFd);
+
+		/*====== Server commands handling ======*/
+		void	handleClientRequest(int clientFd, const std::string& request);
+
+
 	private:
 		/*====== Private default constructor ======*/
 		Server(void);
 
 		/*====== Attributes ======*/
 		int							_port;
+		int							_fdSrvSocket;
 		std::string					_password;
 		std::string					_ip;
 		std::vector<struct pollfd>	_fdList;
 		std::vector<Client>			_clientList;
-		int							_fdSrvSocket;
+		std::vector<Channel>		_channels;
 };
 
 #endif

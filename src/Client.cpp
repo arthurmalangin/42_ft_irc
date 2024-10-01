@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 12:07:44 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:12:40 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ Client &Client::operator=(const Client &src)
 	_nick = src._nick;
 	_auth = src._auth;
 	_authBuffer = src._authBuffer;
+	_channels = src._channels;
 	return (*this);
 }
 
@@ -88,4 +89,12 @@ std::string Client::getAuthBuffer(void)
 void Client::addAuthBuffer(std::string buf)
 {
 	this->_authBuffer += buf;
+}
+
+/*====== Channel handling ======*/
+
+void Client::joinChannel(const std::string& channelName, Server& server)
+{
+	server.addClientToChannel(channelName, this->_fd);
+	_channels.push_back(channelName);
 }

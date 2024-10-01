@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/09/30 12:07:15 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:44:47 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ Server::Server(int port, std::string password) : _password(password)
 	this->_fdSrvSocket = SrvSocketFd;
 	this->_port = port;
 	this->_ip = inet_ntoa(srv_addr.sin_addr);
+	this->createChannel("general");
 
 	std::cout << "Server constructor called" << std::endl;
 	std::cout << "IP: " << this->_ip << std::endl;
@@ -203,7 +204,9 @@ void Server::getData(int fd)
 			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
 	}
 	else
-		std::cout << "Client Already Auth" << std::endl;
+		handleClientRequest(fd, buffer);
+	// Test ot join channel general
+	// 	std::cout << "Client Already Auth" << std::endl;
 	
 	std::string txt(buffer);
 	std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 
@@ -230,4 +233,42 @@ void Server::runServer(void)
 			}
 		}
 	}
+}
+
+/*====== Channel management ======*/
+
+void	Server::createChannel(const std::string& channelName)
+{
+	unsigned int newChannelId = _channels.size();
+	this->_channels.push_back(Channel(newChannelId, channelName));
+	std::cout << "Channel " << channelName << " created with ID " << newChannelId << std::endl;
+}
+
+void	Server::addClientToChannel(const std::string& channelName, unsigned int clientFd)
+{
+	for (std::vector<Channel>::iterator it = _channels.begin(); it != _channels.end(); ++it)
+	{
+		if (it->getName() == channelName)
+		{
+			it->addClient(clientFd);
+			std::cout << "Client " << clientFd << " joined channel " << channelName << std::endl;
+			return;
+		}
+	}
+	std::cout << "Channel " << channelName << " does not exist." << std::endl;
+}
+
+/*====== Server commands handling ======*/
+
+// So far only works with "/JOIN general"
+void	Server::handleClientRequest(int clientFd, const std::string& request)
+{
+    if (request == "JOIN general\r\n")
+	{
+		Client& client = getClientByFd(clientFd);
+        client.joinChannel("general", *this);
+		std::cout << "client " << clientFd << " has joined general" << std::endl;
+    }
+	else
+        std::cout << "Unknown request: " << request << std::endl;
 }
