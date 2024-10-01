@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 17:10:53 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:59:58 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,17 +204,18 @@ void Server::authentication(int fd, const char *buffer)
 {
 	Parsing	parser;
 	parser.parseBuffer(buffer);
-	if (!getClientByFd(fd).isAuth())
+	Client &client = getClientByFd(fd);
+	if (!client.isAuth())
 	{
 		for (int i = 0; i < parser.message.size(); i++)
 		{
 			if (parser.message[i][0] == "NICK" && parser.message[i].size() > 0)
-				getClientByFd(fd).setNick(parser.message[i][1]);
+				client.setNick(parser.message[i][1]);
 			if (parser.message[i][0] == "USER" && parser.message[i].size() > 0)
-				getClientByFd(fd).setUser(parser.message[i][1]);
+				client.setUser(parser.message[i][1]);
 			if (parser.message[i][0] == "PASS" && parser.message[i].size() > 0 && parser.message[i][1] == this->_password)
 			{
-				getClientByFd(fd).setAuth(true);
+				client.setAuth(true);
 				sendMotd(fd);
 				std::cout << "\e[1;32m" << "Client <" << fd << "> Auth Success !" << std::endl;
 			} 
@@ -222,7 +223,7 @@ void Server::authentication(int fd, const char *buffer)
 			// 	std::cout << "DEBUG: " << parser.message[i][0] << " " << parser.message[i][1] << std::endl;
 			// }
 		}
-		if (!getClientByFd(fd).isAuth()) {
+		if (!client.isAuth()) {
 			sendMessage(fd, ":MyChell.beer 464 : Mot de passe Incorrect\r\n");
 			std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for Auth Fail !" << "\e[0;37m" << std::endl;
 			disconnectClientByFd(fd);
