@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/05 16:53:19 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/06 00:44:38 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,19 @@ class Server
 		
 		/*====== Utils ======*/
 		int		sendMessage(int fd, std::string messageFormated);
-		void 	sendMotd(int fd);
 		void	disconnectClientByFd(int fd);
 		void	disconnectClientByInstance(Client client);
 		Client	&getClientByFd(int fd);
 		void	authentication(int fd, const char *buffer);
 		Channel	*createChannel(const std::string& channelName, Client* admin);
+
+		/*====== Command ======*/
+		void 	Command_MOTD(int fd);
+		void	Command_QUIT(int fd);
+		void    Command_PING(int fd, Client &client, std::string message);
+		void	Command_JOIN(int fd, int index, Client &client, Parsing &parser);
+		void	Command_WHO(int fd, int index, Client &client, Parsing &parser);
+		void	Command_NAMES(int fd, int index, Client &client, Parsing &parser);
 		
 	private:
 		/*====== Private default constructor ======*/

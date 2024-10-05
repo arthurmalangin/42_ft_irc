@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/05 14:54:03 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/05 20:43:32 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 /*====== Constructors/Destructors ======*/
 
-Channel::Channel(const std::string& name, Client* admin)
-	: _channelName(name)
+Channel::Channel(const std::string& name, Client* admin) : _channelName(name)
 {
 	this->_channelAdmin = admin;
 	this->_maxMembers = 0;
