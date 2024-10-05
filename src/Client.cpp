@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 11:58:13 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 15:49:51 by amalangi         ###   ########.fr       */
+/*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
+/*   Updated: 2024/10/05 16:53:11 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,29 @@ std::string Client::getAuthBuffer(void)
 void Client::addAuthBuffer(std::string buf)
 {
 	this->_authBuffer += buf;
+}
+
+Channel*	Client::getChannel(void)
+{
+	return (this->_channel);
+}
+
+void	Client::setChannel(Channel* channel)
+{
+	this->_channel = channel;
+	channel->addClient(this);
+}
+
+/*====== Actions ======*/
+
+void	Client::receiveMsg(const std::string& message)
+{
+	std::string buffer = message + "\r\n";
+	if (send(_fd, buffer.c_str(), buffer.length(), 0) < 0)
+		throw std::runtime_error("Error while sending a message to a client!");
+}
+
+void	Client::sendMsg(const std::string& message)
+{
+
 }

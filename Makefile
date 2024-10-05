@@ -8,6 +8,7 @@ C_FILE			=		main.cpp			\
 						Server.cpp			\
 						Client.cpp			\
 						Parsing.cpp			\
+						Channel.cpp			\
 
 SRC_DIR			=		./src/
 

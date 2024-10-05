@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 11:58:10 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 15:49:31 by amalangi         ###   ########.fr       */
+/*   Created: 2024/09/30 11:58:10 by amalangi          #+#    #+#             */
+/*   Updated: 2024/10/05 16:53:47 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define CLIENT_HPP
 
 # include <iostream>
+# include "../include/Channel.hpp"
+
+class Channel;
 
 class Client
 {
@@ -38,6 +41,12 @@ class Client
 		void		setAuth(bool auth);
 		std::string	getAuthBuffer(void);
 		void		addAuthBuffer(std::string buf);
+		Channel*	getChannel(void);
+		void		setChannel(Channel* channel);
+		
+		/*====== Actions ======*/
+		void	receiveMsg(const std::string& message);
+		void	sendMsg(const std::string& message);
 		
 	private:
 		/*====== Attributes ======*/
@@ -46,6 +55,7 @@ class Client
 		std::string _user;
 		bool		_auth;
 		std::string	_authBuffer;
+		Channel*	_channel;
 };
 
 #endif

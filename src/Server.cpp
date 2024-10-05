@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/02 12:06:00 by amalangi         ###   ########.fr       */
+/*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
+/*   Updated: 2024/10/05 16:52:55 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ Server::Server(const Server &src)
 
 Server::~Server()
 {
+    for (std::vector<Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
+    {
+        delete *it;
+    }
+    this->_channels.clear();
+
 	std::cout << "Server destructor called" << std::endl;
 }
 
@@ -91,6 +97,20 @@ std::string Server::getPassword() const
 std::string Server::getIp() const
 {
 	return (_ip);
+}
+
+Channel*        Server::getChannel(const std::string& name)
+{
+	std::vector<Channel*>::iterator	it_b = _channels.begin();
+	std::vector<Channel*>::iterator	it_e = _channels.end();
+
+	while (it_b != it_e)
+	{
+		if (!name.compare((*it_b)->getName()))
+			return (*it_b);
+		it_b++;
+	}
+	return (NULL);
 }
 
 /*====== Utils ======*/
@@ -253,10 +273,22 @@ void	Server::handleData(int fd, char *buffer) {
 		if (parser.message[i][0] == "JOIN") {
 			// @rwintgen t'a juste a faire ton code ici pour le join de salon
 			/*
-				Va falloir trouver quel message envoyer
-
-			
+			Error if :
+				parser.message[i][1] is empty
+				parser.message[i][2] is not empty
+				client is already in a channel
+				Max number of clients is already in channel
 			*/
+			std::string	channelName = parser.message[i][1];
+			Client&		client = getClientByFd(fd);
+			Channel*	channel = this->getChannel(channelName);
+			if (!channel)
+				channel = this->createChannel(channelName, &client);
+
+			client.setChannel(channel);
+
+			std::string	confMessage = "Client " + client.getUser() + " joined the channel " + channel->getName() + "\r\n";
+			channel->broadcast(confMessage);
 		}
     }
 }
@@ -310,4 +342,12 @@ void Server::runServer(void)
 			}*/
 		}
 	}
+}
+
+Channel*	Server::createChannel(const std::string& channelName, Client* client)
+{
+	Channel	*channel = new Channel(channelName, client);
+	_channels.push_back(channel);
+
+	return (channel);
 }
