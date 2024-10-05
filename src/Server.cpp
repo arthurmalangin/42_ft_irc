@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 18:48:00 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:06:00 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,7 @@ void Server::authentication(int fd, const char *buffer)
 // TODO: La je vais faire des if vraiment moche, faudra vraimmmment faire un code plus propre
 void	Server::handleData(int fd, char *buffer) {
     Parsing	parser;
+	Client &client = getClientByFd(fd);
 	parser.parseBuffer(buffer);
     for (size_t i = 0; i < parser.message.size(); i++) {
         if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving") {
@@ -245,7 +246,7 @@ void	Server::handleData(int fd, char *buffer) {
 			// Le client envoie de maniere random un ping pour check la latence
 			// il faut juste repondre avec pong suivis de la meme chaine
 			//std::cout << "send pong return" << std::endl;
-			sendMessage(fd, ":" + getClientByFd(fd).getNick() + "!" + getClientByFd(fd).getUser() + "@localhost PONG " + parser.message[i][1] + "\r\n");
+			sendMessage(fd, ":" + client.getNick() + "!" + client.getUser() + "@localhost PONG " + parser.message[i][1] + "\r\n");
 		}
 		if (toUpperStringg(parser.message[i][0]) == "MOTD")
 			sendMotd(fd);
