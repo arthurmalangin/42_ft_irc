@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/05 12:46:00 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:54:03 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*====== Constructors/Destructors ======*/
 
-Channel::Channel(const std::string& name, const std::string& key, Client* admin)
+Channel::Channel(const std::string& name, Client* admin)
 	: _channelName(name)
 {
 	this->_channelAdmin = admin;
@@ -54,7 +54,7 @@ std::vector<std::string>	Channel::getNicknames(void)
 	{
 		Client*	client = *it_b;
 
-		std::string	nick = /*(client == _channelAdmin ? "@" : "") +*/ client->getNick();
+		std::string	nick = client->getNick();
 		nicknames.push_back(nick);
 		it_b++;
 	}
@@ -80,9 +80,7 @@ void	Channel::broadcast(const std::string& message)
 
 	while (it_b != it_e)
 	{
-	// TODO create a client function RECEIVE_MESSAGE
-	// for them to receive the message passred as param
-		// (*it_b)->RECEIVE_MESSAGE(message)
+		(*it_b)->receiveMsg(message);
 		it_b++;
 	}
 }

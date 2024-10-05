@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/05 12:32:26 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/05 14:54:39 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@
 # include <fcntl.h>
 # include "../include/Client.hpp"
 # include "../include/Parsing.hpp"
+# include "../include/Channel.hpp"
 
 # define MAX_CLIENTS 100
 
 class Client;
+class Channel;
 
 class Server
 {
@@ -44,6 +46,7 @@ class Server
 		int			getPort() const;
 		std::string	getPassword() const;
 		std::string	getIp() const;
+		Channel*	getChannel(const std::string& name);
 
 		/*====== Starting the server ======*/
 		void	runServer(void);
@@ -56,6 +59,7 @@ class Server
 
 		/*====== Handle Data after getData() ======*/
 		void	handleData(int fd, char *buffer);
+
 		/*====== Utils ======*/
 		int		sendMessage(int fd, std::string messageFormated);
 		void 	sendMotd(int fd);
@@ -63,6 +67,7 @@ class Server
 		void	disconnectClientByInstance(Client client);
 		Client	&getClientByFd(int fd);
 		void	authentication(int fd, const char *buffer);
+		Channel	*createChannel(const std::string& channelName, Client* admin);
 
 	private:
 		/*====== Private default constructor ======*/
@@ -75,6 +80,7 @@ class Server
 		std::vector<struct pollfd>	_fdList;
 		std::vector<Client>			_clientList;
 		int							_fdSrvSocket;
+		std::vector<Channel *>		_channels;
 };
 
 #endif

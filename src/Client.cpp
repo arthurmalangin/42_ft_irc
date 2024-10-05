@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/05 12:32:07 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:16:11 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ Channel*	Client::getChannel(void)
 void	Client::setChannel(Channel* channel)
 {
 	this->_channel = channel;
+	channel->addClient(this);
 }
 
 /*====== Actions ======*/

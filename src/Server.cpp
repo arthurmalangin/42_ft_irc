@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 17:59:58 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:20:35 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ Server::Server(const Server &src)
 
 Server::~Server()
 {
+    for (std::vector<Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
+    {
+        delete *it;
+    }
+    this->_channels.clear();
+
 	std::cout << "Server destructor called" << std::endl;
 }
 
@@ -93,15 +99,29 @@ std::string Server::getIp() const
 	return (_ip);
 }
 
+Channel*        Server::getChannel(const std::string& name)
+{
+	std::vector<Channel*>::iterator	it_b = _channels.begin();
+	std::vector<Channel*>::iterator	it_e = _channels.end();
+
+	while (it_b != it_e)
+	{
+		if (!name.compare((*it_b)->getName()))
+			return (*it_b);
+		it_b++;
+	}
+	return (NULL);
+}
+
 /*====== Utils ======*/
 
 std::string toUpperStringg(std::string str) {
-    std::string lowerStr;
+	std::string lowerStr;
 
-    for (int i = 0; i < str.length(); ++i) {
+	for (int i = 0; i < str.length(); ++i) {
 		lowerStr += toupper(str[i]);
-    }
-    return (lowerStr);
+	}
+	return (lowerStr);
 }
 
 int Server::sendMessage(int fd, std::string messageFormated) {
@@ -179,12 +199,12 @@ void Server::acceptTheClient(void)
 
 void Server::sendMotd(int fd) {
 	std::vector<std::string> motd_lines;
-    motd_lines.push_back("-_-_-_- FT_IRC -_-_-_-");
-    motd_lines.push_back("Number of Users: xxx  ");
-    motd_lines.push_back("====                  ");
-    motd_lines.push_back("====                  ");
-    motd_lines.push_back("By Rwintgen & Amalangi");
-    motd_lines.push_back("-_-_-_-_-_-_-_-_-_-_- ");
+	motd_lines.push_back("-_-_-_- FT_IRC -_-_-_-");
+	motd_lines.push_back("Number of Users: xxx  ");
+	motd_lines.push_back("====                  ");
+	motd_lines.push_back("====                  ");
+	motd_lines.push_back("By Rwintgen & Amalangi");
+	motd_lines.push_back("-_-_-_-_-_-_-_-_-_-_- ");
 
 	sendMessage(fd, ":MyCheel.beer 375 : \n\n- Message of the Day - \r\n");
 	for (int i = 0; i < motd_lines.size(); i++) {
@@ -193,9 +213,6 @@ void Server::sendMotd(int fd) {
 		else
 			sendMessage(fd, ":MyCheel.beer 372 : | " + motd_lines[i] + " | \r\n");
 	}
-
-
-	
 }
 
 // TODO Possible probleme: si dans le premier echange de donnee/buffer il n'y a pas de password le client sera kick
@@ -234,10 +251,11 @@ void Server::authentication(int fd, const char *buffer)
 /*====== Handle Data after getData ======*/
 // TODO: La je vais faire des if vraiment moche, faudra vraimmmment faire un code plus propre
 void	Server::handleData(int fd, char *buffer) {
-    Parsing	parser;
+	Parsing	parser;
 	parser.parseBuffer(buffer);
-    for (size_t i = 0; i < parser.message.size(); i++) {
-        if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving") {
+	std::cout << buffer << std::endl;
+	for (size_t i = 0; i < parser.message.size(); i++) {
+		if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving") {
 			std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected !" << "\e[0;37m" << std::endl;
 			disconnectClientByFd(fd);
 		}
@@ -249,15 +267,28 @@ void	Server::handleData(int fd, char *buffer) {
 		}
 		if (toUpperStringg(parser.message[i][0]) == "MOTD")
 			sendMotd(fd);
-		if (parser.message[i][0] == "JOIN") {
+		if (parser.message[i][0] == "JOIN")
+		{
 			// @rwintgen t'a juste a faire ton code ici pour le join de salon
 			/*
-				Va falloir trouver quel message envoyer
-
-			
+			Error if :
+				parser.message[i][1] is empty
+				parser.message[i][2] is not empty
+				client is already in a channel
+				Max number of clients is already in channel
 			*/
+			std::string	channelName = parser.message[i][1];
+			Client&		client = getClientByFd(fd);
+			Channel*	channel = this->getChannel(channelName);
+			if (!channel)
+				channel = this->createChannel(channelName, &client);
+
+			client.setChannel(channel);
+
+			std::string	confMessage = "Client " + client.getUser() + " joined the channel " + channel->getName() + "\r\n";
+			channel->broadcast(confMessage);
 		}
-    }
+	}
 }
 
 void Server::getData(int fd)
@@ -309,4 +340,12 @@ void Server::runServer(void)
 			}*/
 		}
 	}
+}
+
+Channel*	Server::createChannel(const std::string& channelName, Client* client)
+{
+	Channel	*channel = new Channel(channelName, client);
+	_channels.push_back(channel);
+
+	return (channel);
 }
