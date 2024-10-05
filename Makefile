@@ -10,7 +10,6 @@ C_FILE			=		main.cpp			\
 						Parsing.cpp			\
 						Channel.cpp			\
 
-
 SRC_DIR			=		./src/
 
 INC_DIR			=		./include/

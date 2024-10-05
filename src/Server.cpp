@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 12:44:47 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:59:58 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ Server::Server(int port, std::string password) : _password(password)
 	this->_fdSrvSocket = SrvSocketFd;
 	this->_port = port;
 	this->_ip = inet_ntoa(srv_addr.sin_addr);
-	this->createChannel("general");
 
 	std::cout << "Server constructor called" << std::endl;
 	std::cout << "IP: " << this->_ip << std::endl;
@@ -96,6 +95,19 @@ std::string Server::getIp() const
 
 /*====== Utils ======*/
 
+std::string toUpperStringg(std::string str) {
+    std::string lowerStr;
+
+    for (int i = 0; i < str.length(); ++i) {
+		lowerStr += toupper(str[i]);
+    }
+    return (lowerStr);
+}
+
+int Server::sendMessage(int fd, std::string messageFormated) {
+	return (send(fd, messageFormated.c_str(), messageFormated.size(), 0));
+}
+
 Client &Server::getClientByFd(int fd)
 {
 	for (size_t i = 0; i < _clientList.size(); i++)
@@ -108,6 +120,7 @@ Client &Server::getClientByFd(int fd)
 
 void Server::disconnectClientByFd(int fd)
 {
+	std::cout << "disconnectClientByFd(" << fd << ")" << std::endl;
 	for (size_t i = 0; i < _fdList.size(); i++)
 	{
 		if (_fdList[i].fd == fd)
@@ -115,6 +128,9 @@ void Server::disconnectClientByFd(int fd)
 			_fdList.erase(_fdList.begin() + i);
 			break;
 		}
+	}
+	for (size_t i = 0; i < _clientList.size(); i++)
+	{
 		if (_clientList[i].getFd() == fd)
 		{
 			_clientList.erase(_clientList.begin() + i);
@@ -124,6 +140,7 @@ void Server::disconnectClientByFd(int fd)
 	close(fd);
 }
 
+//NotTested
 void Server::disconnectClientByInstance(Client client)
 {
 	for (size_t i = 0; i < _fdList.size(); i++)
@@ -160,29 +177,87 @@ void Server::acceptTheClient(void)
 	std::cout << "New client <" << newClientFd << "> connect : " << inet_ntoa(newClientAddr.sin_addr) << std::endl;
 }
 
+void Server::sendMotd(int fd) {
+	std::vector<std::string> motd_lines;
+    motd_lines.push_back("-_-_-_- FT_IRC -_-_-_-");
+    motd_lines.push_back("Number of Users: xxx  ");
+    motd_lines.push_back("====                  ");
+    motd_lines.push_back("====                  ");
+    motd_lines.push_back("By Rwintgen & Amalangi");
+    motd_lines.push_back("-_-_-_-_-_-_-_-_-_-_- ");
+
+	sendMessage(fd, ":MyCheel.beer 375 : \n\n- Message of the Day - \r\n");
+	for (int i = 0; i < motd_lines.size(); i++) {
+		if (i == motd_lines.size() - 1)
+			sendMessage(fd, ":MyCheel.beer 376 : | " + motd_lines[i] + " | \r\n\n\n");
+		else
+			sendMessage(fd, ":MyCheel.beer 372 : | " + motd_lines[i] + " | \r\n");
+	}
+
+
+	
+}
+
 // TODO Possible probleme: si dans le premier echange de donnee/buffer il n'y a pas de password le client sera kick
 // peut etre qu'avec une mauvaise connexion il l'envoie en deuxieme buffer 
 void Server::authentication(int fd, const char *buffer)
 {
 	Parsing	parser;
 	parser.parseBuffer(buffer);
-	if (!getClientByFd(fd).isAuth())
+	Client &client = getClientByFd(fd);
+	if (!client.isAuth())
 	{
 		for (int i = 0; i < parser.message.size(); i++)
 		{
+			if (parser.message[i][0] == "NICK" && parser.message[i].size() > 0)
+				client.setNick(parser.message[i][1]);
+			if (parser.message[i][0] == "USER" && parser.message[i].size() > 0)
+				client.setUser(parser.message[i][1]);
 			if (parser.message[i][0] == "PASS" && parser.message[i].size() > 0 && parser.message[i][1] == this->_password)
 			{
-				getClientByFd(fd).setAuth(true);
-				std::cout << "\e[1;32m" << "Client <" << fd << "> Auth Success !" << "\e[0;37m" << std::endl;
-				return;
-			}
+				client.setAuth(true);
+				sendMotd(fd);
+				std::cout << "\e[1;32m" << "Client <" << fd << "> Auth Success !" << std::endl;
+			} 
+			//else {
+			// 	std::cout << "DEBUG: " << parser.message[i][0] << " " << parser.message[i][1] << std::endl;
+			// }
 		}
-
-		std::string	error_message = std::string(":MyChell.beer 464 ") + " : Mot de passe Incorrect\r\n";
-		send(fd, error_message.c_str(), error_message.size(), 0);
-		std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for Auth Fail !" << "\e[0;37m" << std::endl;
-		disconnectClientByFd(fd);
+		if (!client.isAuth()) {
+			sendMessage(fd, ":MyChell.beer 464 : Mot de passe Incorrect\r\n");
+			std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for Auth Fail !" << "\e[0;37m" << std::endl;
+			disconnectClientByFd(fd);
+		}
 	}
+}
+
+/*====== Handle Data after getData ======*/
+// TODO: La je vais faire des if vraiment moche, faudra vraimmmment faire un code plus propre
+void	Server::handleData(int fd, char *buffer) {
+    Parsing	parser;
+	parser.parseBuffer(buffer);
+    for (size_t i = 0; i < parser.message.size(); i++) {
+        if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving") {
+			std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected !" << "\e[0;37m" << std::endl;
+			disconnectClientByFd(fd);
+		}
+		if (parser.message[i].size() > 0 && parser.message[i][0] == "PING") { 
+			// Le client envoie de maniere random un ping pour check la latence
+			// il faut juste repondre avec pong suivis de la meme chaine
+			//std::cout << "send pong return" << std::endl;
+			sendMessage(fd, ":" + getClientByFd(fd).getNick() + "!" + getClientByFd(fd).getUser() + "@localhost PONG " + parser.message[i][1] + "\r\n");
+		}
+		if (toUpperStringg(parser.message[i][0]) == "MOTD")
+			sendMotd(fd);
+		if (parser.message[i][0] == "JOIN") {
+			// @rwintgen t'a juste a faire ton code ici pour le join de salon
+			/*
+				Va falloir trouver quel message envoyer
+
+			
+			*/
+		}
+    }
 }
 
 void Server::getData(int fd)
@@ -197,19 +272,16 @@ void Server::getData(int fd)
 		return ;
 	}
 	buffer[byteWrite] = '\0';
-	if (!getClientByFd(fd).isAuth())
-	{
+	if (!getClientByFd(fd).isAuth()) {
 		getClientByFd(fd).addAuthBuffer(std::string(buffer).substr(0, byteWrite));
 		if (getClientByFd(fd).getAuthBuffer().find("USER") != std::string::npos)
 			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
 	}
-	else
-		handleClientRequest(fd, buffer);
-	// Test ot join channel general
-	// 	std::cout << "Client Already Auth" << std::endl;
+	
+	handleData(fd, buffer);
 	
 	std::string txt(buffer);
-	std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 
+	//std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 
 }
 
 /*====== Init the server ======*/
@@ -226,49 +298,15 @@ void Server::runServer(void)
 			if (_fdList[i].revents & POLLIN) // Si data a read dans le fd. On utilise & et pas == car c'est une comparaison de bit a bit
 			{
 				//std::cout << "It is: " << i << std::endl;
-				if (_fdList[i].fd != +_fdSrvSocket) // si fd a lire est celui du serveur, c'est un client qui veux se connecter, sinon c'est un client qui envoie des info a read
+				if (_fdList[i].fd != _fdSrvSocket) // si fd a lire est celui du serveur, c'est un client qui veux se connecter, sinon c'est un client qui envoie des info a read
 					getData(_fdList[i].fd);
 				else
 					acceptTheClient();
-			}
+			}/* else if (_fdList[i].fd != _fdSrvSocket) {
+				std::cout << "\e[1;31m" << "Debug before crash :<" << _fdList[i].fd << ">" << std::endl;
+				std::cout << "value of POLLIN: " << POLLIN << std::endl;
+				std::cout << "Value of actual revent: " << _fdList[i].revents << "\e[0;37m" << std::endl;
+			}*/
 		}
 	}
-}
-
-/*====== Channel management ======*/
-
-void	Server::createChannel(const std::string& channelName)
-{
-	unsigned int newChannelId = _channels.size();
-	this->_channels.push_back(Channel(newChannelId, channelName));
-	std::cout << "Channel " << channelName << " created with ID " << newChannelId << std::endl;
-}
-
-void	Server::addClientToChannel(const std::string& channelName, unsigned int clientFd)
-{
-	for (std::vector<Channel>::iterator it = _channels.begin(); it != _channels.end(); ++it)
-	{
-		if (it->getName() == channelName)
-		{
-			it->addClient(clientFd);
-			std::cout << "Client " << clientFd << " joined channel " << channelName << std::endl;
-			return;
-		}
-	}
-	std::cout << "Channel " << channelName << " does not exist." << std::endl;
-}
-
-/*====== Server commands handling ======*/
-
-// So far only works with "/JOIN general"
-void	Server::handleClientRequest(int clientFd, const std::string& request)
-{
-    if (request == "JOIN general\r\n")
-	{
-		Client& client = getClientByFd(clientFd);
-        client.joinChannel("general", *this);
-		std::cout << "client " << clientFd << " has joined general" << std::endl;
-    }
-	else
-        std::cout << "Unknown request: " << request << std::endl;
 }

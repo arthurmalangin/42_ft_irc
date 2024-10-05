@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 12:12:40 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:32:07 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ Client &Client::operator=(const Client &src)
 	_nick = src._nick;
 	_auth = src._auth;
 	_authBuffer = src._authBuffer;
-	_channels = src._channels;
 	return (*this);
 }
 
@@ -61,12 +60,20 @@ void Client::setFd(int fd)
 	this->_fd = fd;
 }
 
+std::string Client::getUser() const {
+	return (this->_user);
+}
+
+void Client::setUser(std::string user) {
+	this->_user = user;
+}
+
 std::string Client::getNick() const
 {
 	return (this->_nick);
 }
 
-void Client::setNick(const std::string &nick)
+void Client::setNick(std::string nick)
 {
 	this->_nick = nick;
 }
@@ -91,10 +98,26 @@ void Client::addAuthBuffer(std::string buf)
 	this->_authBuffer += buf;
 }
 
-/*====== Channel handling ======*/
-
-void Client::joinChannel(const std::string& channelName, Server& server)
+Channel*	Client::getChannel(void)
 {
-	server.addClientToChannel(channelName, this->_fd);
-	_channels.push_back(channelName);
+	return (this->_channel);
+}
+
+void	Client::setChannel(Channel* channel)
+{
+	this->_channel = channel;
+}
+
+/*====== Actions ======*/
+
+void	Client::receiveMsg(const std::string& message)
+{
+	std::string buffer = message + "\r\n";
+	if (send(_fd, buffer.c_str(), buffer.length(), 0) < 0)
+		throw std::runtime_error("Error while sending a message to a client!");
+}
+
+void	Client::sendMsg(const std::string& message)
+{
+
 }

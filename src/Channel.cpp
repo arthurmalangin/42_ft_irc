@@ -5,47 +5,108 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 17:15:57 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 11:33:08 by rwintgen         ###   ########.fr       */
+/*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
+/*   Updated: 2024/10/05 12:46:00 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Channel.hpp"
+#include "../include/Client.hpp"
 
-Channel::Channel(unsigned int id, const std::string& name) : _id(id), _name(name)
+/*====== Constructors/Destructors ======*/
+
+Channel::Channel(const std::string& name, const std::string& key, Client* admin)
+	: _channelName(name)
 {
-	std::cout << "Channel " << name << " with ID " << id << " created" << std::endl;
+	this->_channelAdmin = admin;
+	this->_maxMembers = 0;
 }
 
-Channel::~Channel()
+Channel::~Channel(void) 
 {
-	std::cout << "Channel " << _name << " with ID " << _id << " destroyed" << std::endl;
 }
 
-void Channel::addClient(unsigned int clientFd)
+/*====== Getters/Setters ======*/
+
+std::string	Channel::getName(void) const
 {
-	// TODO add client to channel
-	std::cout << "Client " << clientFd << " added to channel " << _name << std::endl;
+	return (this->_channelName);
 }
 
-void Channel::removeClient(unsigned int clientFd)
+Client*	Channel::getAdmin(void) const
 {
-	// TODO remove client to channel
-	std::cout << "Client " << clientFd << " removed from channel " << _name << std::endl;
+	return (this->_channelAdmin);
 }
 
-bool Channel::hasClient(unsigned int clientFd) const
+size_t	Channel::getSize(void) const
 {
-	// TODO check if channel has client._fd
-	return (true);
+	return (this->_clientsList.size());
 }
 
-const std::string& Channel::getName() const
+std::vector<std::string>	Channel::getNicknames(void)
 {
-	return (_name);
+	std::vector<std::string> nicknames;
+
+	it	it_b = _clientsList.begin();
+	it	it_e = _clientsList.end();
+
+	while (it_b != it_e)
+	{
+		Client*	client = *it_b;
+
+		std::string	nick = /*(client == _channelAdmin ? "@" : "") +*/ client->getNick();
+		nicknames.push_back(nick);
+		it_b++;
+	}
+	return (nicknames);
 }
 
-unsigned int Channel::getId() const
+size_t	Channel::getMaxMembers(void) const
 {
-	return (_id);
+	return (this->_maxMembers);
+}
+
+void	Channel::setMaxMembers(size_t limit)
+{
+	this->_maxMembers = limit;
+}
+
+/*====== Actions ======*/
+
+void	Channel::broadcast(const std::string& message)
+{
+	it	it_b = _clientsList.begin();
+	it	it_e = _clientsList.end();
+
+	while (it_b != it_e)
+	{
+	// TODO create a client function RECEIVE_MESSAGE
+	// for them to receive the message passred as param
+		// (*it_b)->RECEIVE_MESSAGE(message)
+		it_b++;
+	}
+}
+
+void	Channel::addClient(Client* client)
+{
+	this->_clientsList.push_back(client);
+}
+
+void	Channel::rmClient(Client* client)
+{
+	it	it_b = _clientsList.begin();
+	it	it_e = _clientsList.end();
+
+	while (it_b != it_e)
+	{
+		if (*it_b == client)
+		{
+			_clientsList.erase(it_b);
+			break ;
+		}
+		it_b++;
+	}
+	client->setChannel(NULL);
+	if (client == _channelAdmin)
+		_channelAdmin = *(_clientsList.begin());
 }

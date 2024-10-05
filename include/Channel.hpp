@@ -5,44 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 17:03:35 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 12:09:20 by rwintgen         ###   ########.fr       */
+/*   Created: 2024/10/05 11:16:50 by rwintgen          #+#    #+#             */
+/*   Updated: 2024/10/05 12:46:05 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHANNEL_HPP
 # define CHANNEL_HPP
 
-# include "Server.hpp"
-# include "Client.hpp"
+# include "../include/Server.hpp"
+# include "../include/Client.hpp"
 
 class Client;
 
 class Channel
 {
+	typedef std::vector<Client *>::iterator	it;
+
 	public:
 		/*====== Constructors/Destructors ======*/
-		Channel(void);
-		Channel(unsigned int id, const std::string& name);
-		~Channel();
-
-		/*====== Operators ======*/
-		Channel&	operator=(const Channel& src);
+		Channel(const std::string &name, const std::string &key, Client* admin);
+		~Channel(void);
 
 		/*====== Getters/Setters ======*/
-		const std::string& getName() const;
-		unsigned int getId() const;
+		std::string					getName(void) const;
+		Client*						getAdmin(void) const;
+		size_t						getSize(void) const;
+		std::vector<std::string>	getNicknames(void);
+		size_t						getMaxMembers(void) const;
+		void						setMaxMembers(size_t limit);
 
-		/*====== Functions ======*/
-		void addClient(unsigned int clientFd);
-		void removeClient(unsigned int clientFd);
-		bool hasClient(unsigned int clientFd) const;
 
-
+		/*====== Actions ======*/
+		void	broadcast(const std::string& message);
+		void	addClient(Client* client);
+		void	rmClient(Client* client);
+	
 	private:
-		unsigned int 		_id;
-		std::string			_name;
-		std::vector<Client>	_clientList;
+		/*====== Attributes ======*/
+		const std::string		_channelName;
+		Client*					_channelAdmin;
+		std::vector<Client *>	_clientsList;
+		size_t					_maxMembers;
+
+		/*====== Private Constructors ======*/
+		Channel(void);
+		Channel(const Channel& src);
 };
 
 #endif
