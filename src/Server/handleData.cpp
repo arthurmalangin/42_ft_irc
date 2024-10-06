@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 23:32:50 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 00:13:35 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	Server::handleData(int fd, char *buffer) {
 			//Command_PRIVMSG(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "WHO") {
-            //Command_WHO(fd, parser.message[i], client);
+            Command_WHO(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "MODE") {
 			//Command_MODE(fd, parser.message[i], client);

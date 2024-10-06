@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 23:44:01 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 00:08:00 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) 
         client is already in a channel
         Max number of clients is already in channel
     */
-    if (msg.size() < 2 || msg[1].empty()) {
-        sendMessage(fd, ":server 461 " + client.getNick() + " JOIN :Not enough parameters\r\n");
-        return;
-    }
+    // if (msg.size() < 2 || msg[1].empty()) {
+    //     sendMessage(fd, ":server 461 " + client.getNick() + " JOIN :Not enough parameters\r\n");
+    //     return;
+    // }
 
     std::string channelName = msg[1];
     Channel *channel = NULL;
