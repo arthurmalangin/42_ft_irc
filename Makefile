@@ -6,11 +6,13 @@ FLAG			=		-std=c++98 -g
 
 C_FILE			=		main.cpp					\
 						Server.cpp					\
-						Server/command/join.cpp			\
-						Server/command/who.cpp			\
-						Server/command/quit.cpp			\
-						Server/command/motd.cpp			\
-						Server/command/ping.cpp			\
+						Server/command/join.cpp		\
+                        Server/command/who.cpp      \
+                        Server/command/quit.cpp		\
+                        Server/command/motd.cpp		\
+                        Server/command/ping.cpp		\
+                        Server/command/mode.cpp		\
+                        Server/command/topic.cpp    \
 						Server/authentication.cpp	\
 						Server/handleData.cpp		\
 						Server/utils.cpp			\

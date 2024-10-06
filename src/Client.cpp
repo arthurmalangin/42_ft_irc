@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/05 16:53:11 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/06 23:06:50 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,27 +98,12 @@ void Client::addAuthBuffer(std::string buf)
 	this->_authBuffer += buf;
 }
 
-Channel*	Client::getChannel(void)
+std::vector<Channel *>	Client::getChannelList(void)
 {
-	return (this->_channel);
+	return (this->_channelList);
 }
 
-void	Client::setChannel(Channel* channel)
+void	Client::addChannel(Channel &channel)
 {
-	this->_channel = channel;
-	channel->addClient(this);
-}
-
-/*====== Actions ======*/
-
-void	Client::receiveMsg(const std::string& message)
-{
-	std::string buffer = message + "\r\n";
-	if (send(_fd, buffer.c_str(), buffer.length(), 0) < 0)
-		throw std::runtime_error("Error while sending a message to a client!");
-}
-
-void	Client::sendMsg(const std::string& message)
-{
-
+	this->_channelList.push_back(&channel);
 }

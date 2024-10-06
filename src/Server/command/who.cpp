@@ -6,28 +6,28 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:42 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 00:31:48 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/06 23:18:02 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
-void	Server::Command_WHO(int fd, int index, Client &client, Parsing &parser) {
+void	Server::Command_WHO(int fd, std::vector<std::string> msg, Client &client) {
 	/*
 	Error if:
 		parser.message[i][1] is empty
 		chanel doesnt exist
 	*/
-	std::string	channelName = parser.message[index][1];
-	Channel*	channel = this->getChannel(channelName);
-	if (channel) {
-		std::vector<std::string>users = channel->getNicknames();
-		for (int i = 0; i < users.size(); i++) {
-			sendMessage(fd, ":MyChell.beer 352 " + client.getNick() + " " + channelName + " ~" + client.getUser() + 
-				" " + "todogetipofclient.ip" + " MyChell.beer " + users[i] + " H@ :0 realname\r\n"); // H@ :0 realname = Mauvais param, besoin de get les pram a l'auth
-		}
-		sendMessage(fd, ":MyChell.beer 315 " + client.getNick() + " " + channelName + " :End of /WHO list\r\n");
-	}
+	// Channel*	channel = this->getChannel(msg[1]);
+	// if (channel) {
+	// 	std::vector<std::string>clients = channel.;
+	// 	// for (int i = 0; i < users.size(); i++) {
+	// 	// 	std::cout << "loop: " << i << std::endl;
+	// 	// 	sendMessage(fd, ":MyChell.beer 352 " + client.getNick() + " " + channelName + " ~" + client.getUser() + 
+	// 	// 		" " + "todogetipofclient.ip" + " MyChell.beer " + users[i] + " H@ :0 realname\r\n"); // H@ :0 realname = Mauvais param, besoin de get les pram a l'auth
+	// 	// }
+	// 	sendMessage(fd, ":MyChell.beer 315 " + client.getNick() + " " + channelName + " :End of /WHO list\r\n");
+	// }
 
 	/*
 	<< WHO #draoa

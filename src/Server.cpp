@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/05 23:01:27 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/06 23:46:24 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,6 @@ Server::Server(const Server &src)
 
 Server::~Server()
 {
-    for (std::vector<Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
-    {
-        delete *it;
-    }
-    this->_channels.clear();
-
 	std::cout << "Server destructor called" << std::endl;
 }
 
@@ -99,18 +93,13 @@ std::string Server::getIp() const
 	return (_ip);
 }
 
-Channel*        Server::getChannel(const std::string& name)
+Channel &Server::getChannel(const std::string& name)
 {
-	std::vector<Channel*>::iterator	it_b = _channels.begin();
-	std::vector<Channel*>::iterator	it_e = _channels.end();
-
-	while (it_b != it_e)
-	{
-		if (!name.compare((*it_b)->getName()))
-			return (*it_b);
-		it_b++;
+	for (int i = 0; i < this->_channelList.size(); i++) {
+		if (_channelList[i].getName() == name)
+			return (_channelList[i]);
 	}
-	return (NULL);
+	throw std::runtime_error("Channel not found");
 }
 
 /*====== Accept the client ======*/
@@ -187,10 +176,9 @@ void Server::runServer(void)
 	}
 }
 
-Channel*	Server::createChannel(const std::string& channelName, Client* client)
+Channel	&Server::createChannel(const std::string &channelName, Client &op)
 {
-	Channel	*channel = new Channel(channelName, client);
-	_channels.push_back(channel);
-
-	return (channel);
+	Channel	channel(channelName, op);
+	_channelList.push_back(channel);
+	return (_channelList.back());
 }

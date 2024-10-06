@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:10 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/05 16:53:47 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/06 23:06:23 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,8 @@ class Client
 		void		setAuth(bool auth);
 		std::string	getAuthBuffer(void);
 		void		addAuthBuffer(std::string buf);
-		Channel*	getChannel(void);
-		void		setChannel(Channel* channel);
-		
-		/*====== Actions ======*/
-		void	receiveMsg(const std::string& message);
-		void	sendMsg(const std::string& message);
+		std::vector<Channel *>	getChannelList(void);
+		void		addChannel(Channel &channel);
 		
 	private:
 		/*====== Attributes ======*/
@@ -55,7 +51,7 @@ class Client
 		std::string _user;
 		bool		_auth;
 		std::string	_authBuffer;
-		Channel*	_channel;
+		std::vector<Channel *> _channelList;
 };
 
 #endif

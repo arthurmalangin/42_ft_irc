@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 00:44:38 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:36:01 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <arpa/inet.h>
 # include <netinet/in.h>
 # include <fcntl.h>
+#include <stdlib.h>
 # include "../include/Client.hpp"
 # include "../include/Parsing.hpp"
 # include "../include/Channel.hpp"
@@ -46,7 +47,7 @@ class Server
 		int			getPort() const;
 		std::string	getPassword() const;
 		std::string	getIp() const;
-		Channel*	getChannel(const std::string& name);
+		Channel	&getChannel(const std::string &name);
 
 		/*====== Starting the server ======*/
 		void	runServer(void);
@@ -66,15 +67,17 @@ class Server
 		void	disconnectClientByInstance(Client client);
 		Client	&getClientByFd(int fd);
 		void	authentication(int fd, const char *buffer);
-		Channel	*createChannel(const std::string& channelName, Client* admin);
+		Channel	&createChannel(const std::string &channelName, Client &op);
 
 		/*====== Command ======*/
 		void 	Command_MOTD(int fd);
 		void	Command_QUIT(int fd);
 		void    Command_PING(int fd, Client &client, std::string message);
-		void	Command_JOIN(int fd, int index, Client &client, Parsing &parser);
-		void	Command_WHO(int fd, int index, Client &client, Parsing &parser);
-		void	Command_NAMES(int fd, int index, Client &client, Parsing &parser);
+		void	Command_JOIN(int fd, std::vector<std::string>msg, Client &client);
+		void	Command_WHO(int fd, std::vector<std::string>msg, Client &client);
+		void	Command_NAMES(int fd, std::vector<std::string>msg, Client &client);
+		void	Command_MODE(int fd, std::vector<std::string>msg, Client &client);
+		void	Command_PRIVMSG(int fd, std::vector<std::string> msg, Client &client);
 		
 	private:
 		/*====== Private default constructor ======*/
@@ -87,7 +90,7 @@ class Server
 		std::vector<struct pollfd>	_fdList;
 		std::vector<Client>			_clientList;
 		int							_fdSrvSocket;
-		std::vector<Channel *>		_channels;
+		std::vector<Channel>		_channelList;
 };
 
 #endif

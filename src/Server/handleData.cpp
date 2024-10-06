@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 02:19:24 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/06 23:32:50 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,19 @@ void	Server::handleData(int fd, char *buffer) {
 		if (toUpperStringg(parser.message[i][0]) == "MOTD")
             Command_MOTD(fd);
 		if (toUpperStringg(parser.message[i][0]) == "NAMES") {
-
+			//Command_NAMES(fd, parser.message[i], client);
+		}
+		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "PRIVMSG") {
+			//Command_PRIVMSG(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "WHO") {
-            Command_WHO(fd, i, client, parser);
+            //Command_WHO(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "MODE") {
-			
+			//Command_MODE(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "JOIN")
-            Command_JOIN(fd, i, client, parser);
+		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "JOIN") {
+            Command_JOIN(fd, parser.message[i], client);
+		}
     }
 }
