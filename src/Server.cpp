@@ -6,11 +6,13 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 22:08:31 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 01:51:25 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
+
+int Server::_signal = 0;
 
 /*====== Constructors/Destructors ======*/
 
@@ -40,6 +42,7 @@ Server::Server(int port, std::string password) : _password(password)
 	poll.events = POLLIN;
 	poll.revents = 0;
 	_fdList.push_back(poll);
+	_signal = 0;
 
 	this->_fdSrvSocket = SrvSocketFd;
 	this->_port = port;
@@ -58,7 +61,13 @@ Server::Server(const Server &src)
 
 Server::~Server()
 {
-	std::cout << "Server destructor called" << std::endl;
+	for (int i = 0; i < this->_clientList.size(); i++) {
+		delete _clientList[i];
+	}
+	for (int i = 0; i < this->_channelList.size(); i++) {
+		delete _channelList[i];
+	}
+	std::cout << "Server destructor executed.." << std::endl;
 }
 
 /*====== Operators ======*/
@@ -152,32 +161,31 @@ void Server::getData(int fd)
 
 /*====== Init the server ======*/
 
+void Server::handleSignal(int sig) {
+    if (sig == SIGINT || sig == SIGQUIT) {
+		Server::_signal = 1;
+    }
+}
+
 void Server::runServer(void)
 {
-	while (true)
+	signal(SIGINT, Server::handleSignal); //-> catch the signal (ctrl + c)
+	signal(SIGQUIT, Server::handleSignal); //-> catch the signal (ctrl + \)
+	while (Server::_signal == 0)
 	{
-		//std::cout << "Before Wait Event..." << std::endl;
 		poll(&_fdList[0],_fdList.size(), -1); // bloque l'exec jusqu'a se qu'un event se produise dans l'un des fd de la liste
-		//std::cout << "Event found !" << std::endl;
 		for (size_t i = 0; i < _fdList.size(); i++)
 		{
 			if (_fdList[i].revents & POLLIN) // Si data a read dans le fd. On utilise & et pas == car c'est une comparaison de bit a bit
 			{
-				//std::cout << "It is: " << i << std::endl;
 				if (_fdList[i].fd != _fdSrvSocket) // si fd a lire est celui du serveur, c'est un client qui veux se connecter, sinon c'est un client qui envoie des info a read
 					getData(_fdList[i].fd);
-				else {
-					//std::cout << "before accept cli" << std::endl;
+				else
 					acceptTheClient();
-					//std::cout << "after accept cli" << std::endl;
-				}
-			}/* else if (_fdList[i].fd != _fdSrvSocket) {
-				std::cout << "\e[1;31m" << "Debug before crash :<" << _fdList[i].fd << ">" << std::endl;
-				std::cout << "value of POLLIN: " << POLLIN << std::endl;
-				std::cout << "Value of actual revent: " << _fdList[i].revents << "\e[0;37m" << std::endl;
-			}*/
+			}
 		}
 	}
+	std::cout << "\e[1;33m" << "\nServer Stopped" << "\e[0;37m" << std::endl;
 }
 
 Channel	&Server::createChannel(const std::string &channelName, Client &op)

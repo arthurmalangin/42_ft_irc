@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 21:58:52 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 01:37:08 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 # include <arpa/inet.h>
 # include <netinet/in.h>
 # include <fcntl.h>
-#include <stdlib.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <stdio.h>
 # include "../include/Client.hpp"
 # include "../include/Parsing.hpp"
 # include "../include/Channel.hpp"
@@ -68,6 +70,7 @@ class Server
 		Client	&getClientByFd(int fd);
 		void	authentication(int fd, const char *buffer);
 		Channel	&createChannel(const std::string &channelName, Client &op);
+		static void	handleSignal(int sig);
 
 		/*====== Command ======*/
 		void 	Command_MOTD(int fd);
@@ -86,6 +89,7 @@ class Server
 
 		/*====== Attributes ======*/
 		int							_port;
+		static int							_signal;
 		std::string					_password;
 		std::string					_ip;
 		std::vector<struct pollfd>	_fdList;
