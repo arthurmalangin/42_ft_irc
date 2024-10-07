@@ -4,11 +4,29 @@ CC				=		c++
 
 FLAG			=		-std=c++98 -g 
 
+<<<<<<< HEAD
 C_FILE			=		main.cpp			\
 						Server.cpp			\
 						Client.cpp			\
 						Parsing.cpp			\
 						Channel.cpp			\
+=======
+C_FILE			=		main.cpp					\
+						Server.cpp					\
+						Server/command/join.cpp		\
+                        Server/command/who.cpp      \
+                        Server/command/quit.cpp		\
+                        Server/command/motd.cpp		\
+                        Server/command/ping.cpp		\
+                        Server/command/mode.cpp		\
+                        Server/command/topic.cpp    \
+						Server/authentication.cpp	\
+						Server/handleData.cpp		\
+						Server/utils.cpp			\
+						Client.cpp					\
+						Parsing.cpp					\
+						Channel.cpp					\
+>>>>>>> origin/main
 
 SRC_DIR			=		./src/
 

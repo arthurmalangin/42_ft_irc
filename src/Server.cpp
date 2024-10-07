@@ -3,10 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2024/09/30 11:47:07 by rwintgen          #+#    #+#             */
 /*   Updated: 2024/10/05 15:20:35 by rwintgen         ###   ########.fr       */
+=======
+/*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
+/*   Updated: 2024/10/06 23:46:24 by amalangi         ###   ########.fr       */
+>>>>>>> origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +104,7 @@ std::string Server::getIp() const
 	return (_ip);
 }
 
+<<<<<<< HEAD
 Channel*        Server::getChannel(const std::string& name)
 {
 	std::vector<Channel*>::iterator	it_b = _channels.begin();
@@ -129,12 +135,15 @@ int Server::sendMessage(int fd, std::string messageFormated) {
 }
 
 Client &Server::getClientByFd(int fd)
+=======
+Channel &Server::getChannel(const std::string& name)
+>>>>>>> origin/main
 {
-	for (size_t i = 0; i < _clientList.size(); i++)
-	{
-		if (_clientList[i].getFd() == fd)
-			return (_clientList[i]);
+	for (int i = 0; i < this->_channelList.size(); i++) {
+		if (_channelList[i].getName() == name)
+			return (_channelList[i]);
 	}
+<<<<<<< HEAD
 	throw std::runtime_error("Client not found"); // TODO no catch block?
 }
 
@@ -172,6 +181,9 @@ void Server::disconnectClientByInstance(Client client)
 		}
 	}
 	close(client.getFd());
+=======
+	throw std::runtime_error("Channel not found");
+>>>>>>> origin/main
 }
 
 /*====== Accept the client ======*/
@@ -197,6 +209,7 @@ void Server::acceptTheClient(void)
 	std::cout << "New client <" << newClientFd << "> connect : " << inet_ntoa(newClientAddr.sin_addr) << std::endl;
 }
 
+<<<<<<< HEAD
 void Server::sendMotd(int fd) {
 	std::vector<std::string> motd_lines;
 	motd_lines.push_back("-_-_-_- FT_IRC -_-_-_-");
@@ -291,6 +304,8 @@ void	Server::handleData(int fd, char *buffer) {
 	}
 }
 
+=======
+>>>>>>> origin/main
 void Server::getData(int fd)
 {
 	char	buffer[2048];
@@ -342,10 +357,18 @@ void Server::runServer(void)
 	}
 }
 
+<<<<<<< HEAD
 Channel*	Server::createChannel(const std::string& channelName, Client* client)
 {
 	Channel	*channel = new Channel(channelName, client);
 	_channels.push_back(channel);
 
 	return (channel);
+=======
+Channel	&Server::createChannel(const std::string &channelName, Client &op)
+{
+	Channel	channel(channelName, op);
+	_channelList.push_back(channel);
+	return (_channelList.back());
+>>>>>>> origin/main
 }

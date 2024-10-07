@@ -3,10 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2024/09/30 11:58:13 by rwintgen          #+#    #+#             */
 /*   Updated: 2024/10/05 15:16:11 by rwintgen         ###   ########.fr       */
+=======
+/*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
+/*   Updated: 2024/10/06 23:06:50 by amalangi         ###   ########.fr       */
+>>>>>>> origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +103,7 @@ void Client::addAuthBuffer(std::string buf)
 	this->_authBuffer += buf;
 }
 
+<<<<<<< HEAD
 Channel*	Client::getChannel(void)
 {
 	return (this->_channel);
@@ -122,3 +128,14 @@ void	Client::sendMsg(const std::string& message)
 {
 
 }
+=======
+std::vector<Channel *>	Client::getChannelList(void)
+{
+	return (this->_channelList);
+}
+
+void	Client::addChannel(Channel &channel)
+{
+	this->_channelList.push_back(&channel);
+}
+>>>>>>> origin/main
