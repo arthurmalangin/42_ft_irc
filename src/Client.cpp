@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 17:24:36 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 20:42:13 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ Client::Client(const Client &src)
 }
 Client::~Client(void)
 {
-	std::cout << "Client destructor called" << std::endl;
+	std::cout << "\e[1;31m" << "Client destructor called for: " << this->getNick() << "\e[0;37m" << std::endl;
 }
 
 /*====== Operators ======*/

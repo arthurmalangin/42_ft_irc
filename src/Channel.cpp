@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/07 17:21:21 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 22:51:44 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,10 @@ void	Channel::rmClient(Client &client)
 			break;
 		}
 	}
-	for (int i = 0; i < client.getChannelList().size(); i++) {
-		if (client.getChannelList()[i]->getName() == this->getName()) {
-			client.getChannelList().erase(client.getChannelList().begin() + i);
-			break;
-		}
-	}
+	// for (int i = 0; i < client.getChannelList().size(); i++) {
+	// 	if (client.getChannelList()[i]->getName() == this->getName()) {
+	// 		client.getChannelList().erase(client.getChannelList().begin() + i);
+	// 		break;
+	// 	}
+	// }
 }

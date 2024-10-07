@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 17:07:23 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:58:52 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ class Server
 		std::string					_password;
 		std::string					_ip;
 		std::vector<struct pollfd>	_fdList;
-		std::vector<Client>			_clientList;
+		std::vector<Client *>			_clientList;
 		int							_fdSrvSocket;
-		std::vector<Channel>		_channelList;
+		std::vector<Channel *>		_channelList;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 23:46:24 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 22:08:31 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ std::string Server::getIp() const
 Channel &Server::getChannel(const std::string& name)
 {
 	for (int i = 0; i < this->_channelList.size(); i++) {
-		if (_channelList[i].getName() == name)
-			return (_channelList[i]);
+		if (_channelList[i]->getName() == name)
+			return (*_channelList[i]);
 	}
 	throw std::runtime_error("Channel not found");
 }
@@ -109,15 +109,16 @@ void Server::acceptTheClient(void)
 	struct sockaddr_in	newClientAddr;
 	socklen_t			newClientAddrSize = sizeof(newClientAddr);
 	struct pollfd		newClientPoll;
-	Client				newClientObj;
+	Client*				newClientObj = new Client();
 
+	//std::cout << "accptcli" << std::endl;
 	int newClientFd = accept(this->_fdSrvSocket, (sockaddr *)&newClientAddr, &newClientAddrSize);
 	fcntl(newClientFd, F_SETFL, O_NONBLOCK);
 
 	newClientPoll.fd = newClientFd;
 	newClientPoll.events = POLLIN;
 	newClientPoll.revents = 0;
-	newClientObj.setFd(newClientFd);
+	newClientObj->setFd(newClientFd);
 
 	_fdList.push_back(newClientPoll);
 	_clientList.push_back(newClientObj);
@@ -165,8 +166,11 @@ void Server::runServer(void)
 				//std::cout << "It is: " << i << std::endl;
 				if (_fdList[i].fd != _fdSrvSocket) // si fd a lire est celui du serveur, c'est un client qui veux se connecter, sinon c'est un client qui envoie des info a read
 					getData(_fdList[i].fd);
-				else
+				else {
+					//std::cout << "before accept cli" << std::endl;
 					acceptTheClient();
+					//std::cout << "after accept cli" << std::endl;
+				}
 			}/* else if (_fdList[i].fd != _fdSrvSocket) {
 				std::cout << "\e[1;31m" << "Debug before crash :<" << _fdList[i].fd << ">" << std::endl;
 				std::cout << "value of POLLIN: " << POLLIN << std::endl;
@@ -178,7 +182,7 @@ void Server::runServer(void)
 
 Channel	&Server::createChannel(const std::string &channelName, Client &op)
 {
-	Channel	channel(channelName, op);
+	Channel	*channel = new Channel(channelName, op);
 	_channelList.push_back(channel);
-	return (_channelList.back());
+	return (*_channelList.back());
 }

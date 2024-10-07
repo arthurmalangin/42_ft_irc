@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:06:36 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 17:29:43 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 22:50:09 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void Server::Command_PART(int fd, std::vector<std::string> msg, Client &client) 
 		for (int i = 0; i < users.size(); i++) {
 			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + "todogetipofclient.ip" + " PART :" + channelName + " :Leaving \r\n");
 		}
-		// channel->rmClient(client);
-		// channel->rmOp(client); //plus opti de faire direct ca car, check si il est op avant de le rm fait deux iteration de for, alors que la 1
-		// client.rmChannel(*channel);
+		channel->rmClient(client);
+		//channel->rmOp(client); //plus opti de faire direct ca car, check si il est op avant de le rm fait deux iteration de for, alors que la 1
+		//client.rmChannel(*channel); 
 	}
 	
 }

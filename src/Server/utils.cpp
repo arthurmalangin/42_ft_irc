@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:53:34 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/05 23:04:12 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 22:13:29 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ Client &Server::getClientByFd(int fd)
 {
 	for (size_t i = 0; i < _clientList.size(); i++)
 	{
-		if (_clientList[i].getFd() == fd)
-			return (_clientList[i]);
+		if (_clientList[i]->getFd() == fd)
+			return (*_clientList[i]);
 	}
 	throw std::runtime_error("Client not found"); // TODO no catch block?
 }
@@ -39,8 +39,9 @@ void Server::disconnectClientByFd(int fd)
 	}
 	for (size_t i = 0; i < _clientList.size(); i++)
 	{
-		if (_clientList[i].getFd() == fd)
+		if (_clientList[i]->getFd() == fd)
 		{
+			delete _clientList[i];
 			_clientList.erase(_clientList.begin() + i);
 			break;
 		}
@@ -48,7 +49,7 @@ void Server::disconnectClientByFd(int fd)
 	close(fd);
 }
 
-//NotTested
+//NotTested and leak
 void Server::disconnectClientByInstance(Client client)
 {
 	for (size_t i = 0; i < _fdList.size(); i++)
