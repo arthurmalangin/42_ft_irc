@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 23:06:50 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:24:36 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,14 @@ std::vector<Channel *>	Client::getChannelList(void)
 void	Client::addChannel(Channel &channel)
 {
 	this->_channelList.push_back(&channel);
+}
+
+void	Client::rmChannel(Channel &channel)
+{
+	for (int i = 0; i < _channelList.size(); i++) {
+		if (_channelList[i]->getName() == channel.getName()) {
+			_channelList.erase(_channelList.begin() + i);
+			break;
+		}
+	}
 }

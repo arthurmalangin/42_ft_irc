@@ -13,6 +13,8 @@ C_FILE			=		main.cpp					\
                         Server/command/ping.cpp		\
                         Server/command/mode.cpp		\
                         Server/command/topic.cpp    \
+						Server/command/names.cpp	\
+						Server/command/part.cpp		\
 						Server/authentication.cpp	\
 						Server/handleData.cpp		\
 						Server/utils.cpp			\

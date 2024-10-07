@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 00:13:35 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:10:24 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	Server::handleData(int fd, char *buffer) {
 		if (toUpperStringg(parser.message[i][0]) == "MOTD")
             Command_MOTD(fd);
 		if (toUpperStringg(parser.message[i][0]) == "NAMES") {
-			//Command_NAMES(fd, parser.message[i], client);
+			Command_NAMES(fd, parser.message[i], client);
+		}
+		if (toUpperStringg(parser.message[i][0]) == "PART") {
+			Command_PART(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "PRIVMSG") {
 			//Command_PRIVMSG(fd, parser.message[i], client);

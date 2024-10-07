@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:10 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 23:06:23 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:22:57 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class Client
 		void		addAuthBuffer(std::string buf);
 		std::vector<Channel *>	getChannelList(void);
 		void		addChannel(Channel &channel);
+		void		rmChannel(Channel &channel);
 		
 	private:
 		/*====== Attributes ======*/

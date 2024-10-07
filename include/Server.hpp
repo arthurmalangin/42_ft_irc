@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 21:36:01 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:07:23 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ class Server
 		void	Command_NAMES(int fd, std::vector<std::string>msg, Client &client);
 		void	Command_MODE(int fd, std::vector<std::string>msg, Client &client);
 		void	Command_PRIVMSG(int fd, std::vector<std::string> msg, Client &client);
+		void	Command_PART(int fd, std::vector<std::string> msg, Client &client);
 		
 	private:
 		/*====== Private default constructor ======*/

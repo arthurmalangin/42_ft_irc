@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:16:50 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/06 23:29:53 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:19:21 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,26 @@ class Channel
 		Channel& operator=(const Channel &obj);
 
 		/*====== Getters/Setters ======*/
-		std::string					getName(void) const;
+		std::string						getName(void) const;
 		std::vector<Client *>			getOp(void) const;
 		std::vector<Client *>			getClientList(void) const;
-		size_t						getMaxMembers(void) const;
-		void						setMaxMembers(size_t limit);
-		bool						getModeInvite(void) const;
-		bool						getModeTopic(void) const;
-		std::string					getModeKeyPassword(void) const;
-		std::string					getTopic(void) const;
-		void						setTopic(std::string _topic);
-		void						setModeInvite(bool modeInvite);
-		void						setModeTopic(bool modeTopic);
-		void						setModeKey(std::string modeKeyPassword);
+		size_t							getMaxMembers(void) const;
+		void							setMaxMembers(size_t limit);
+		bool							getModeInvite(void) const;
+		bool							getModeTopic(void) const;
+		std::string						getModeKeyPassword(void) const;
+		std::string						getTopic(void) const;
+		void							setTopic(std::string _topic);
+		void							setModeInvite(bool modeInvite);
+		void							setModeTopic(bool modeTopic);
+		void							setModeKey(std::string modeKeyPassword);
 
 		/*====== Actions ======*/
+		bool	isOp(Client &client);
 		void	addClient(Client &client);
 		void	rmClient(Client &client);
+		void	addOp(Client &client);
+		void	rmOp(Client &client);
 	
 	private:
 		/*====== Attributes ======*/

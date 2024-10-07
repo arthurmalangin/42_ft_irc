@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 00:08:00 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:29:50 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) 
         client is already in a channel
         Max number of clients is already in channel
     */
-    // if (msg.size() < 2 || msg[1].empty()) {
-    //     sendMessage(fd, ":server 461 " + client.getNick() + " JOIN :Not enough parameters\r\n");
-    //     return;
-    // }
+    if (msg.size() < 2 || msg[1].empty()) {
+        sendMessage(fd, ":server 461 " + client.getNick() + " JOIN :Not enough parameters\r\n");
+        return;
+    }
 
     std::string channelName = msg[1];
     Channel *channel = NULL;
@@ -40,8 +40,12 @@ void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) 
     }
 
     client.addChannel(*channel);
-    sendMessage(fd, ":" + client.getNick() + "!~" + client.getUser() + "@" + "todogetipofclient.ip" + " JOIN :" + channelName + "\r\n");
-    
+	channel->addClient(client);
+	std::vector<Client *>users = channel->getClientList();
+	for (int i = 0; i < users.size(); i++){
+		sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + "todogetipofclient.ip" + " JOIN :" + channelName + "\r\n");
+	}
+	Command_NAMES(fd, msg, client); // msg contient JOIN #CHANEL mais comme c'est le meme channel ca marche, mais faudrait faire un truc plus propre 
     // sendMessage(fd, ":server 353 " + client.getUser() + channelName + " : Bienvenue sur le canal " + channelName +"\r\n");
     // sendMessage(fd, ":server 366 " + client.getUser() + channelName + " : End of /NAMES list.\r\n");
     /*

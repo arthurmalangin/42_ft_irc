@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/06 23:31:58 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:21:21 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,27 @@ void	Channel::setMaxMembers(size_t limit)
 }
 
 /*====== Actions ======*/
+
+bool Channel::isOp(Client &client) {
+	for (int i = 0; i < _opList.size(); i++) {
+		if (client.getFd() == _opList[i]->getFd())
+			return (true);
+	}
+	return (false);
+}
+
+void	Channel::addOp(Client &client) {
+	this->_opList.push_back(&client);
+}
+
+void	Channel::rmOp(Client &op) {
+	for (int i = 0; i < _opList.size(); i++) {
+		if (op.getFd() == _opList[i]->getFd()) { // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
+			_opList.erase(_opList.begin() + i);
+			break;
+		}
+	}
+}
 
 void	Channel::addClient(Client &client)
 {
