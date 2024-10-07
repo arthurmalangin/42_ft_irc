@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 10:37:04 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/07 10:39:10 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,7 @@ class Server
 		int			getPort() const;
 		std::string	getPassword() const;
 		std::string	getIp() const;
-<<<<<<< HEAD
-		Channel*	getChannel(const std::string& name);
-=======
-		Channel	&getChannel(const std::string &name);
->>>>>>> origin/main
+		Channel		&getChannel(const std::string &name);
 
 		/*====== Starting the server ======*/
 		void	runServer(void);
@@ -64,25 +60,14 @@ class Server
 
 		/*====== Handle Data after getData() ======*/
 		void	handleData(int fd, char *buffer);
-<<<<<<< HEAD
-
-		/*====== Utils ======*/
-		int		sendMessage(int fd, std::string messageFormated);
-		void 	sendMotd(int fd);
-=======
 		
 		/*====== Utils ======*/
 		int		sendMessage(int fd, std::string messageFormated);
->>>>>>> origin/main
 		void	disconnectClientByFd(int fd);
 		void	disconnectClientByInstance(Client client);
 		Client	&getClientByFd(int fd);
 		void	authentication(int fd, const char *buffer);
-<<<<<<< HEAD
-		Channel	*createChannel(const std::string& channelName, Client* admin);
-=======
 		Channel	&createChannel(const std::string &channelName, Client &op);
->>>>>>> origin/main
 
 		/*====== Command ======*/
 		void 	Command_MOTD(int fd);
@@ -105,11 +90,7 @@ class Server
 		std::vector<struct pollfd>	_fdList;
 		std::vector<Client>			_clientList;
 		int							_fdSrvSocket;
-<<<<<<< HEAD
-		std::vector<Channel *>		_channels;
-=======
 		std::vector<Channel>		_channelList;
->>>>>>> origin/main
 };
 
 #endif

@@ -3,15 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
-/*   Created: 2024/09/30 11:58:10 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/05 13:59:16 by rwintgen         ###   ########.fr       */
-=======
 /*   Created: 2024/09/30 11:58:10 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 23:06:23 by amalangi         ###   ########.fr       */
->>>>>>> origin/main
+/*   Updated: 2024/10/07 10:39:05 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +46,12 @@ class Client
 		
 	private:
 		/*====== Attributes ======*/
-		int			_fd;
-		std::string	_nick;
-		std::string _user;
-		bool		_auth;
-		std::string	_authBuffer;
-		std::vector<Channel *> _channelList;
+		int						_fd;
+		std::string				_nick;
+		std::string				_user;
+		bool					_auth;
+		std::string				_authBuffer;
+		std::vector<Channel *>	_channelList;
 };
 
 #endif
