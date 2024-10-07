@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handleData.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 00:13:35 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:24:31 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	Server::handleData(int fd, char *buffer) {
 			//Command_NAMES(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "PRIVMSG") {
-			//Command_PRIVMSG(fd, parser.message[i], client);
+			Command_PRIVMSG(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "WHO") {
             Command_WHO(fd, parser.message[i], client);

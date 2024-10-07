@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 00:08:00 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:36:08 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) 
     }
 
     client.addChannel(*channel);
+    channel->addClient(client);
+
     sendMessage(fd, ":" + client.getNick() + "!~" + client.getUser() + "@" + "todogetipofclient.ip" + " JOIN :" + channelName + "\r\n");
     
     // sendMessage(fd, ":server 353 " + client.getUser() + channelName + " : Bienvenue sur le canal " + channelName +"\r\n");
