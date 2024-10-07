@@ -46,17 +46,8 @@ class Client
 		void		setAuth(bool auth);
 		std::string	getAuthBuffer(void);
 		void		addAuthBuffer(std::string buf);
-<<<<<<< HEAD
-		Channel*	getChannel(void);
-		void		setChannel(Channel* channel);
-
-		/*====== Actions ======*/
-		void	receiveMsg(const std::string& message);
-		void	sendMsg(const std::string& message);
-=======
 		std::vector<Channel *>	getChannelList(void);
 		void		addChannel(Channel &channel);
->>>>>>> origin/main
 		
 	private:
 		/*====== Attributes ======*/
@@ -65,11 +56,7 @@ class Client
 		std::string _user;
 		bool		_auth;
 		std::string	_authBuffer;
-<<<<<<< HEAD
-		Channel*	_channel;
-=======
 		std::vector<Channel *> _channelList;
->>>>>>> origin/main
 };
 
 #endif

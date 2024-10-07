@@ -3,15 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parsing.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
-/*   Created: 2024/09/30 11:47:15 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/01 16:40:26 by amalangi         ###   ########.fr       */
-=======
 /*   Created: 2024/09/30 11:47:15 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/05 16:52:42 by amalangi         ###   ########.fr       */
->>>>>>> origin/main
+/*   Updated: 2024/10/07 10:36:56 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
