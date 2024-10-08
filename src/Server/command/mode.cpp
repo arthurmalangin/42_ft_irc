@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/06 23:24:53 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 04:16:05 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,17 @@
 — l : Définir/supprimer la limite d’utilisateurs pour le canal
 
 On traite qu'un - a la fois 
+
+MODE #potato -i
+:lair.nl.eu.dal.net 482 LouisI #potato :You're not channel operator
+
+
+
 */
 
 
 void Server::Command_MODE(int fd, std::vector<std::string>msg, Client &client) {
-	if (msg.size() > 0) {
+	if (msg.size() > 2) { 
 		Channel *channel = &this->getChannel(msg[1]);
 		if (msg[1] == "-i" || msg[1] == "+i" || msg[1] == "i")
 			channel->setModeInvite(msg[1] == "-i" ? false : true);
@@ -50,3 +56,18 @@ void Server::Command_MODE(int fd, std::vector<std::string>msg, Client &client) {
 	}
 }
 
+/*
+
+    
+	MODE #potato 
+	:lair.nl.eu.dal.net 324 Arthur_ #potato + 
+	:lair.nl.eu.dal.net 329 Arthur_ #potato 1728345832 // Code timestamp
+
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	//>> :bitcoin.uk.eu.dal.net 329 LouisI #toao 1728301143
+	char buffer[20]; // taille suffisante pour contenir un long
+    sprintf(buffer, "%ld", tv.tv_sec);
+	sendMessage(fd, ":MyChell.beer 329 " + client.getNick() + " " + channelName + " " + std::string(buffer) + "\r\n");
+	
+	*/

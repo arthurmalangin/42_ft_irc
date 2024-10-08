@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 01:37:08 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 02:57:45 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <poll.h>
 # include <sys/socket.h>
 # include <sys/types.h>
+# include <sys/time.h>
 # include <arpa/inet.h>
 # include <netinet/in.h>
 # include <fcntl.h>

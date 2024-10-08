@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:10 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 17:22:57 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 02:39:38 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ class Client
 		void		setNick(std::string nick);
 		std::string getUser() const;
 		void		setUser(std::string user);
+		std::string getIp(void) const;
+		void		setIp(std::string ip);
 		bool		isAuth() const;
 		void		setAuth(bool auth);
 		std::string	getAuthBuffer(void);
@@ -50,6 +52,7 @@ class Client
 		int			_fd;
 		std::string	_nick;
 		std::string _user;
+		std::string _ip;
 		bool		_auth;
 		std::string	_authBuffer;
 		std::vector<Channel *> _channelList;

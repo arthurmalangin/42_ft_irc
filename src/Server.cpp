@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 01:51:25 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 02:41:54 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void Server::acceptTheClient(void)
 	newClientPoll.events = POLLIN;
 	newClientPoll.revents = 0;
 	newClientObj->setFd(newClientFd);
+	newClientObj->setIp(inet_ntoa(newClientAddr.sin_addr));
 
 	_fdList.push_back(newClientPoll);
 	_clientList.push_back(newClientObj);

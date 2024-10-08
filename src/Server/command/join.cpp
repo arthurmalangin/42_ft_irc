@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 17:29:50 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 03:43:08 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) {
     /*
+	A gerer:
+		si pas # au nom de salon, chalname :No such channel
+			:lair.nl.eu.dal.net 403 Arthur_ po :No such channel
+		
     Error if :
         parser.message[i][1] is empty
         parser.message[i][2] is not empty
@@ -43,10 +47,10 @@ void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) 
 	channel->addClient(client);
 	std::vector<Client *>users = channel->getClientList();
 	for (int i = 0; i < users.size(); i++){
-		sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + "todogetipofclient.ip" + " JOIN :" + channelName + "\r\n");
+		sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " JOIN :" + channelName + "\r\n");
 	}
 	Command_NAMES(fd, msg, client); // msg contient JOIN #CHANEL mais comme c'est le meme channel ca marche, mais faudrait faire un truc plus propre 
-    // sendMessage(fd, ":server 353 " + client.getUser() + channelName + " : Bienvenue sur le canal " + channelName +"\r\n");
+	// sendMessage(fd, ":server 353 " + client.getUser() + channelName + " : Bienvenue sur le canal " + channelName +"\r\n");
     // sendMessage(fd, ":server 366 " + client.getUser() + channelName + " : End of /NAMES list.\r\n");
     /*
     << JOIN #draoa

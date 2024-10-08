@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:42 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 17:30:43 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 03:02:38 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,12 @@ void	Server::Command_WHO(int fd, std::vector<std::string> msg, Client &client) {
 	std::vector<Client *>users = channel->getClientList();
 	
 	for (int i = 0; i < users.size(); i++) {
-		std::cout << "LOOP : " << i << std::endl;
-		std::cout << "LOOP Name :" << client.getNick() << std::endl;
-		std::cout << "LOOP list :" << users[i]->getNick() << std::endl;
-		sendMessage(fd, ":MyChell.beer 352 " + client.getNick() + " " + channelName + " ~" + client.getUser() + 
-			" " + "todogetipofclient.ip" + " MyChell.beer " + users[i]->getNick() + " H" + (channel->isOp(*users[i]) ? "@" : "") +" :0 "
+		sendMessage(fd, ":MyChell.beer 352 " + client.getNick() + " " + channelName + " ~" + users[i]->getUser() + 
+			" " + users[i]->getIp() + ".ip" + " MyChell.beer " + users[i]->getNick() + " H" + (channel->isOp(*users[i]) ? "@" : "") +" :0 "
 				 + users[i]->getUser() + "\r\n");
 	}
 	sendMessage(fd, ":MyChell.beer 315 " + client.getNick() + " " + channelName + " :End of /WHO list\r\n");
 	/*
-
-:MyChell.beer 352 LouisXX #todo ~LouisGab todogetipofclient.ip MyChell.beer LouisXX H@ :0 realname
-:MyChell.beer 352 LouisI #toao ~LouisII todogetipofclient.ip MyChell.beer LouisI H@ :0 Louis
->> :MyChell.beer 352 LouisXX #todo ~LouisGab todogetipofclient.ip MyChell.beer Arthur H@ :0 realname
-
->> :MyChell.beer 315 LouisXX #todo :End of /WHO list
-
 << PING LAG1674285915
 >> :bitcoin.uk.eu.dal.net PONG bitcoin.uk.eu.dal.net :LAG1674285915
 << JOIN #toao
@@ -57,8 +47,6 @@ void	Server::Command_WHO(int fd, std::vector<std::string> msg, Client &client) {
 >> :bitcoin.uk.eu.dal.net 366 LouisI #toao :End of /NAMES list.
 >> :bitcoin.uk.eu.dal.net 324 LouisI #toao + 
 >> :bitcoin.uk.eu.dal.net 329 LouisI #toao 1728301143
-
->> :bitcoin.uk.eu.dal.net 315 LouisI #toao :End of /WHO list.
 
 
 << WHO #toao

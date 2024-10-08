@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 20:42:13 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/08 02:41:19 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,14 @@ std::string Client::getNick() const
 void Client::setNick(std::string nick)
 {
 	this->_nick = nick;
+}
+
+std::string Client::getIp(void) const {
+	return (this->_ip);
+}
+
+void Client::setIp(std::string ip) {
+	this->_ip = ip;
 }
 
 bool Client::isAuth() const
