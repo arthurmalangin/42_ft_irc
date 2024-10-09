@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 21:27:21 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:03:38 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ class Server
 		void	Command_PART(int fd, std::vector<std::string> msg, Client &client);
 		void	Command_TOPIC(int fd, std::vector<std::string> msg, Client &client);
 		void	Command_KICK(int fd, std::vector<std::string> msg, Client &client);
+		void	Command_INVITE(int fd, std::vector<std::string> msg, Client &client);
 		
 	private:
 		/*====== Private default constructor ======*/

@@ -6,22 +6,15 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 19:24:31 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:46:37 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
 void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) {
-    /*
-	A gerer:
-		si pas # au nom de salon, chalname :No such channel
-			:lair.nl.eu.dal.net 403 Arthur_ po :No such channel
-		
+    /*	
     Error if :
-        parser.message[i][1] is empty
-        parser.message[i][2] is not empty
-        client is already in a channel
         Max number of clients is already in channel
     */
     if (msg.size() < 2 || msg[1].empty()) {

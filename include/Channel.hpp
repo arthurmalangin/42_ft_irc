@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:16:50 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/09 18:58:00 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:56:23 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ class Channel
 		std::string						getName(void) const;
 		std::vector<Client *>			getOp(void) const;
 		std::vector<Client *>			getClientList(void) const;
+		std::vector<Client *>			getInviteList(void) const;
+		void							addInviteList(Client &client);
+		void							rmInviteList(Client &client);
 		size_t							getMaxMembers(void) const;
 		void							setMaxMembers(size_t limit);
 		bool							getModeInvite(void) const;
@@ -58,7 +61,9 @@ class Channel
 		const std::string		_channelName;
 		std::vector<Client *>		_opList;
 		std::vector<Client *>		_clientList;
+		std::vector<Client *>		_inviteList;
 		size_t					_maxMembers;
+		size_t					_onlineClient;
 		std::string				_topic;
 		std::vector<std::string> _topicAuthorInfo;
 

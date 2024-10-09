@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/09 19:14:06 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:25:24 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,21 @@ void	Channel::setTopicAuthInfo(Client &client) {
 
 std::vector<std::string>	Channel::getTopicAuthInfo(void) const {
 	return (_topicAuthorInfo);
+}
+
+std::vector<Client *>	Channel::getInviteList(void) const {
+	return (_inviteList);
+}
+
+void	Channel::addInviteList(Client &client) {
+	_inviteList.push_back(&client);
+}
+
+void	Channel::rmInviteList(Client &client) {
+	for (int i = 0; i < _inviteList.size(); i++) {
+		if (client.getFd() == _inviteList[i]->getFd())
+			_inviteList.erase(_inviteList.begin() + i);
+	}
 }
 
 /*====== Actions ======*/
