@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:17:18 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 20:49:44 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:01:35 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ void Server::authentication(int fd, const char *buffer)
 				client.setAuth(true);
 				Command_MOTD(fd);
 				std::cout << "\e[1;32m" << "Client <" << fd << "> Auth Success !" << std::endl;
-			} 
-			//else {
-			// 	std::cout << "DEBUG: " << parser.message[i][0] << " " << parser.message[i][1] << std::endl;
-			// }
+			}
 		}
 		if (!client.isAuth()) {
 			sendMessage(fd, ":MyChell.beer 464 : Mot de passe Incorrect\r\n");

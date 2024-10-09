@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 20:29:00 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:03:27 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ void Server::handleSignal(int sig) {
 
 void Server::runServer(void)
 {
-	signal(SIGINT, Server::handleSignal); //-> catch the signal (ctrl + c)
-	signal(SIGQUIT, Server::handleSignal); //-> catch the signal (ctrl + \)
+	signal(SIGINT, Server::handleSignal);
+	signal(SIGQUIT, Server::handleSignal);
 	while (Server::_signal == 0)
 	{
 		poll(&_fdList[0],_fdList.size(), -1); // bloque l'exec jusqu'a se qu'un event se produise dans l'un des fd de la liste
