@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:27:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 18:20:50 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:23:47 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,34 @@ void	Server::Command_PRIVMSG(int fd, std::vector<std::string> msg, Client &clien
         sendMessage(fd, ":server 461 " + client.getNick() + " PRIVMSG :Not enough parameters\r\n");
         return;
     }
-	std::string channelName = msg[1];
-    Channel *channel = NULL;
-    try {
-        channel = &this->getChannel(channelName);
-    } catch (const std::exception &e) {}
+	if (msg[1].find('#') != std::string::npos) {  // # find so send message to a channel
+		std::string channelName = msg[1];
+		Channel *channel = NULL;
+		try {
+			channel = &this->getChannel(channelName);
+		} catch (const std::exception &e) {}
 
-    if (channel == NULL) {
-        sendMessage(fd, ":server 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
-        return;
-    }
-	std::vector<Client *>users = channel->getClientList();
-	for (int i = 0; i < users.size(); i++) {
-		if (users[i]->getFd() != fd) {
-			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " PRIVMSG " + channelName + " " + msg[2] + "\r\n");
+		if (channel == NULL) {
+			sendMessage(fd, ":server 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
+			return;
 		}
+		
+		std::vector<Client *>users = channel->getClientList();
+		for (int i = 0; i < users.size(); i++) {
+			if (users[i]->getFd() != fd) {
+				sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " PRIVMSG " + channelName + " " + msg[2] + "\r\n");
+			}
+		}
+	} else { // Send message to user
+		std::string userNick = msg[1];
+		Client *cli = NULL;
+		try {
+			cli = &this->getClientByNickName(userNick);
+		} catch (const std::exception &e) {}
+		if (cli == NULL) {
+			sendMessage(fd, ":server 403 " + client.getNick() + " " + userNick + " :No such user\r\n");
+			return;
+		}
+		sendMessage(cli->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " PRIVMSG " + userNick + " " + msg[2] + "\r\n");
 	}
 }
-
-// >> :LouisXX!~LouisGab@todogetipofclient.ip PRIVMSG :#potato :tttt
-// PRIVMSG #potato :testtt
-// :LouisI!~LouisII@72b7-f536-9bc1-e681-4374.rev.sfr.net PART #adm :Leaving
-// :LouisI!~LouisII@72b7-f536-9bc1-e681-4374.rev.sfr.net PRIVMSG #potato :testtt

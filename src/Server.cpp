@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 19:21:18 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:29:00 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,8 @@ void Server::getData(int fd)
 		if (getClientByFd(fd).getAuthBuffer().find("USER") != std::string::npos)
 			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
 	}
-	
-	handleData(fd, buffer);
+	else
+		handleData(fd, buffer);
 	
 	std::string txt(buffer);
 	std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 

@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 18:33:18 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:11:38 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ class Server
 		void	disconnectClientByFd(int fd);
 		void	disconnectClientByInstance(Client client);
 		Client	&getClientByFd(int fd);
+		Client	&getClientByNickName(std::string nickName);
 		void	authentication(int fd, const char *buffer);
 		Channel	&createChannel(const std::string &channelName, Client &op);
 		static void	handleSignal(int sig);

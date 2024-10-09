@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:53:34 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 19:10:47 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:11:58 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ Client &Server::getClientByFd(int fd)
 	for (size_t i = 0; i < _clientList.size(); i++)
 	{
 		if (_clientList[i]->getFd() == fd)
+			return (*_clientList[i]);
+	}
+	throw std::runtime_error("Client not found"); // TODO no catch block?
+}
+
+Client &Server::getClientByNickName(std::string nickName)
+{
+	for (size_t i = 0; i < _clientList.size(); i++)
+	{
+		if (_clientList[i]->getNick() == nickName)
 			return (*_clientList[i]);
 	}
 	throw std::runtime_error("Client not found"); // TODO no catch block?
