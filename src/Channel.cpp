@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/07 22:51:44 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:14:06 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ Channel::Channel(const Channel& src) : _channelName(src.getName()){
 	this->_modeTopic = src.getModeTopic();
 	this->_topic = src.getTopic();
 	this->_modeKeyPassword = src.getModeKeyPassword();
+	this->_topicAuthorInfo = src.getTopicAuthInfo();
 }
+
 Channel& Channel::operator=(const Channel &obj) {
 	this->_opList = obj.getOp();
 	this->_clientList = obj.getClientList();
@@ -44,8 +46,8 @@ Channel::Channel(const std::string& name, Client &op) : _channelName(name)
 	this->_opList.push_back(&op);
 	this->_maxMembers = 0;
 	this->_modeInvite = false;
-	this->_modeTopic = false; // not sure
-	this->_modeKeyPassword = "";
+	this->_modeTopic = true; // set to false for +t mode
+	this->_topicAuthorInfo.resize(4);
 }
 
 Channel::~Channel(void) 
@@ -109,6 +111,17 @@ size_t	Channel::getMaxMembers(void) const
 void	Channel::setMaxMembers(size_t limit)
 {
 	this->_maxMembers = limit;
+}
+
+void	Channel::setTopicAuthInfo(Client &client) {
+	_topicAuthorInfo[0] = (client.getNick());
+	_topicAuthorInfo[1] = (client.getUser());
+	_topicAuthorInfo[2] = (client.getIp());
+	_topicAuthorInfo[3] = (Server::getTime());
+}
+
+std::vector<std::string>	Channel::getTopicAuthInfo(void) const {
+	return (_topicAuthorInfo);
 }
 
 /*====== Actions ======*/

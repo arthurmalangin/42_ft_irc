@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:27:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 02:47:29 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:20:50 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,9 @@ void	Server::Command_PRIVMSG(int fd, std::vector<std::string> msg, Client &clien
         return;
     }
 	std::vector<Client *>users = channel->getClientList();
-	std::string finalMsg;
-	for (int i = 2; i < msg.size(); i++) {
-		finalMsg += msg[i] + (i == msg.size() ? "" : " ");
-	}
 	for (int i = 0; i < users.size(); i++) {
 		if (users[i]->getFd() != fd) {
-			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " PRIVMSG " + channelName + " " + finalMsg + "\r\n");
+			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " PRIVMSG " + channelName + " " + msg[2] + "\r\n");
 		}
 	}
 }

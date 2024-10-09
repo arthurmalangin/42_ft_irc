@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 02:57:45 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:33:18 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ class Server
 		void	authentication(int fd, const char *buffer);
 		Channel	&createChannel(const std::string &channelName, Client &op);
 		static void	handleSignal(int sig);
+		static std::string getTime(void);
 
 		/*====== Command ======*/
 		void 	Command_MOTD(int fd);
@@ -83,6 +84,7 @@ class Server
 		void	Command_MODE(int fd, std::vector<std::string>msg, Client &client);
 		void	Command_PRIVMSG(int fd, std::vector<std::string> msg, Client &client);
 		void	Command_PART(int fd, std::vector<std::string> msg, Client &client);
+		void	Command_TOPIC(int fd, std::vector<std::string> msg, Client &client);
 		
 	private:
 		/*====== Private default constructor ======*/

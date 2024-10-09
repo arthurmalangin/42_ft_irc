@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:53:34 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/07 22:13:29 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:10:47 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 int Server::sendMessage(int fd, std::string messageFormated) {
 	return (send(fd, messageFormated.c_str(), messageFormated.size(), 0));
+}
+
+std::string Server::getTime(void) {
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	char buffer[20]; // taille suffisante pour contenir un long
+    sprintf(buffer, "%ld", tv.tv_sec);
+	return (std::string(buffer));
 }
 
 Client &Server::getClientByFd(int fd)

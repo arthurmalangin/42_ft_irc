@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:16:50 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/07 17:19:21 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:58:00 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ class Channel
 		std::string						getModeKeyPassword(void) const;
 		std::string						getTopic(void) const;
 		void							setTopic(std::string _topic);
+		void							setTopicAuthInfo(Client &client);
+		std::vector<std::string>		getTopicAuthInfo(void) const;
 		void							setModeInvite(bool modeInvite);
 		void							setModeTopic(bool modeTopic);
 		void							setModeKey(std::string modeKeyPassword);
@@ -58,6 +60,8 @@ class Channel
 		std::vector<Client *>		_clientList;
 		size_t					_maxMembers;
 		std::string				_topic;
+		std::vector<std::string> _topicAuthorInfo;
+
 		/*====== Modes ======*/
 		bool _modeInvite; // -i Default false
 		bool _modeTopic; // -t ??

@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 02:03:18 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:12:15 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	Server::handleData(int fd, char *buffer) {
     Parsing	parser;
 	Client &client = getClientByFd(fd);
 	parser.parseBuffer(buffer);
-    for (size_t i = 0; i < parser.message.size(); i++) {
+    for (size_t i = 0; i < parser.message.size(); i++) { // TODO va falloir faire des verif plus secure a chaque commandes
         if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving")
             Command_QUIT(fd);
 		if (parser.message[i].size() > 0 && parser.message[i][0] == "PING")
@@ -51,6 +51,9 @@ void	Server::handleData(int fd, char *buffer) {
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "JOIN") {
             Command_JOIN(fd, parser.message[i], client);
+		}
+		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "TOPIC") {
+            Command_TOPIC(fd, parser.message[i], client);
 		}
     }
 }

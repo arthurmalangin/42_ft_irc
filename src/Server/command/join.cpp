@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 03:43:08 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:24:31 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) 
     std::string channelName = msg[1];
     Channel *channel = NULL;
 
+	if (channelName.find('#') == std::string::npos) {
+		sendMessage(fd, ":server 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
+        return;
+	}
+	
     try {
         channel = &this->getChannel(channelName);
     } catch (const std::exception &e) {

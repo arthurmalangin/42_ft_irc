@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:42 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 03:02:38 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:24:33 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,38 +36,4 @@ void	Server::Command_WHO(int fd, std::vector<std::string> msg, Client &client) {
 				 + users[i]->getUser() + "\r\n");
 	}
 	sendMessage(fd, ":MyChell.beer 315 " + client.getNick() + " " + channelName + " :End of /WHO list\r\n");
-	/*
-<< PING LAG1674285915
->> :bitcoin.uk.eu.dal.net PONG bitcoin.uk.eu.dal.net :LAG1674285915
-<< JOIN #toao
->> :LouisI!~LouisII@72b7-f536-9bc1-e681-4374.rev.sfr.net JOIN :#toao
-<< MODE #toao
-<< WHO #toao
->> :bitcoin.uk.eu.dal.net 353 LouisI = #toao :@LouisI 
->> :bitcoin.uk.eu.dal.net 366 LouisI #toao :End of /NAMES list.
->> :bitcoin.uk.eu.dal.net 324 LouisI #toao + 
->> :bitcoin.uk.eu.dal.net 329 LouisI #toao 1728301143
-
-
-<< WHO #toao
->> :bitcoin.uk.eu.dal.net 352 LouisI #toao ~LouisII 72b7-f536-9bc1-e681-4374.rev.sfr.net bitcoin.uk.eu.dal.net LouisI H@ :0 Louis
->> :bitcoin.uk.eu.dal.net 315 LouisI #toao :End of /WHO list.
-
-
-
-
-	Error if:
-		parser.message[i][1] is empty
-		chanel doesnt exist
-	*/
-	// Channel*	channel = this->getChannel(msg[1]);
-	// if (channel) {
-	// }
-
-	/*
-	<< WHO #draoa
-	>> :punch.wa.us.dal.net 352 Arthur_ #draoa ~Arthur 1f2-281e-655c-1a9-702e.215.80.ip bifrost.ca.us.dal.net Arthur__ H :2 realname
-	>> :punch.wa.us.dal.net 352 Arthur_ #draoa ~Arthur 1f2-281e-655c-1a9-702e.215.80.ip punch.wa.us.dal.net Arthur_ H@ :0 realname
-	>> :punch.wa.us.dal.net 315 Arthur_ #draoa :End of /WHO list
-	*/
 }
