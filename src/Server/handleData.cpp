@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 23:54:41 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:33:48 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	Server::handleData(int fd, char *buffer) {
             Command_KICK(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "INVITE") {
-            Command_KICK(fd, parser.message[i], client);
+            Command_INVITE(fd, parser.message[i], client);
 		}
     }
 }

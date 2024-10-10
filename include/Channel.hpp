@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:16:50 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/09 23:56:23 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:13:51 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ class Channel
 		void	rmClient(Client &client);
 		void	addOp(Client &client);
 		void	rmOp(Client &client);
+		bool	isInInviteList(Client &client);
 	
 	private:
 		/*====== Attributes ======*/

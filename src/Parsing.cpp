@@ -6,7 +6,7 @@
 /*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:15 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 17:39:21 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:32:51 by amalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ void Parsing::parseBuffer(std::string buffer)
 		else if (buffer[i] != '\r')
 			tmp += buffer[i];
 	}
-	parseMessage(message);
+	//parseMessage(message);
 }

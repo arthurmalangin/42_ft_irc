@@ -17,7 +17,7 @@ C_FILE			=		main.cpp					\
 						Server/command/part.cpp		\
 						Server/command/privmsg.cpp	\
 						Server/command/kick.cpp		\
-						Server/command/invite.cpp		\
+						Server/command/invite.cpp	\
 						Server/authentication.cpp	\
 						Server/handleData.cpp		\
 						Server/utils.cpp			\
