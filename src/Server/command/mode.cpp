@@ -6,7 +6,7 @@
 /*   By: romain <romain@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/16 15:01:42 by romain           ###   ########.fr       */
+/*   Updated: 2024/10/16 15:30:52 by romain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ MODE #potato -i
 */
 
 
-void Server::Command_MODE(int fd, std::vector<std::string>msg, Client &client)
+void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 {
 	// Here, msg[0] is "MODE"
 	// msg[1] is the channel name
@@ -35,52 +35,64 @@ void Server::Command_MODE(int fd, std::vector<std::string>msg, Client &client)
 	if (msg.size() < 3)
 	{
 		sendMessage(fd, ":MyChell.beer 461 " + client.getNick() + " MODE :Not enough parameters\r\n");
-		return ;
+		return;
 	}
 
-	std::string	channelName = msg[1];
-	std::string	mode = msg[2];
+	std::string channelName = msg[1];
+	std::string mode = msg[2];
 
-	// fetch the add of the channel to be modified
-	// check permissions
-	Channel		*channel = &getChannel(channelName);
-	if (channel->isOp(client) == false)
+	// Fetch the address of the channel to be modified
+	// Check permissions
+	Channel *channel = &getChannel(channelName);
+	if (!channel->isOp(client))
 	{
 		sendMessage(fd, ":MyChell.beer 482 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
-		return ;
+		return;
 	}
-	
+
 	// Invite only
 	if (mode == "-i" || mode == "+i" || mode == "i")
-		channel->setModeInvite(mode == "-i" ? false : true);
+	{
+		channel->setModeInvite(mode != "-i");
+	}
 	// Topic
 	else if (mode == "-t" || mode == "+t" || mode == "t")
-		channel->setModeTopic(mode == "-t" ? false : true);
+	{
+		channel->setModeTopic(mode != "-t");
+	}
 	// Key protected && make sure key is there
-	else if (mode == "-k" || mode == "+k" || mode == "k" && msg.size() > 3)
+	else if ((mode == "-k" || mode == "+k" || mode == "k") && msg.size() > 3)
 	{
 		if (mode != "-k")
+		{
 			channel->setModeKey(msg[3]);
+		}
 		else
+		{
 			channel->setModeKey("");
+		}
 	}
 	// Operator privileges
 	else if (mode == "-o" || mode == "+o" || mode == "o")
 	{
-		// TODO handle operator privileges
+		// TODO: Handle operator privileges
 	}
 	// User limit
 	else if (mode == "-l" || mode == "+l" || mode == "l")
 	{
 		if (mode != "-l" && msg.size() > 3)
+		{
 			channel->setMaxMembers(static_cast<size_t>(strtod(msg[3].c_str(), NULL)));
+		}
 		else
+		{
 			channel->setMaxMembers(0);
+		}
 	}
 	else
 	{
 		sendMessage(fd, ":MyChell.beer 472 " + client.getNick() + " " + channelName + " :is unknown mode char to me\r\n");
-		return ;
+		return;
 	}
 
 	sendMessage(fd, ":MyChell.beer 324 " + client.getNick() + " " + channelName + " " + mode + "\r\n");
@@ -113,7 +125,7 @@ void Server::Command_MODE(int fd, std::vector<std::string>msg, Client &client)
 	
 /*
 
-    
+	
 	MODE #potato 
 	:lair.nl.eu.dal.net 324 Arthur_ #potato + 
 	:lair.nl.eu.dal.net 329 Arthur_ #potato 1728345832 // Code timestamp
@@ -122,7 +134,7 @@ void Server::Command_MODE(int fd, std::vector<std::string>msg, Client &client)
 	gettimeofday(&tv, NULL);
 	//>> :bitcoin.uk.eu.dal.net 329 LouisI #toao 1728301143
 	char buffer[20]; // taille suffisante pour contenir un long
-    sprintf(buffer, "%ld", tv.tv_sec);
+	sprintf(buffer, "%ld", tv.tv_sec);
 	sendMessage(fd, ":MyChell.beer 329 " + client.getNick() + " " + channelName + " " + std::string(buffer) + "\r\n");
 	
 */
