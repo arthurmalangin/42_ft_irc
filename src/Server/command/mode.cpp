@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/22 16:59:57 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:41:54 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ static bool	findSign(std::string currentWord, size_t *j)
 		(*j)++;
 	}
 	return (sign);
+}
+
+static unsigned int	ft_stoui(const std::string& str)
+{
+	std::stringstream ss(str);
+	size_t result;
+	ss >> result;
+	if (ss.fail())
+	{
+		throw std::invalid_argument("Invalid conversion from string to size_t");
+	}
+	return (result);
 }
 
 void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
@@ -50,11 +62,11 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 			{
 			case 'i':
 				std::cout << "/mode option i found. sign: " << sign << std::endl;
-				// functionForI(sign, arg);
+				channel->setModeInvite(sign);
 				break;
 			case 't':
 				std::cout << "/mode option t found. sign: " << sign << std::endl;
-				// functionForT(sign, arg);
+				channel->setModeTopic(sign);
 				break;
 			case 'k':
 				if (sign == 1 && !arg.empty())
@@ -62,13 +74,15 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 				else
 					arg = "";
 				std::cout << "/mode option k found. sign: " << sign << " arg: " << arg << std::endl;
-				// functionForK(sign, arg);
+				// with "-k" ca met channel._modeKeyPassword to ""
+				// TODO @arthur c'est le comportement attendu? FYI _modekeypassword est jamais init
+				channel->setModeKey(arg);
 				break;
 			case 'o':
 				if (!arg.empty())
 					msg.erase(msg.begin() + i + 1);
 				std::cout << "/mode option o found. sign: " << sign << " arg: " << arg << std::endl;
-				// functionForO(sign, arg);
+				// TODO setOp(sign, arg)
 				break;
 			case 'l':
 				if (sign == 1 && !arg.empty())
@@ -76,7 +90,10 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 				else
 					arg = "";
 				std::cout << "/mode option l found. sign: " << sign << " arg: " << arg << std::endl;
-				// functionForL(sign, arg);
+				{
+					size_t	max = (arg.empty()) ? 0 : ft_stoui(arg);
+					channel->setMaxMembers(max);
+				}
 				break;
 			default:
 				std::cerr << "Unknown mode option: " << currentWord[j] << std::endl;
