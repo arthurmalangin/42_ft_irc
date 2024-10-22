@@ -3,14 +3,110 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romain <romain@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/16 15:30:52 by romain           ###   ########.fr       */
+/*   Updated: 2024/10/22 15:07:14 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
+
+/*
+
+/mode
+prints: Channel #irctestttt modes: +tilk 3 1
+
+/mode +
+/mode -
+does nothing
+
+/mode -+[options]
+
++k, +o, -o, +l
+take parameters
+
+if several time the same option (ex: itkolk) only first iteration is taken into account
+
+*/
+
+void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
+{
+	// Here, msg[0] is "MODE"
+	// msg[1] is the channel name
+	// msg[2] is the first option
+	// then options and arguments
+
+	if (msg.size() < 3)
+	{
+		sendMessage(fd, ":MyChell.beer 461 " + client.getNick() + " MODE :Not enough parameters\r\n");
+		return ;
+	}
+
+	// Fetch the address of the channel to be modified and check permissions
+	std::string	channelName = msg[1];
+	Channel		*channel = &getChannel(channelName);
+
+	if (!channel->isOp(client))
+	{
+		sendMessage(fd, ":MyChell.beer 482 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
+		return ;
+	}
+
+	// fetch all commands and args
+	for (size_t i = 2; i < msg.size(); i++)
+	{
+		size_t		j = 0;
+		int			sign = 1;
+		std::string	currentWord = msg[2];
+
+		// finds the last + or - operator and stores value in sign
+		while (currentWord[j] == '-' || currentWord[j] == '+')
+		{
+			(currentWord[j] == '-') ? sign = -1 : sign = 1;
+			j++;
+		}
+
+		// sets right options
+		while (currentWord[j])
+		{
+			std::string	arg = (i + 1 < msg.size()) ? msg[i + 1] : "";
+
+			if (currentWord[j] == 'i')
+			{
+				std::cout << "/mode option i found. sign: " << sign << std::endl;
+			}
+			else if (currentWord[j] == 't')
+			{
+				std::cout << "/mode option t found. sign: " << sign << std::endl;
+			}
+			else if (currentWord[j] == 'k')
+			{
+				if (sign == 1 && arg.empty())
+					msg.erase(msg.begin() + i + 1);
+				else
+					arg = "";
+				std::cout << "/mode option k found. sign: " << sign << " arg: " << arg << std::endl;
+				// functionForK(arg);
+			}
+			else if (currentWord[j] == 'o')
+			{
+				std::cout << "/mode option o found. sign: " << sign << " arg: " << arg << std::endl;
+				// functionForO(arg);
+			}
+			else if (currentWord[j] == 'l')
+			{
+				if (sign == 1 && !arg.empty())
+					msg.erase(msg.begin() + i + 1);
+				else
+					arg = "";
+				std::cout << "/mode option l found. sign: " << sign << " arg: " << arg << std::endl;
+				// fucntionForL(arg)
+			}
+			j++;
+		}
+	}
+}
 
 /*
 ◦ MODE - Changer le mode du channel :
@@ -26,103 +122,6 @@ MODE #potato -i
 :lair.nl.eu.dal.net 482 LouisI #potato :You're not channel operator
 */
 
-
-void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
-{
-	// Here, msg[0] is "MODE"
-	// msg[1] is the channel name
-	// msg[2] is the mode
-	if (msg.size() < 3)
-	{
-		sendMessage(fd, ":MyChell.beer 461 " + client.getNick() + " MODE :Not enough parameters\r\n");
-		return;
-	}
-
-	std::string channelName = msg[1];
-	std::string mode = msg[2];
-
-	// Fetch the address of the channel to be modified
-	// Check permissions
-	Channel *channel = &getChannel(channelName);
-	if (!channel->isOp(client))
-	{
-		sendMessage(fd, ":MyChell.beer 482 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
-		return;
-	}
-
-	// Invite only
-	if (mode == "-i" || mode == "+i" || mode == "i")
-	{
-		channel->setModeInvite(mode != "-i");
-	}
-	// Topic
-	else if (mode == "-t" || mode == "+t" || mode == "t")
-	{
-		channel->setModeTopic(mode != "-t");
-	}
-	// Key protected && make sure key is there
-	else if ((mode == "-k" || mode == "+k" || mode == "k") && msg.size() > 3)
-	{
-		if (mode != "-k")
-		{
-			channel->setModeKey(msg[3]);
-		}
-		else
-		{
-			channel->setModeKey("");
-		}
-	}
-	// Operator privileges
-	else if (mode == "-o" || mode == "+o" || mode == "o")
-	{
-		// TODO: Handle operator privileges
-	}
-	// User limit
-	else if (mode == "-l" || mode == "+l" || mode == "l")
-	{
-		if (mode != "-l" && msg.size() > 3)
-		{
-			channel->setMaxMembers(static_cast<size_t>(strtod(msg[3].c_str(), NULL)));
-		}
-		else
-		{
-			channel->setMaxMembers(0);
-		}
-	}
-	else
-	{
-		sendMessage(fd, ":MyChell.beer 472 " + client.getNick() + " " + channelName + " :is unknown mode char to me\r\n");
-		return;
-	}
-
-	sendMessage(fd, ":MyChell.beer 324 " + client.getNick() + " " + channelName + " " + mode + "\r\n");
-}
-
-
-	// if (msg.size() > 2) { 
-	// 	Channel *channel = &this->getChannel(msg[1]);
-	// 	if (msg[1] == "-i" || msg[1] == "+i" || msg[1] == "i")
-	// 		channel->setModeInvite(msg[1] == "-i" ? false : true);
-	// 	else if (msg[1] == "-t" || msg[1] == "+t" || msg[1] == "t") {
-	// 		channel->setModeTopic(msg[1] == "-i" ? false : true);
-	// 	} 
-	// 	else if ((msg[1] == "-k" || msg[1] == "+k" || msg[1] == "k") && msg.size() > 1) {
-	// 		if (msg[1] != "-k" )
-	// 			channel->setModeKey(msg[2]);
-	// 		else
-	// 			channel->setModeKey("");
-	// 	} 
-	// 	else if (msg[1] == "-o" || msg[1] == "+o" || msg[1] == "o") {
-			
-	// 	}
-	// 	else if (msg[1] == "-l" || msg[1] == "+l" || msg[1] == "l") {
-	// 		if (msg[1] != "-l" && msg.size() > 1)
-	// 			channel->setMaxMembers(static_cast<size_t>(strtod(msg[2].c_str(), NULL)));
-	// 		else
-	// 			channel->setMaxMembers(0);
-	// 	}
-	// }
-	
 /*
 
 	
