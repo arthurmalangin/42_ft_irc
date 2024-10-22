@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 23:03:38 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:40:01 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <stdio.h>
+# include <sstream>
 # include "../include/Client.hpp"
 # include "../include/Parsing.hpp"
 # include "../include/Channel.hpp"
