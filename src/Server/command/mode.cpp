@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/22 15:07:14 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:03:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 	{
 		size_t		j = 0;
 		int			sign = 1;
-		std::string	currentWord = msg[2];
+		std::string	currentWord = msg[i];
 
 		// finds the last + or - operator and stores value in sign
 		while (currentWord[j] == '-' || currentWord[j] == '+')
@@ -82,17 +82,17 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 			}
 			else if (currentWord[j] == 'k')
 			{
-				if (sign == 1 && arg.empty())
+				if (sign == 1 && !arg.empty())
 					msg.erase(msg.begin() + i + 1);
 				else
 					arg = "";
 				std::cout << "/mode option k found. sign: " << sign << " arg: " << arg << std::endl;
-				// functionForK(arg);
+				// functionForK(sign, arg);
 			}
 			else if (currentWord[j] == 'o')
 			{
 				std::cout << "/mode option o found. sign: " << sign << " arg: " << arg << std::endl;
-				// functionForO(arg);
+				// functionForO(sign, arg);
 			}
 			else if (currentWord[j] == 'l')
 			{
@@ -101,7 +101,7 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 				else
 					arg = "";
 				std::cout << "/mode option l found. sign: " << sign << " arg: " << arg << std::endl;
-				// fucntionForL(arg)
+				// fucntionForL(sign, arg)
 			}
 			j++;
 		}
