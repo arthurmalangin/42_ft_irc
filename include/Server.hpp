@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/22 17:40:01 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:07:52 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ class Server
 		int			getPort() const;
 		std::string	getPassword() const;
 		std::string	getIp() const;
-		Channel	&getChannel(const std::string &name);
+		Channel		&getChannel(const std::string &name);
 
 		/*====== Starting the server ======*/
 		void	runServer(void);
