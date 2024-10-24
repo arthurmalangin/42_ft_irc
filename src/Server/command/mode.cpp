@@ -6,14 +6,12 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 14:06:50 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/24 15:17:17 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
-// return 1 if operator is '+', 0 if '-'
-// type set to bool for compatibility with Channel option handling commands
 static bool	findSign(std::string currentWord, size_t *j)
 {
 	int	sign = 1;
@@ -37,11 +35,34 @@ static unsigned int	ft_stoui(const std::string& str)
 	return (result);
 }
 
+static std::string	ft_uitol(unsigned int value)
+{
+	std::stringstream ss;
+	ss << value;
+	return (ss.str());
+}
+
 // TODO get options of channel
 static std::string	fetchOptions(const Channel& channel)
 {
-	(void) channel;
-	return ("");
+	std::string	result = "";
+	if (channel.getModeTopic() == true)
+		result += "t";
+	if (channel.getModeInvite() == true)
+		result += "i";
+	if (channel.getMaxMembers() > 0)
+		result += "l";
+	if (!channel.getModeKeyPassword().empty())
+		result += "k";
+
+	result += " ";
+
+	if (channel.getMaxMembers() > 0)
+		result += (ft_uitol(channel.getMaxMembers()) + " ");
+	if (!channel.getModeKeyPassword().empty())
+		result += channel.getModeKeyPassword();
+
+	return (result);
 }
 
 // TODO /mode -k must take an argument
@@ -51,7 +72,7 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 	Channel		*channel = &getChannel(channelName);
 	std::string	options = fetchOptions(*channel);
 
-	if (msg.size() == 3)
+	if (msg.size() == 2 || (msg.size() == 3 && msg[2].empty()))
 	{
 		sendMessage(fd, ":server 324 " + client.getNick() + " " + channelName + " +" + options + "\r\n");
 		sendMessage(fd, ":server 329 " + client.getNick() + " " + channelName + " " + Server::getTime() + "\r\n");
@@ -72,21 +93,21 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 			case 'i':
 				std::cout << "/mode option i found. sign: " << sign << std::endl;
 				channel->setModeInvite(sign);
-				break;
+				break ;
 			case 't':
 				std::cout << "/mode option t found. sign: " << sign << std::endl;
 				channel->setModeTopic(sign);
-				break;
+				break ;
 			case 'k':
-				if (sign == 1 && !arg.empty())
+				if (arg.empty())
+					break ;
+				else if (sign == 1)
 					msg.erase(msg.begin() + i + 1);
 				else
 					arg = "";
 				std::cout << "/mode option k found. sign: " << sign << " arg: " << arg << std::endl;
-				// with "-k" ca met channel._modeKeyPassword to ""
-				// TODO @arthur c'est le comportement attendu? FYI _modekeypassword est jamais init
 				channel->setModeKey(arg);
-				break;
+				break ;
 			case 'o':
 				if (!arg.empty())
 				{
