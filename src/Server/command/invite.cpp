@@ -39,11 +39,13 @@ void Server::Command_INVITE(int fd, std::vector<std::string> msg, Client &client
 			return;
 		}
 		channel->addInviteList(*cli);
+		//>> :punch.wa.us.dal.net 341 Guest39123 arthur_ #fdp
+		sendMessage(fd, ":server 341 " + client.getNick() + " " + cli->getNick() + " " + channelName + "\r\n");
 		sendMessage(cli->getFd(), ":" + client.getNick() + "!~" + client.getUser() +
 		"@" + client.getIp() + ".ip" + " INVITE " + cliNick + " " + channelName + "\r\n");
 		std::vector<Client *>users = channel->getClientList();
 		for (size_t i = 0; i < users.size(); i++) {
-			sendMessage(users[i]->getFd(), ":server NOTICE @" + channelName + " :" + client.getNick() + " invited ineed into channel " +
+			sendMessage(users[i]->getFd(), ":server NOTICE @" + channelName + " :" + client.getNick() + " invited " + cli->getNick() +" into channel " +
 			channelName + "\r\n");
 		}
 	} else {

@@ -42,12 +42,12 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 	std::string	channelName = msg[1];
 	Channel		*channel = &getChannel(channelName);
 
-	if (!channel->isOp(client))
+	if (msg.size() == 3)
 	{
-		sendMessage(fd, ":MyChell.beer 482 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
+		sendMessage(fd, ":server 324 " + client.getNick() + " " + channelName + " +\r\n"); // faire la chaine des options apres le +
+		sendMessage(fd, ":server 329 " + client.getNick() + " " + channelName + " " + Server::getTime() + "\r\n");
 		return ;
 	}
-
 	for (size_t i = 2; i < msg.size(); i++)
 	{
 		size_t		j = 0;
@@ -141,8 +141,9 @@ MODE #potato -i
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	//>> :bitcoin.uk.eu.dal.net 329 LouisI #toao 1728301143
-	char buffer[20]; // taille suffisante pour contenir un long
+	char buffer[20]; // taille suffisankte pour contenir un long
 	sprintf(buffer, "%ld", tv.tv_sec);
+	std::string(buffer)
 	sendMessage(fd, ":MyChell.beer 329 " + client.getNick() + " " + channelName + " " + std::string(buffer) + "\r\n");
 	
 */
