@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/10 20:29:41 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:18:13 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) 
 		channel->addClient(client);
 		channel->rmInviteList(client);
 		std::vector<Client *>users = channel->getClientList();
-		for (int i = 0; i < users.size(); i++){
+		for (size_t i = 0; i < users.size(); i++){
 			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " JOIN :" + channelName + "\r\n");
 		}
 		Command_NAMES(fd, msg, client); // msg contient JOIN #CHANEL mais comme c'est le meme channel ca marche, mais faudrait faire un truc plus propre 	

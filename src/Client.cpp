@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 02:41:19 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:37:54 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	Client::addChannel(Channel &channel)
 
 void	Client::rmChannel(Channel &channel)
 {
-	for (int i = 0; i < _channelList.size(); i++) {
+	for (size_t i = 0; i < _channelList.size(); i++) {
 		if (_channelList[i]->getName() == channel.getName()) {
 			_channelList.erase(_channelList.begin() + i);
 			break;

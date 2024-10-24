@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 21:25:16 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 22:05:47 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:36:56 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	Server::Command_KICK(int fd, std::vector<std::string> msg, Client &client) 
 			return;
 		}
 		std::vector<Client *>users = channel->getClientList();
-		for (int i = 0; i < users.size(); i++) {
+		for (size_t i = 0; i < users.size(); i++) {
 			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " KICK " 
 			+ channelName + " " + cliNick + " " + (msg.size() > 3 ? msg[3] : (":" + client.getNick())) +"\r\n");
 		}

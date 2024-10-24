@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:06:36 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 02:43:36 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:20:29 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void Server::Command_PART(int fd, std::vector<std::string> msg, Client &client) 
     }
 	if (msg[2] == ":Leaving") {
 		std::vector<Client *>users = channel->getClientList();
-		for (int i = 0; i < users.size(); i++) {
+		for (size_t i = 0; i < users.size(); i++) {
 			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " PART :" + channelName + " :Leaving \r\n");
 		}
 		channel->rmClient(client);

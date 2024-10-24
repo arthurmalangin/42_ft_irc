@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/23 13:49:07 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/23 13:52:15 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 					}
 					catch (const std::exception& e)
 					{
-						std::cerr << "/mode debug client not found: " << e.what() << std::endl;
+						std::cerr << "Error:" << e.what() << std::endl;
 					}
 				}
 				std::cout << "/mode option o found. sign: " << sign << " arg: " << arg << std::endl;

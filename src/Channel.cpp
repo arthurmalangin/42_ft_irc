@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/23 12:25:34 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:40:48 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 /*====== Constructors/Destructors ======*/
 
-Channel::Channel(int err) : _channelName("__ERR__"){
+Channel::Channel(int err) : _channelName("__ERR__")
+{
+	(void) err;
 }
 
 Channel::Channel(const Channel& src) : _channelName(src.getName()){
@@ -129,7 +131,7 @@ std::vector<Client *>	Channel::getInviteList(void) const {
 }
 
 bool	Channel::isInInviteList(Client &client) {
-	for (int i = 0; i < _inviteList.size(); i++) {
+	for (size_t i = 0; i < _inviteList.size(); i++) {
 		if (client.getFd() == _inviteList[i]->getFd())
 			return (true);
 	}
@@ -141,7 +143,7 @@ void	Channel::addInviteList(Client &client) {
 }
 
 void	Channel::rmInviteList(Client &client) {
-	for (int i = 0; i < _inviteList.size(); i++) {
+	for (size_t i = 0; i < _inviteList.size(); i++) {
 		if (client.getFd() == _inviteList[i]->getFd())
 			_inviteList.erase(_inviteList.begin() + i);
 	}
@@ -150,7 +152,7 @@ void	Channel::rmInviteList(Client &client) {
 /*====== Actions ======*/
 
 bool Channel::isOp(Client &client) {
-	for (int i = 0; i < _opList.size(); i++) {
+	for (size_t i = 0; i < _opList.size(); i++) {
 		if (client.getFd() == _opList[i]->getFd())
 			return (true);
 	}
@@ -162,7 +164,7 @@ void	Channel::addOp(Client &client) {
 }
 
 void	Channel::rmOp(Client &op) {
-	for (int i = 0; i < _opList.size(); i++) {
+	for (size_t i = 0; i < _opList.size(); i++) {
 		if (op.getFd() == _opList[i]->getFd()) { // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
 			_opList.erase(_opList.begin() + i);
 			break;
@@ -177,7 +179,7 @@ void	Channel::addClient(Client &client)
 
 void	Channel::rmClient(Client &client)
 {
-	for (int i = 0; i < _clientList.size(); i++) {
+	for (size_t i = 0; i < _clientList.size(); i++) {
 		if (client.getFd() == _clientList[i]->getFd()) { // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
 			_clientList.erase(_clientList.begin() + i);
 			break;

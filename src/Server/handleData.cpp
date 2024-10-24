@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/22 16:15:21 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:37:42 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static std::string toUpperStringg(std::string str) {
     std::string lowerStr;
 
-    for (int i = 0; i < str.length(); ++i) {
+    for (size_t i = 0; i < str.length(); ++i) {
 		lowerStr += toupper(str[i]);
     }
     return (lowerStr);

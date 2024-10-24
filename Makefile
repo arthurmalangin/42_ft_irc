@@ -6,7 +6,7 @@
 #    By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/22 16:45:04 by rwintgen          #+#    #+#              #
-#    Updated: 2024/10/22 16:45:05 by rwintgen         ###   ########.fr        #
+#    Updated: 2024/10/24 11:09:32 by rwintgen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME			=		ircserv
 
 CC				=		c++
 
-FLAG			=		-std=c++98 -g 
+FLAG			=		-Wall -Wextra -Werror -std=c++98 -g 
 
 C_FILE			=		main.cpp					\
 						Server.cpp					\

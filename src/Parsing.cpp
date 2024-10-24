@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parsing.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:15 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/10 20:32:51 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:39:34 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,23 @@ Parsing &Parsing::operator=(const Parsing &src)
 
 /*====== Parsing functions ======*/
 
-static void parseMessage(const std::vector<std::vector<std::string> >& message)
-{
-	for (size_t i = 0; i < message.size(); ++i)
-	{
-		std::cout << "====== "<< i <<" ======" << std::endl;
-		for (size_t j = 0; j < message[i].size(); ++j)
-			std::cout << message[i][j] << std::endl;
-		std::cout << "==============" << std::endl;
-	}
-}
+// static void parseMessage(const std::vector<std::vector<std::string> >& message)
+// {
+// 	for (size_t i = 0; i < message.size(); ++i)
+// 	{
+// 		std::cout << "====== "<< i <<" ======" << std::endl;
+// 		for (size_t j = 0; j < message[i].size(); ++j)
+// 			std::cout << message[i][j] << std::endl;
+// 		std::cout << "==============" << std::endl;
+// 	}
+// }
 
 void Parsing::parseBuffer(std::string buffer)
 {
 	std::vector<std::string>	tab;
 	std::string					tmp;
 
-	for (int i = 0; i < buffer.size(); i++)
+	for (size_t i = 0; i < buffer.size(); i++)
 	{
 		if (buffer[i] == '\n')
 		{

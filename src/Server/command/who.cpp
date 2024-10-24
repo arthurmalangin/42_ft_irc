@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   who.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:42 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 18:24:33 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:18:30 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	Server::Command_WHO(int fd, std::vector<std::string> msg, Client &client) {
     }
 	std::vector<Client *>users = channel->getClientList();
 	
-	for (int i = 0; i < users.size(); i++) {
+	for (size_t i = 0; i < users.size(); i++) {
 		sendMessage(fd, ":MyChell.beer 352 " + client.getNick() + " " + channelName + " ~" + users[i]->getUser() + 
 			" " + users[i]->getIp() + ".ip" + " MyChell.beer " + users[i]->getNick() + " H" + (channel->isOp(*users[i]) ? "@" : "") +" :0 "
 				 + users[i]->getUser() + "\r\n");

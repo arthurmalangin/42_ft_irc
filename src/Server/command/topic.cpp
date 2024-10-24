@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:37:18 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 19:16:20 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:19:51 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	Server::Command_TOPIC(int fd, std::vector<std::string> msg, Client &client)
 			channel->setTopic(msg[2]);
 			channel->setTopicAuthInfo(client);
 			std::vector<Client *>users = channel->getClientList();
-			for (int i = 0; i < users.size(); i++) {
+			for (size_t i = 0; i < users.size(); i++) {
 				sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " TOPIC " + channelName + " " + msg[2] + "\r\n");
 			}
 		} else { // not tested

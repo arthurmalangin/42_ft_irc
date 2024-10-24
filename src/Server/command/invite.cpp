@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 23:02:56 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/10 20:32:07 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:37:08 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void Server::Command_INVITE(int fd, std::vector<std::string> msg, Client &client
 		sendMessage(cli->getFd(), ":" + client.getNick() + "!~" + client.getUser() +
 		"@" + client.getIp() + ".ip" + " INVITE " + cliNick + " " + channelName + "\r\n");
 		std::vector<Client *>users = channel->getClientList();
-		for (int i = 0; i < users.size(); i++) {
+		for (size_t i = 0; i < users.size(); i++) {
 			sendMessage(users[i]->getFd(), ":server NOTICE @" + channelName + " :" + client.getNick() + " invited ineed into channel " +
 			channelName + "\r\n");
 		}

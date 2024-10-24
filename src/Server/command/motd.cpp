@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   motd.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:31:15 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/05 23:32:49 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:19:29 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void Server::Command_MOTD(int fd) {
     motd_lines.push_back("-_-_-_-_-_-_-_-_-_-_- ");
 
 	sendMessage(fd, ":MyCheel.beer 375 : \n\n- Message of the Day - \r\n");
-	for (int i = 0; i < motd_lines.size(); i++) {
+	for (size_t i = 0; i < motd_lines.size(); i++) {
 		if (i == motd_lines.size() - 1)
 			sendMessage(fd, ":MyCheel.beer 376 : | " + motd_lines[i] + " | \r\n\n\n");
 		else

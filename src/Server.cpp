@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/09 21:03:27 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:17:51 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ Server::Server(const Server &src)
 
 Server::~Server()
 {
-	for (int i = 0; i < this->_clientList.size(); i++) {
+	for (size_t i = 0; i < this->_clientList.size(); i++) {
 		delete _clientList[i];
 	}
-	for (int i = 0; i < this->_channelList.size(); i++) {
+	for (size_t i = 0; i < this->_channelList.size(); i++) {
 		delete _channelList[i];
 	}
 	std::cout << "Server destructor executed.." << std::endl;
@@ -104,7 +104,7 @@ std::string Server::getIp() const
 
 Channel &Server::getChannel(const std::string& name)
 {
-	for (int i = 0; i < this->_channelList.size(); i++) {
+	for (size_t i = 0; i < this->_channelList.size(); i++) {
 		if (_channelList[i]->getName() == name)
 			return (*_channelList[i]);
 	}
