@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/23 13:52:15 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:06:50 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,23 @@ static unsigned int	ft_stoui(const std::string& str)
 	return (result);
 }
 
+// TODO get options of channel
+static std::string	fetchOptions(const Channel& channel)
+{
+	(void) channel;
+	return ("");
+}
+
+// TODO /mode -k must take an argument
 void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 {
 	std::string	channelName = msg[1];
 	Channel		*channel = &getChannel(channelName);
+	std::string	options = fetchOptions(*channel);
 
 	if (msg.size() == 3)
 	{
-		sendMessage(fd, ":server 324 " + client.getNick() + " " + channelName + " +\r\n"); // faire la chaine des options apres le +
+		sendMessage(fd, ":server 324 " + client.getNick() + " " + channelName + " +" + options + "\r\n");
 		sendMessage(fd, ":server 329 " + client.getNick() + " " + channelName + " " + Server::getTime() + "\r\n");
 		return ;
 	}
