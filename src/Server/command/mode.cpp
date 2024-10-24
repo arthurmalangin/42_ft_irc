@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 15:17:17 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:44:58 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static std::string	ft_uitol(unsigned int value)
 	return (ss.str());
 }
 
-// TODO get options of channel
 static std::string	fetchOptions(const Channel& channel)
 {
 	std::string	result = "";
@@ -65,7 +64,87 @@ static std::string	fetchOptions(const Channel& channel)
 	return (result);
 }
 
-// TODO /mode -k must take an argument
+static void handleInvite(bool sign, Server* server, Channel* channel, const Client& client)
+{
+	channel->setModeInvite(sign);
+
+	std::vector<Client *> users = channel->getClientList();
+
+	std::string modeChangeMessage = ":" + client.getNick() + "!~" + client.getUser() +
+									"@" + client.getIp() + " MODE " + channel->getName() +
+									(sign ? " +i" : " -i") + "\r\n";
+
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		server->sendMessage(users[i]->getFd(), modeChangeMessage);
+	}
+}
+
+static void handleTopic(bool sign, Server* server, Channel* channel, const Client& client)
+{
+	channel->setModeTopic(sign);
+
+	std::vector<Client *> users = channel->getClientList();
+
+	std::string modeChangeMessage = ":" + client.getNick() + "!~" + client.getUser() +
+									"@" + client.getIp() + " MODE " + channel->getName() +
+									(sign ? " +t" : " -t") + "\r\n";
+
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		server->sendMessage(users[i]->getFd(), modeChangeMessage);
+	}
+}
+
+static void	handleKey(bool sign, Server* server, Channel* channel, const Client& client, std::string arg)
+{
+	channel->setModeKey(arg);
+
+	std::vector<Client *> users = channel->getClientList();
+
+	std::string modeChangeMessage = ":" + client.getNick() + "!~" + client.getUser() +
+									"@" + client.getIp() + " MODE " + channel->getName() +
+									(sign ? " +k" : " -k") + arg + "\r\n";
+
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		server->sendMessage(users[i]->getFd(), modeChangeMessage);
+	}
+}
+
+static void	handleOperator(bool sign, Server* server, Channel* channel, const Client& client, std::string arg)
+{
+
+	try
+	{
+		Client target = server->getClientByNickName(arg);
+
+		if (sign == 1)
+			channel->addOp(target);
+		else
+			channel->rmOp(target);
+
+		std::vector<Client *> users = channel->getClientList();
+
+		std::string modeChangeMessage = ":" + client.getNick() + "!~" + client.getUser() +
+										"@" + client.getIp() + " MODE " + channel->getName() +
+										(sign ? " +o" : " -o") + arg + "\r\n";
+
+		for (size_t i = 0; i < users.size(); i++)
+		{
+			server->sendMessage(users[i]->getFd(), modeChangeMessage);
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::string errorMessage = ":server 401 " + client.getNick() + " " + arg + " :No such nick/channel\r\n";
+		server->sendMessage(client.getFd(), errorMessage);
+
+		errorMessage = ":server 441 " + client.getNick() + " " + arg + " " + channel->getName() + " :They aren't on that channel\r\n";
+		server->sendMessage(client.getFd(), errorMessage);
+	}
+}
+
 void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 {
 	std::string	channelName = msg[1];
@@ -91,12 +170,10 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 			switch (currentWord[j])
 			{
 			case 'i':
-				std::cout << "/mode option i found. sign: " << sign << std::endl;
-				channel->setModeInvite(sign);
+				handleInvite(sign, this, channel, client);
 				break ;
 			case 't':
-				std::cout << "/mode option t found. sign: " << sign << std::endl;
-				channel->setModeTopic(sign);
+				handleTopic(sign, this, channel, client);
 				break ;
 			case 'k':
 				if (arg.empty())
@@ -105,48 +182,46 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 					msg.erase(msg.begin() + i + 1);
 				else
 					arg = "";
-				std::cout << "/mode option k found. sign: " << sign << " arg: " << arg << std::endl;
-				channel->setModeKey(arg);
+				handleKey(sign, this, channel, client, arg);
 				break ;
 			case 'o':
 				if (!arg.empty())
 				{
-					try
-					{
-						Client target = Server::getClientByNickName(arg);
-						
-						msg.erase(msg.begin() + i + 1);
-						if (sign == 1)
-							channel->addOp(target);
-						else
-							channel->rmOp(target);
-					}
-					catch (const std::exception& e)
-					{
-						std::cerr << "Error:" << e.what() << std::endl;
-					}
+					// Client target = Server::getClientByNickName(arg);
+
+					msg.erase(msg.begin() + i + 1);
+					handleOperator(sign, this, channel, client, arg);
+					// if (sign == 1)
+					// 	channel->addOp(target);
+					// else
+					// 	channel->rmOp(target);
 				}
-				std::cout << "/mode option o found. sign: " << sign << " arg: " << arg << std::endl;
 				break;
 			case 'l':
 				if (sign == 1 && !arg.empty())
 					msg.erase(msg.begin() + i + 1);
 				else
 					arg = "";
-				std::cout << "/mode option l found. sign: " << sign << " arg: " << arg << std::endl;
 				{
 					size_t	max = (arg.empty()) ? 0 : ft_stoui(arg);
 					channel->setMaxMembers(max);
 				}
 				break;
 			default:
-				std::cerr << "Unknown mode option: " << currentWord[j] << std::endl;
 				break;
 			}
 			j++;
 		}
 	}
 }
+
+/*
+std::vector<Client *>users = channel->getClientList();
+for (size_t i = 0; i < users.size(); i++) {
+	sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " KICK " 
+	+ channelName + " " + cliNick + " " + (msg.size() > 3 ? msg[3] : (":" + client.getNick())) +"\r\n");
+}
+*/
 
 /*
 ◦ MODE - Changer le mode du channel :
