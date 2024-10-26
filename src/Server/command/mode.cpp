@@ -6,7 +6,7 @@
 /*   By: romain <romain@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/26 11:49:02 by romain           ###   ########.fr       */
+/*   Updated: 2024/10/26 12:00:09 by romain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,20 +146,21 @@ static void	handleOperator(bool sign, Server* server, Channel* channel, const Cl
 
 static void	handleLimit(bool sign, Server* server, Channel* channel, const Client& client, std::string arg)
 {
-	size_t	max = (arg.empty()) ? 0 : ft_stoui(arg);
-	channel->setMaxMembers(max);
+		size_t	max = (arg.empty()) ? 0 : ft_stoui(arg);
+		channel->setMaxMembers(max);
 
 	std::vector<Client *> users = channel->getClientList();
 
 	std::string modeChangeMessage = ":" + client.getNick() + "!~" + client.getUser() +
 									"@" + client.getIp() + " MODE " + channel->getName() +
-									(sign ? " +k" : " -k") + arg + "\r\n";
+									(sign ? " +l" : " -l") + arg + "\r\n";
 
 	for (size_t i = 0; i < users.size(); i++)
 	{
 		server->sendMessage(users[i]->getFd(), modeChangeMessage);
 	}
 }
+
 
 void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 {
@@ -203,8 +204,14 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 			case 'o':
 				if (!arg.empty())
 				{
+					// Client target = Server::getClientByNickName(arg);
+
 					msg.erase(msg.begin() + i + 1);
 					handleOperator(sign, this, channel, client, arg);
+					// if (sign == 1)
+					// 	channel->addOp(target);
+					// else
+					// 	channel->rmOp(target);
 				}
 				break;
 			case 'l':
@@ -212,11 +219,15 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 					msg.erase(msg.begin() + i + 1);
 				else
 					arg = "";
+				// {
+				// 	size_t	max = (arg.empty()) ? 0 : ft_stoui(arg);
+				// 	channel->setMaxMembers(max);
+				// }
 				handleLimit(sign, this, channel, client, arg);
 				break;
 			default:
 				break;
-			}			
+			}
 			j++;
 		}
 	}
