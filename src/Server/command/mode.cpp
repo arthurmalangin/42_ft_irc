@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: romain <romain@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 16:44:58 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/26 11:49:02 by romain           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ static void	handleKey(bool sign, Server* server, Channel* channel, const Client&
 
 static void	handleOperator(bool sign, Server* server, Channel* channel, const Client& client, std::string arg)
 {
-
 	try
 	{
 		Client target = server->getClientByNickName(arg);
@@ -142,6 +141,23 @@ static void	handleOperator(bool sign, Server* server, Channel* channel, const Cl
 
 		errorMessage = ":server 441 " + client.getNick() + " " + arg + " " + channel->getName() + " :They aren't on that channel\r\n";
 		server->sendMessage(client.getFd(), errorMessage);
+	}
+}
+
+static void	handleLimit(bool sign, Server* server, Channel* channel, const Client& client, std::string arg)
+{
+	size_t	max = (arg.empty()) ? 0 : ft_stoui(arg);
+	channel->setMaxMembers(max);
+
+	std::vector<Client *> users = channel->getClientList();
+
+	std::string modeChangeMessage = ":" + client.getNick() + "!~" + client.getUser() +
+									"@" + client.getIp() + " MODE " + channel->getName() +
+									(sign ? " +k" : " -k") + arg + "\r\n";
+
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		server->sendMessage(users[i]->getFd(), modeChangeMessage);
 	}
 }
 
@@ -187,14 +203,8 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 			case 'o':
 				if (!arg.empty())
 				{
-					// Client target = Server::getClientByNickName(arg);
-
 					msg.erase(msg.begin() + i + 1);
 					handleOperator(sign, this, channel, client, arg);
-					// if (sign == 1)
-					// 	channel->addOp(target);
-					// else
-					// 	channel->rmOp(target);
 				}
 				break;
 			case 'l':
@@ -202,14 +212,11 @@ void Server::Command_MODE(int fd, std::vector<std::string> msg, Client &client)
 					msg.erase(msg.begin() + i + 1);
 				else
 					arg = "";
-				{
-					size_t	max = (arg.empty()) ? 0 : ft_stoui(arg);
-					channel->setMaxMembers(max);
-				}
+				handleLimit(sign, this, channel, client, arg);
 				break;
 			default:
 				break;
-			}
+			}			
 			j++;
 		}
 	}
