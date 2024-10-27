@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:08:47 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/08 01:31:09 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:53:30 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ flatpak install flathub io.github.Hexchat
 flatpak run io.github.Hexchat
 */
 
+// TODO
+// Set the parser as an pure virtual class?
 int main(int argc, char **argv)
 {
 	if (argc < 3)

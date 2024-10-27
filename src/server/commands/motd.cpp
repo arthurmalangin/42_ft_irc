@@ -6,13 +6,13 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:31:15 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:19:29 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:51:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
-void Server::Command_MOTD(int fd) {
+void Server::commandMOTD(int fd) {
 	std::vector<std::string> motd_lines;
     motd_lines.push_back("-_-_-_- FT_IRC -_-_-_-");
     motd_lines.push_back("Number of Users: xxx  ");

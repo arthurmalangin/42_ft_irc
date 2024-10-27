@@ -6,13 +6,13 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:18:13 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:51:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
-void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) {
+void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
     /*	
     Error if :
         Max number of clients is already in channel
@@ -48,7 +48,7 @@ void Server::Command_JOIN(int fd, std::vector<std::string> msg, Client &client) 
 		for (size_t i = 0; i < users.size(); i++){
 			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " JOIN :" + channelName + "\r\n");
 		}
-		Command_NAMES(fd, msg, client); // msg contient JOIN #CHANEL mais comme c'est le meme channel ca marche, mais faudrait faire un truc plus propre 	
+		commandNAMES(fd, msg, client); // msg contient JOIN #CHANEL mais comme c'est le meme channel ca marche, mais faudrait faire un truc plus propre 	
 	} else {
 		//Send Need invite message
 	}

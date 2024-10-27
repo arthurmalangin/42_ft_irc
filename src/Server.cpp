@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:17:51 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:55:49 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,8 @@ void Server::getData(int fd)
 		return ;
 	}
 	buffer[byteWrite] = '\0';
-	if (!getClientByFd(fd).isAuth()) {
-		getClientByFd(fd).addAuthBuffer(std::string(buffer).substr(0, byteWrite));
+	if (!getClientByFd(fd).getAuth()) {
+		getClientByFd(fd).setAuthBuffer(std::string(buffer).substr(0, byteWrite));
 		if (getClientByFd(fd).getAuthBuffer().find("USER") != std::string::npos)
 			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
 	}

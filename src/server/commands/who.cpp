@@ -6,13 +6,13 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:42 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:18:30 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:51:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
-void	Server::Command_WHO(int fd, std::vector<std::string> msg, Client &client) {
+void	Server::commandWHO(int fd, std::vector<std::string> msg, Client &client) {
 	if (msg.size() < 2 || msg[1].empty()) {
         sendMessage(fd, ":server 461 " + client.getNick() + " WHO :Not enough parameters\r\n");
         return;

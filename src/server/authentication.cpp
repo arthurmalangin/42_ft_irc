@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:17:18 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:37:29 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:54:43 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void Server::authentication(int fd, const char *buffer)
 	Parsing	parser;
 	parser.parseBuffer(buffer);
 	Client &client = getClientByFd(fd);
-	if (!client.isAuth())
+	if (!client.getAuth())
 	{
 		for (size_t i = 0; i < parser.message.size(); i++)
 		{
@@ -47,11 +47,11 @@ void Server::authentication(int fd, const char *buffer)
 			if (parser.message[i][0] == "PASS" && parser.message[i].size() > 1 && parser.message[i][1] == this->_password)
 			{
 				client.setAuth(true);
-				Command_MOTD(fd);
+				commandMOTD(fd);
 				std::cout << "\e[1;32m" << "Client <" << fd << "> Auth Success !" << std::endl;
 			}
 		}
-		if (!client.isAuth()) {
+		if (!client.getAuth()) {
 			sendMessage(fd, ":MyChell.beer 464 : Mot de passe Incorrect\r\n");
 			std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for Auth Fail !" << "\e[0;37m" << std::endl;
 			disconnectClientByFd(fd);

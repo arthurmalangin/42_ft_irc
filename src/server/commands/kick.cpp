@@ -6,13 +6,13 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 21:25:16 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:36:56 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:51:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
-void	Server::Command_KICK(int fd, std::vector<std::string> msg, Client &client) {
+void	Server::commandKICK(int fd, std::vector<std::string> msg, Client &client) {
     if (msg.size() < 3|| msg[1].empty()) {
         sendMessage(fd, ":server 461 " + client.getNick() + " KICK :Not enough parameters\r\n");
         return;

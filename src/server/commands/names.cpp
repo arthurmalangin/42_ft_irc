@@ -6,13 +6,13 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 00:43:51 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:20:08 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:51:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
-void Server::Command_NAMES(int fd, std::vector<std::string> msg,Client &client) {
+void Server::commandNAMES(int fd, std::vector<std::string> msg,Client &client) {
 	std::string channelName = msg[1];
     Channel *channel = NULL;
 	

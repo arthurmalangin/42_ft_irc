@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:16:50 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/24 16:11:03 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:01:41 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,47 +31,53 @@ class Channel
 
 		/*====== Getters/Setters ======*/
 		std::string						getName(void) const;
-		std::vector<Client *>			getOp(void) const;
-		std::vector<Client *>			getClientList(void) const;
-		std::vector<Client *>			getInviteList(void) const;
-		void							addInviteList(Client &client);
-		void							rmInviteList(Client &client);
+
 		size_t							getMaxMembers(void) const;
 		void							setMaxMembers(size_t limit);
+
 		bool							getModeInvite(void) const;
+		void							setModeInvite(bool modeInvite);
+
 		bool							getModeTopic(void) const;
-		std::string						getModeKeyPassword(void) const;
+		void							setModeTopic(bool modeTopic);
 		std::string						getTopic(void) const;
-		void							setTopic(std::string _topic);
+		void							setTopic(std::string topic);
 		void							setTopicAuthInfo(Client &client);
 		std::vector<std::string>		getTopicAuthInfo(void) const;
-		void							setModeInvite(bool modeInvite);
-		void							setModeTopic(bool modeTopic);
+
+		std::string						getModeKeyPassword(void) const;
 		void							setModeKey(std::string modeKeyPassword);
 
 		/*====== Actions ======*/
-		bool	isOp(Client &client);
-		void	addClient(Client &client);
-		void	rmClient(Client &client);
-		void	addOp(Client &client);
-		void	rmOp(Client &client);
-		bool	isInInviteList(Client &client);
+		std::vector<Client *>			getOp(void) const;
+		bool							isOp(Client &client);
+		void							addOp(Client &client);
+		void							rmOp(Client &client);
+
+		std::vector<Client *>			getClientList(void) const;
+		void							addClient(Client &client);
+		void							rmClient(Client &client);
+
+		std::vector<Client *>			getInviteList(void) const;
+		bool							isInInviteList(Client &client);
+		void							addInviteList(Client &client);
+		void							rmInviteList(Client &client);
+
 	
 	private:
 		/*====== Attributes ======*/
-		const std::string		_channelName;
+		const std::string			_channelName;
 		std::vector<Client *>		_opList;
 		std::vector<Client *>		_clientList;
 		std::vector<Client *>		_inviteList;
-		size_t					_maxMembers;
-		size_t					_onlineClient;
-		std::string				_topic;
-		std::vector<std::string> _topicAuthorInfo;
+		size_t						_maxMembers;
+		std::string					_topic;
+		std::vector<std::string>	_topicAuthorInfo;
 
 		/*====== Modes ======*/
-		bool _modeInvite; // -i Default false
-		bool _modeTopic; // -t ??
-		std::string _modeKeyPassword; // +k "password" et pour le retirer -k ""
+		bool		_modeInvite;
+		bool		_modeTopic;
+		std::string	_modeKeyPassword;
 
 		/*====== Private Constructors ======*/
 		Channel(void);

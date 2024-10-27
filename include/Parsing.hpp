@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parsing.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:12 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/05 16:53:25 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:53:57 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ class Parsing
 		/*====== Operators ======*/
 		Parsing	&operator=(const Parsing &src);
 
-		/*====== Parsing functions ======*/
+		/*====== Parsing function ======*/
 		void	parseBuffer(std::string buffer);
 
 		/*====== Attributes ======*/
-		std::vector<std::vector<std::string> >	message; // TODO Why not private?
+		std::vector<std::vector<std::string> >	message;
 };
 
 #endif

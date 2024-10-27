@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:37:54 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:55:49 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void Client::setIp(std::string ip) {
 	this->_ip = ip;
 }
 
-bool Client::isAuth() const
+bool Client::getAuth() const
 {
 	return (this->_auth);
 }
@@ -101,7 +101,7 @@ std::string Client::getAuthBuffer(void)
 	return (this->_authBuffer);
 }
 
-void Client::addAuthBuffer(std::string buf)
+void Client::setAuthBuffer(std::string buf)
 {
 	this->_authBuffer += buf;
 }

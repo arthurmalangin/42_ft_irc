@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/23 12:07:52 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:52:52 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,10 @@ class Server
 		std::string	getIp() const;
 		Channel		&getChannel(const std::string &name);
 
-		/*====== Starting the server ======*/
+		/*====== Server mgmt ======*/
 		void	runServer(void);
-
-		/*====== Accept Client ======*/
 		void	acceptTheClient(void);
-
-		/*====== Get Data From Client ======*/
 		void	getData(int fd);
-
-		/*====== Handle Data after getData() ======*/
 		void	handleData(int fd, char *buffer);
 		
 		/*====== Utils ======*/
@@ -76,31 +70,30 @@ class Server
 		static void	handleSignal(int sig);
 		static std::string getTime(void);
 
-		/*====== Command ======*/
-		void 	Command_MOTD(int fd);
-		void	Command_QUIT(int fd);
-		void    Command_PING(int fd, Client &client, std::string message);
-		void	Command_JOIN(int fd, std::vector<std::string>msg, Client &client);
-		void	Command_WHO(int fd, std::vector<std::string>msg, Client &client);
-		void	Command_NAMES(int fd, std::vector<std::string>msg, Client &client);
-		void	Command_MODE(int fd, std::vector<std::string>msg, Client &client);
-		void	Command_PRIVMSG(int fd, std::vector<std::string> msg, Client &client);
-		void	Command_PART(int fd, std::vector<std::string> msg, Client &client);
-		void	Command_TOPIC(int fd, std::vector<std::string> msg, Client &client);
-		void	Command_KICK(int fd, std::vector<std::string> msg, Client &client);
-		void	Command_INVITE(int fd, std::vector<std::string> msg, Client &client);
+		/*====== Commands ======*/
+		void 	commandMOTD(int fd);
+		void	commandQUIT(int fd);
+		void    commandPING(int fd, Client &client, std::string message);
+		void	commandJOIN(int fd, std::vector<std::string>msg, Client &client);
+		void	commandWHO(int fd, std::vector<std::string>msg, Client &client);
+		void	commandNAMES(int fd, std::vector<std::string>msg, Client &client);
+		void	commandMODE(int fd, std::vector<std::string>msg, Client &client);
+		void	commandPRIVMSG(int fd, std::vector<std::string> msg, Client &client);
+		void	commandPART(int fd, std::vector<std::string> msg, Client &client);
+		void	commandTOPIC(int fd, std::vector<std::string> msg, Client &client);
+		void	commandKICK(int fd, std::vector<std::string> msg, Client &client);
+		void	commandINVITE(int fd, std::vector<std::string> msg, Client &client);
 		
 	private:
-		/*====== Private default constructor ======*/
 		Server(void);
 
 		/*====== Attributes ======*/
 		int							_port;
-		static int							_signal;
+		static int					_signal;
 		std::string					_password;
 		std::string					_ip;
 		std::vector<struct pollfd>	_fdList;
-		std::vector<Client *>			_clientList;
+		std::vector<Client *>		_clientList;
 		int							_fdSrvSocket;
 		std::vector<Channel *>		_channelList;
 };

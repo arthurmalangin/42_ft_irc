@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/24 11:37:42 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:51:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,37 @@ void	Server::handleData(int fd, char *buffer) {
 	parser.parseBuffer(buffer);
     for (size_t i = 0; i < parser.message.size(); i++) { // TODO va falloir faire des verif plus secure a chaque commandes
         if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving")
-            Command_QUIT(fd);
+            commandQUIT(fd);
 		if (parser.message[i].size() > 0 && parser.message[i][0] == "PING")
-			Command_PING(fd, client, parser.message[i][1]);
+			commandPING(fd, client, parser.message[i][1]);
 		if (toUpperStringg(parser.message[i][0]) == "MOTD")
-            Command_MOTD(fd);
+            commandMOTD(fd);
 		if (toUpperStringg(parser.message[i][0]) == "NAMES") {
-			Command_NAMES(fd, parser.message[i], client);
+			commandNAMES(fd, parser.message[i], client);
 		}
 		if (toUpperStringg(parser.message[i][0]) == "PART") {
-			Command_PART(fd, parser.message[i], client);
+			commandPART(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "PRIVMSG") {
-			Command_PRIVMSG(fd, parser.message[i], client);
+			commandPRIVMSG(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "WHO") {
-            Command_WHO(fd, parser.message[i], client);
+            commandWHO(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "MODE") {
-			Command_MODE(fd, parser.message[i], client);
+			commandMODE(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "JOIN") {
-            Command_JOIN(fd, parser.message[i], client);
+            commandJOIN(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "TOPIC") {
-            Command_TOPIC(fd, parser.message[i], client);
+            commandTOPIC(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "KICK") {
-            Command_KICK(fd, parser.message[i], client);
+            commandKICK(fd, parser.message[i], client);
 		}
 		if (parser.message[i].size() > 0 && toUpperStringg(parser.message[i][0]) == "INVITE") {
-            Command_INVITE(fd, parser.message[i], client);
+            commandINVITE(fd, parser.message[i], client);
 		}
     }
 }
