@@ -6,7 +6,7 @@
 #    By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/22 16:45:04 by rwintgen          #+#    #+#              #
-#    Updated: 2024/10/27 18:03:37 by rwintgen         ###   ########.fr        #
+#    Updated: 2024/10/27 18:42:56 by rwintgen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,22 +17,22 @@ CC				=		c++
 FLAG			=		-Wall -Wextra -Werror -std=c++98 -g 
 
 C_FILE			=		main.cpp					\
-						Server.cpp					\
-						server/commands/join.cpp	\
-						server/commands/who.cpp      \
-						server/commands/quit.cpp	\
-						server/commands/motd.cpp	\
-						server/commands/ping.cpp	\
-						server/commands/mode.cpp	\
-						server/commands/topic.cpp	\
-						server/commands/names.cpp	\
-						server/commands/part.cpp	\
-						server/commands/privmsg.cpp	\
-						server/commands/kick.cpp	\
-						server/commands/invite.cpp	\
-						server/authentication.cpp	\
-						server/handleData.cpp		\
-						server/utils.cpp			\
+						Server/Server.cpp			\
+						Server/commands/join.cpp	\
+						Server/commands/who.cpp		\
+						Server/commands/quit.cpp	\
+						Server/commands/motd.cpp	\
+						Server/commands/ping.cpp	\
+						Server/commands/mode.cpp	\
+						Server/commands/topic.cpp	\
+						Server/commands/names.cpp	\
+						Server/commands/part.cpp	\
+						Server/commands/privmsg.cpp	\
+						Server/commands/kick.cpp	\
+						Server/commands/invite.cpp	\
+						Server/authentication.cpp	\
+						Server/handleData.cpp		\
+						Server/utils.cpp			\
 						Client.cpp					\
 						Parsing.cpp					\
 						Channel.cpp					\

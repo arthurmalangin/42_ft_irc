@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 17:52:52 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:16:59 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,25 @@ class Server
 		Channel		&getChannel(const std::string &name);
 
 		/*====== Server mgmt ======*/
-		void	runServer(void);
-		void	acceptTheClient(void);
-		void	getData(int fd);
-		void	handleData(int fd, char *buffer);
+		void		acceptTheClient(void);
+		void		runServer(void);
+		void		getData(int fd);
+		static void	handleSignal(int sig);
 		
 		/*====== Utils ======*/
 		int		sendMessage(int fd, std::string messageFormated);
-		void	disconnectClientByFd(int fd);
-		void	disconnectClientByInstance(Client client);
+		static	std::string getTime(void);
 		Client	&getClientByFd(int fd);
 		Client	&getClientByNickName(std::string nickName);
-		void	authentication(int fd, const char *buffer);
+		void	disconnectClientByFd(int fd);
+		void	disconnectClientByInstance(Client client);
 		Channel	&createChannel(const std::string &channelName, Client &op);
-		static void	handleSignal(int sig);
-		static std::string getTime(void);
+
+		/*====== Data handling ======*/
+		void	handleData(int fd, char *buffer);
+
+		/*====== Auth ======*/
+		void	authentication(int fd, const char *buffer);
 
 		/*====== Commands ======*/
 		void 	commandMOTD(int fd);

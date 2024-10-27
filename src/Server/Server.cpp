@@ -6,11 +6,11 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 17:55:49 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:37:41 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/Server.hpp"
+#include "../../include/Server.hpp"
 
 int Server::_signal = 0;
 
@@ -18,7 +18,6 @@ int Server::_signal = 0;
 
 Server::Server(void)
 {
-	std::cout << "Default Server constructor called" << std::endl;
 }
 
 Server::Server(int port, std::string password) : _password(password)
@@ -32,12 +31,14 @@ Server::Server(int port, std::string password) : _password(password)
 	srv_addr.sin_addr.s_addr = INADDR_ANY;
 
 	int	en = 1;
+
 	setsockopt(SrvSocketFd, SOL_SOCKET, SO_REUSEADDR, &en, sizeof(en));
 	fcntl(SrvSocketFd, F_SETFL, O_NONBLOCK);
 	bind(SrvSocketFd, (struct sockaddr *)&srv_addr, sizeof(srv_addr));
 	listen(SrvSocketFd, SOMAXCONN);
 
 	struct pollfd	poll;
+
 	poll.fd = SrvSocketFd;
 	poll.events = POLLIN;
 	poll.revents = 0;
@@ -61,10 +62,13 @@ Server::Server(const Server &src)
 
 Server::~Server()
 {
-	for (size_t i = 0; i < this->_clientList.size(); i++) {
+	for (size_t i = 0; i < this->_clientList.size(); i++)
+	{
 		delete _clientList[i];
 	}
-	for (size_t i = 0; i < this->_channelList.size(); i++) {
+
+	for (size_t i = 0; i < this->_channelList.size(); i++)
+	{
 		delete _channelList[i];
 	}
 	std::cout << "Server destructor executed.." << std::endl;
@@ -76,6 +80,7 @@ Server& Server::operator=(const Server& src)
 {
 	if (this == &src)
 		return (*this);
+
 	_port = src._port;
 	_password = src._password;
 	_ip = src._ip;
@@ -104,14 +109,15 @@ std::string Server::getIp() const
 
 Channel &Server::getChannel(const std::string& name)
 {
-	for (size_t i = 0; i < this->_channelList.size(); i++) {
+	for (size_t i = 0; i < this->_channelList.size(); i++)
+	{
 		if (_channelList[i]->getName() == name)
 			return (*_channelList[i]);
 	}
 	throw std::runtime_error("Channel not found");
 }
 
-/*====== Accept the client ======*/
+/*====== Server mgmt ======*/
 
 void Server::acceptTheClient(void)
 {
@@ -122,6 +128,7 @@ void Server::acceptTheClient(void)
 
 	//std::cout << "accptcli" << std::endl;
 	int newClientFd = accept(this->_fdSrvSocket, (sockaddr *)&newClientAddr, &newClientAddrSize);
+	
 	fcntl(newClientFd, F_SETFL, O_NONBLOCK);
 
 	newClientPoll.fd = newClientFd;
@@ -134,38 +141,6 @@ void Server::acceptTheClient(void)
 	_clientList.push_back(newClientObj);
 
 	std::cout << "New client <" << newClientFd << "> connect : " << inet_ntoa(newClientAddr.sin_addr) << std::endl;
-}
-
-void Server::getData(int fd)
-{
-	char	buffer[2048];
-	ssize_t	byteWrite =  recv(fd, &buffer, 2047, 0);
-	
-	if (byteWrite <= 0) // Disconnected client
-	{
-		std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for send no data !" << "\e[0;37m" << std::endl;
-		disconnectClientByFd(fd);
-		return ;
-	}
-	buffer[byteWrite] = '\0';
-	if (!getClientByFd(fd).getAuth()) {
-		getClientByFd(fd).setAuthBuffer(std::string(buffer).substr(0, byteWrite));
-		if (getClientByFd(fd).getAuthBuffer().find("USER") != std::string::npos)
-			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
-	}
-	else
-		handleData(fd, buffer);
-	
-	std::string txt(buffer);
-	std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 
-}
-
-/*====== Init the server ======*/
-
-void Server::handleSignal(int sig) {
-    if (sig == SIGINT || sig == SIGQUIT) {
-		Server::_signal = 1;
-    }
 }
 
 void Server::runServer(void)
@@ -189,9 +164,35 @@ void Server::runServer(void)
 	std::cout << "\e[1;33m" << "\nServer Stopped" << "\e[0;37m" << std::endl;
 }
 
-Channel	&Server::createChannel(const std::string &channelName, Client &op)
+
+void Server::getData(int fd)
 {
-	Channel	*channel = new Channel(channelName, op);
-	_channelList.push_back(channel);
-	return (*_channelList.back());
+	char	buffer[2048];
+	ssize_t	byteWrite =  recv(fd, &buffer, 2047, 0);
+	
+	if (byteWrite <= 0) // Disconnected client
+	{
+		std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for send no data !" << "\e[0;37m" << std::endl;
+		disconnectClientByFd(fd);
+		return ;
+	}
+	buffer[byteWrite] = '\0';
+
+	if (!getClientByFd(fd).getAuth())
+	{
+		getClientByFd(fd).setAuthBuffer(std::string(buffer).substr(0, byteWrite));
+		if (getClientByFd(fd).getAuthBuffer().find("USER") != std::string::npos)
+			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
+	}
+	else
+		handleData(fd, buffer);
+	
+	std::string txt(buffer);
+	std::cout << "\e[1;33m" << txt << "\e[0;37m" << std::endl; 
+}
+
+void Server::handleSignal(int sig)
+{
+    if (sig == SIGINT || sig == SIGQUIT)
+		Server::_signal = 1;
 }

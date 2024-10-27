@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/24 11:40:48 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:39:44 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ Channel::Channel(int err) : _channelName("__ERR__")
 	(void) err;
 }
 
-Channel::Channel(const Channel& src) : _channelName(src.getName()){
+Channel::Channel(const Channel& src) : _channelName(src.getName())
+{
 	this->_opList = src.getOp();
 	this->_clientList = src.getClientList();
 	this->_maxMembers = src.getMaxMembers();
@@ -31,7 +32,8 @@ Channel::Channel(const Channel& src) : _channelName(src.getName()){
 	this->_topicAuthorInfo = src.getTopicAuthInfo();
 }
 
-Channel& Channel::operator=(const Channel &obj) {
+Channel& Channel::operator=(const Channel &obj)
+{
 	this->_opList = obj.getOp();
 	this->_clientList = obj.getClientList();
 	this->_maxMembers = obj.getMaxMembers();
@@ -58,35 +60,43 @@ Channel::~Channel(void)
 }
 
 /*====== Getters/Setters ======*/
-bool Channel::getModeInvite(void) const {
+bool Channel::getModeInvite(void) const
+{
 	return (this->_modeInvite);
 }
 
-bool Channel::getModeTopic(void) const {
+bool Channel::getModeTopic(void) const
+{
 	return (this->_modeTopic);
 }
 
-std::string Channel::getModeKeyPassword(void) const {
+std::string Channel::getModeKeyPassword(void) const
+{
 	return (this->_modeKeyPassword);
 }
 
-std::string Channel::getTopic(void) const {
+std::string Channel::getTopic(void) const
+{
 	return (this->_topic);
 }
 
-void Channel::setTopic(std::string topic) {
+void Channel::setTopic(std::string topic)
+{
 	this->_topic = topic;
 }
 
-void Channel::setModeInvite(bool modeInvite) {
+void Channel::setModeInvite(bool modeInvite)
+{
 	this->_modeInvite  = modeInvite;
 }
 
-void Channel::setModeTopic(bool modeTopic) {
+void Channel::setModeTopic(bool modeTopic)
+{
 	this->_modeTopic = modeTopic;
 }
 
-void Channel::setModeKey(std::string modeKeyPassword) {
+void Channel::setModeKey(std::string modeKeyPassword)
+{
 	this->_modeKeyPassword = modeKeyPassword;
 }
 
@@ -130,20 +140,25 @@ std::vector<Client *>	Channel::getInviteList(void) const {
 	return (_inviteList);
 }
 
-bool	Channel::isInInviteList(Client &client) {
-	for (size_t i = 0; i < _inviteList.size(); i++) {
+bool	Channel::isInInviteList(Client &client)
+{
+	for (size_t i = 0; i < _inviteList.size(); i++)
+	{
 		if (client.getFd() == _inviteList[i]->getFd())
 			return (true);
 	}
 	return (false);
 }
 
-void	Channel::addInviteList(Client &client) {
+void	Channel::addInviteList(Client &client)
+{
 	_inviteList.push_back(&client);
 }
 
-void	Channel::rmInviteList(Client &client) {
-	for (size_t i = 0; i < _inviteList.size(); i++) {
+void	Channel::rmInviteList(Client &client)
+{
+	for (size_t i = 0; i < _inviteList.size(); i++)
+	{
 		if (client.getFd() == _inviteList[i]->getFd())
 			_inviteList.erase(_inviteList.begin() + i);
 	}
@@ -151,23 +166,28 @@ void	Channel::rmInviteList(Client &client) {
 
 /*====== Actions ======*/
 
-bool Channel::isOp(Client &client) {
-	for (size_t i = 0; i < _opList.size(); i++) {
+bool Channel::isOp(Client &client)
+{
+	for (size_t i = 0; i < _opList.size(); i++)
+	{
 		if (client.getFd() == _opList[i]->getFd())
 			return (true);
 	}
 	return (false);
 }
 
-void	Channel::addOp(Client &client) {
+void	Channel::addOp(Client &client)
+{
 	this->_opList.push_back(&client);
 }
 
-void	Channel::rmOp(Client &op) {
+void	Channel::rmOp(Client &op)
+{
 	for (size_t i = 0; i < _opList.size(); i++) {
-		if (op.getFd() == _opList[i]->getFd()) { // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
+		if (op.getFd() == _opList[i]->getFd()) // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
+		{
 			_opList.erase(_opList.begin() + i);
-			break;
+			break ;
 		}
 	}
 }
@@ -179,10 +199,12 @@ void	Channel::addClient(Client &client)
 
 void	Channel::rmClient(Client &client)
 {
-	for (size_t i = 0; i < _clientList.size(); i++) {
-		if (client.getFd() == _clientList[i]->getFd()) { // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
+	for (size_t i = 0; i < _clientList.size(); i++)
+	{
+		if (client.getFd() == _clientList[i]->getFd()) // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
+		{
 			_clientList.erase(_clientList.begin() + i);
-			break;
+			break ;
 		}
 	}
 	// for (int i = 0; i < client.getChannelList().size(); i++) {

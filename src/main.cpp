@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:08:47 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 17:53:30 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:40:50 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int main(int argc, char **argv)
 		std::cout << "Error, bad arguments: ./ircserv <port> <password>" << std::endl;
 		return (1);
 	}
+
 	try
 	{
 		int port = static_cast<int>(strtod(argv[1], NULL));

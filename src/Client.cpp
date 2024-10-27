@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 17:55:49 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:40:38 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ Client &Client::operator=(const Client &src)
 {
 	if (this == &src)
 		return (*this);
+
 	_fd = src._fd;
 	_nick = src._nick;
 	_auth = src._auth;
@@ -60,11 +61,13 @@ void Client::setFd(int fd)
 	this->_fd = fd;
 }
 
-std::string Client::getUser() const {
+std::string Client::getUser() const
+{
 	return (this->_user);
 }
 
-void Client::setUser(std::string user) {
+void Client::setUser(std::string user)
+{
 	this->_user = user;
 }
 
@@ -78,11 +81,13 @@ void Client::setNick(std::string nick)
 	this->_nick = nick;
 }
 
-std::string Client::getIp(void) const {
+std::string Client::getIp(void) const
+{
 	return (this->_ip);
 }
 
-void Client::setIp(std::string ip) {
+void Client::setIp(std::string ip)
+{
 	this->_ip = ip;
 }
 
@@ -118,10 +123,12 @@ void	Client::addChannel(Channel &channel)
 
 void	Client::rmChannel(Channel &channel)
 {
-	for (size_t i = 0; i < _channelList.size(); i++) {
-		if (_channelList[i]->getName() == channel.getName()) {
+	for (size_t i = 0; i < _channelList.size(); i++)
+	{
+		if (_channelList[i]->getName() == channel.getName())
+		{
 			_channelList.erase(_channelList.begin() + i);
-			break;
+			break ;
 		}
 	}
 }

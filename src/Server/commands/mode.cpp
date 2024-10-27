@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 17:51:18 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:28:42 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 #include <iostream>
 
 static bool			ft_isnum(const std::string& str);
-static bool			findSign(std::string currentWord, size_t *j);
 static unsigned int	ft_stoui(const std::string& str);
 static std::string	ft_uitos(unsigned int value);
+static bool			findSign(std::string currentWord, size_t *j);
 static std::string	fetchOptions(const Channel& channel);
 
 static int	findModeHandlerIndex(char modeChar);
@@ -71,6 +71,7 @@ void	Server::commandMODE(int fd, std::vector<std::string> msg, Client &client)
 				std::cout << "Option: " << currentWord[j] << ", Sign: " << sign << ", Arg: " << arg << std::endl;
 				if (currentWord[j] == 'k' && arg.empty())
 					break;
+
 				if ((currentWord[j] == 'o' || currentWord[j] == 'k') && !arg.empty())
 				{
 					modeHandlers[handlerIndex](sign, this, channel, client, arg);
@@ -93,40 +94,43 @@ static bool	ft_isnum(const std::string& str)
 	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (!std::isdigit(str[i]))
-			return false;
+			return (false);
 	}
 	return true;
 }
 
-// Function to find the sign in a string
-static bool	findSign(std::string currentWord, size_t *j)
-{
-	int sign = 1;
-	while (currentWord[*j] == '-' || currentWord[*j] == '+')
-	{
-		(currentWord[*j] == '-') ? sign = 0 : sign = 1;
-		(*j)++;
-	}
-	return sign;
-}
 
 // Function to convert a string to an unsigned int
 static unsigned int	ft_stoui(const std::string& str)
 {
-	std::stringstream ss(str);
-	size_t result;
+	std::stringstream	ss(str);
+	size_t				result;
+
 	ss >> result;
 	if (ss.fail())
 		return 0;
-	return result;
+	return (result);
 }
 
 // Function to convert an unsigned int to a string
 static std::string	ft_uitos(unsigned int value)
 {
-	std::stringstream ss;
+	std::stringstream	ss;
+
 	ss << value;
 	return ss.str();
+}
+
+static bool	findSign(std::string currentWord, size_t *j)
+{
+	int	sign = 1;
+
+	while (currentWord[*j] == '-' || currentWord[*j] == '+')
+	{
+		(currentWord[*j] == '-') ? sign = 0 : sign = 1;
+		(*j)++;
+	}
+	return (sign);
 }
 
 static std::string	fetchOptions(const Channel& channel)
@@ -158,9 +162,9 @@ static int	findModeHandlerIndex(char modeChar)
 	for (size_t i = 0; i < sizeof(modeChars) / sizeof(modeChars[0]); ++i)
 	{
 		if (modeChars[i] == modeChar)
-			return i;
+			return (i);
 	}
-	return -1;
+	return (-1);
 }
 
 static void	handleInvite(bool sign, Server* server, Channel* channel, const Client& client, const std::string&)
