@@ -56,21 +56,17 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
 		for (size_t i = 0; i < users.size(); i++){
 			sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " JOIN :" + channelName + "\r\n");
 		}
-		commandNAMES(fd, msg, client); // msg contient JOIN #CHANEL mais comme c'est le meme channel ca marche, mais faudrait faire un truc plus propre 	
+		commandNAMES(fd, msg, client);
 	}
     else
     {
-		//Send Need invite message
+        sendMessage(fd, ":server 473 " + client.getNick() + " " + channelName + " :Cannot join channel (+i)\r\n");
 	}
-	// sendMessage(fd, ":server 353 " + client.getUser() + channelName + " : Bienvenue sur le canal " + channelName +"\r\n");
-    // sendMessage(fd, ":server 366 " + client.getUser() + channelName + " : End of /NAMES list.\r\n");
     /*
-    << JOIN #draoa
-    >> :Arthur_!~Arthur@1f2-281e-655c-1a9-702e.215.80.ip JOIN :#draoa
-    << MODE #draoa
-    << WHO #draoa
-    >> :punch.wa.us.dal.net 353 Arthur_ = #draoa :@Arthur_ 
-    >> :punch.wa.us.dal.net 366 Arthur_ #draoa :End of /NAMES list.
-    >> :punch.wa.us.dal.net 324 Arthur_ #draoa +
+    Un serveur irc random
+    >> :sakura.jp.as.dal.net 324 ElPueblo #potato + 
+
+    le notre 
+    >> :server 324 ElPueblo #tatat +t
     */
 }
