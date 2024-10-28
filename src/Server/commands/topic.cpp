@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:37:18 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:32:46 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:02:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
 
 	if (msg.size() == 3) //set topic
 	{ 
-		if (channel->isOp(client) || channel->getModeTopic())
+		if (channel->isOp(client) || !channel->getModeTopic())
 		{
 			std::vector<Client *>users = channel->getClientList();
 

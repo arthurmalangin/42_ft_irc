@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 11:27:21 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/27 18:39:44 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:55:46 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ Channel::Channel(const std::string& name, Client &op) : _channelName(name)
 	this->_opList.push_back(&op);
 	this->_maxMembers = 0;
 	this->_modeInvite = false;
-	this->_modeTopic = true; // set to false for +t mode
+	this->_modeTopic = false;
 	this->_topicAuthorInfo.resize(4);
 }
 
