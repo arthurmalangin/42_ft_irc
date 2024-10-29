@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 00:43:51 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:25:17 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:48:57 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void Server::commandNAMES(int fd, std::vector<std::string> msg,Client &client)
 {
+	// TODO add safety
 	std::string	channelName = msg[1];
     Channel		*channel = NULL;
 	

@@ -6,7 +6,7 @@
 #    By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/22 16:45:04 by rwintgen          #+#    #+#              #
-#    Updated: 2024/10/27 18:42:56 by rwintgen         ###   ########.fr        #
+#    Updated: 2024/10/29 16:38:40 by rwintgen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ C_FILE			=		main.cpp					\
 						Server/commands/mode.cpp	\
 						Server/commands/topic.cpp	\
 						Server/commands/names.cpp	\
+						Server/commands/nick.cpp	\
 						Server/commands/part.cpp	\
 						Server/commands/privmsg.cpp	\
 						Server/commands/kick.cpp	\

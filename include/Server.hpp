@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:16:59 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:24:00 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ class Server
 		void	commandJOIN(int fd, std::vector<std::string>msg, Client &client);
 		void	commandWHO(int fd, std::vector<std::string>msg, Client &client);
 		void	commandNAMES(int fd, std::vector<std::string>msg, Client &client);
+		void	commandNICK(int fd, std::vector<std::string>msg, Client &client);
 		void	commandMODE(int fd, std::vector<std::string>msg, Client &client);
 		void	commandPRIVMSG(int fd, std::vector<std::string> msg, Client &client);
 		void	commandPART(int fd, std::vector<std::string> msg, Client &client);
