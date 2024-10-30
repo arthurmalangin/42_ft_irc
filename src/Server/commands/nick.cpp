@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:38:45 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/29 17:42:19 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:07:04 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ void	Server::commandNICK(int fd, std::vector<std::string>msg, Client &client)
 	{
 		if (_clientList[i]->getNick() == newNick)
 		{
-			// TODO DalNet utilise un bot pour les nicknames. Trouver le bon message
-			// sendMessage();
-			std::cout << "KJAGFJHAGFS" << std::endl;
+			// TODO check below message is right
+			sendMessage(fd, ":server 433 " + client.getNick() + " " + newNick + " :Nickname is already in use\r\n");
 			return ;
 		}
 	}
