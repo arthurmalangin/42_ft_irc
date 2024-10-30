@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/29 17:24:00 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:00:53 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ class Server
 		void	commandPART(int fd, std::vector<std::string> msg, Client &client);
 		void	commandTOPIC(int fd, std::vector<std::string> msg, Client &client);
 		void	commandKICK(int fd, std::vector<std::string> msg, Client &client);
+		void	commandUSER(int fd, std::vector<std::string> msg, Client &client);
 		void	commandINVITE(int fd, std::vector<std::string> msg, Client &client);
 		
 	private:

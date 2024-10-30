@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/29 17:32:00 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:00:11 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static std::string toUpper(std::string str)
 
 /*====== Handle Data after getData ======*/
 // TODO La je vais faire des if vraiment moche, faudra vraimmmment faire un code plus propre
-// TODO handle unknozwn commmand (send message)
+// TODO handle unknown commmand (send message)
 void	Server::handleData(int fd, char *buffer) {
     Parsing	parser;
 	Client &client = getClientByFd(fd);
@@ -66,6 +66,9 @@ void	Server::handleData(int fd, char *buffer) {
 		}
 		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "NICK") {
             commandNICK(fd, parser.message[i], client);
+		}
+		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "USER") {
+            commandUSER(fd, parser.message[i], client);
 		}
     }
 }

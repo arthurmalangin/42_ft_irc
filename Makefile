@@ -6,7 +6,7 @@
 #    By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/22 16:45:04 by rwintgen          #+#    #+#              #
-#    Updated: 2024/10/29 16:38:40 by rwintgen         ###   ########.fr        #
+#    Updated: 2024/10/30 13:01:59 by rwintgen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ C_FILE			=		main.cpp					\
 						Server/commands/privmsg.cpp	\
 						Server/commands/kick.cpp	\
 						Server/commands/invite.cpp	\
+						Server/commands/user.cpp	\
 						Server/authentication.cpp	\
 						Server/handleData.cpp		\
 						Server/utils.cpp			\
