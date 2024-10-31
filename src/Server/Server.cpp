@@ -181,7 +181,9 @@ void Server::getData(int fd)
 	if (!getClientByFd(fd).getAuth())
 	{
 		getClientByFd(fd).setAuthBuffer(std::string(buffer).substr(0, byteWrite));
-		if (getClientByFd(fd).getAuthBuffer().find("USER") != std::string::npos)
+		if (getClientByFd(fd).getAuthBuffer().find("USER") != std::string::npos &&
+			getClientByFd(fd).getAuthBuffer().find("NICK") != std::string::npos &&
+			getClientByFd(fd).getAuthBuffer().find("PASS") != std::string::npos)
 			authentication(fd, getClientByFd(fd).getAuthBuffer().c_str());
 	}
 	else
