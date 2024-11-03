@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:38:45 by rwintgen          #+#    #+#             */
-/*   Updated: 2024/10/30 13:07:04 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:29:36 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,13 @@ void	Server::commandNICK(int fd, std::vector<std::string>msg, Client &client)
 	std::string	oldNick = client.getNick();
 	client.setNick(newNick);
 
-	std::cout << oldNick << " is now " << client.getNick() << std::endl;
+	// std::cout << oldNick << " is now " << client.getNick() << std::endl;
 
 	std::vector<Channel*>	channels = client.getChannelList();
+
+	if (channels.size() == 0)
+		sendMessage(client.getFd(), ":" + oldNick + "!~" + client.getUser() +
+			client.getIp() + ".ip" + " NICK :" + newNick + "\r\n");
 
 	for (size_t i = 0; i < channels.size(); i++)
 	{
