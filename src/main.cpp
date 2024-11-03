@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:08:47 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:40:50 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:28:18 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ flatpak run io.github.Hexchat
 
 // TODO
 // Set the parser as an pure virtual class?
+// Send every message using macros ?
+
 int main(int argc, char **argv)
 {
 	if (argc < 3)
