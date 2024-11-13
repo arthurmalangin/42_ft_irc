@@ -10,9 +10,9 @@ int main(int argc, char **argv) {
 
 	try
 	{
-		int port = static_cast<int>(strtod(argv[1], NULL));
-		Bot bot(argv[1], port, argv[2]);
-		//bot.connect();
+		int port = static_cast<int>(strtod(argv[2], NULL));
+		Bot bot(argv[1], port, argv[3]);
+		bot.runBot();
 	}
 	catch (const std::exception& e)
 	{

@@ -27,6 +27,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <sstream>
+#include "Parsing.hpp"
 
 class Bot {
 	public:
@@ -39,6 +40,10 @@ class Bot {
 		std::string	getIp() const;
 		/*====== Utils ======*/
 		int		sendMessage(int fd, std::string messageFormated);
+		void	runBot();
+		static void	handleSignal(int sig);
+		void handleData(char *buffer);
+		void getData();
 	private:
 		int	_port;
 		static int	_signal;
