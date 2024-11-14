@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:21:12 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:19:07 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,16 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
     {
         sendMessage(fd, ":MyChell.Beer 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
         return ;
+    }
+
+    if (!channel->getModeKeyPassword().empty())
+    {
+        if (msg[2].empty() || msg[2] != channel->getModeKeyPassword())
+        {
+            // :punch.wa.us.dal.net 475 jeanhgfj #asdfghjkliop :Cannot join channel (+k)
+            sendMessage(fd, ":MyChell.Beer 475 " + client.getNick() + " " + channelName + " :Cannot join channel (+k)\r\n");
+            return ;
+        }
     }
 
 	if ((!channel->getModeInvite() || (channel->getModeInvite() && channel->isInInviteList(client))) && (channel->getMaxMembers() == 0 || channel->getMaxMembers() > channel->getClientList().size()))

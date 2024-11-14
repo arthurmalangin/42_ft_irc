@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/11/14 12:54:20 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:05:28 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ static void	handleOperator(bool sign, Server* server, Channel* channel, const Cl
 	{
 		Client target = server->getClientByNickName(arg);
 
-		if (sign == 1)
+		if (sign)
 			channel->addOp(target);
 		else
 			channel->rmOp(target);
