@@ -19,7 +19,7 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
     */
     if (msg.size() < 2 || msg[1].empty())
     {
-        sendMessage(fd, ":server 461 " + client.getNick() + " JOIN :Not enough parameters\r\n");
+        sendMessage(fd, ":MyChell.Beer 461 " + client.getNick() + " JOIN :Not enough parameters\r\n");
         return;
     }
 
@@ -28,7 +28,7 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
 
 	if (channelName.find('#') == std::string::npos)
     {
-		sendMessage(fd, ":server 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
+		sendMessage(fd, ":MyChell.Beer 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
         return ;
 	}
 	
@@ -43,11 +43,11 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
 
     if (channel == NULL)
     {
-        sendMessage(fd, ":server 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
+        sendMessage(fd, ":MyChell.Beer 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
         return ;
     }
 
-	if (!channel->getModeInvite() || (channel->getModeInvite() && channel->isInInviteList(client)))
+	if ((!channel->getModeInvite() || (channel->getModeInvite() && channel->isInInviteList(client))) && (channel->getMaxMembers() == 0 || channel->getMaxMembers() > channel->getClientList().size()))
     {
 		client.addChannel(*channel);
 		channel->addClient(client);
@@ -60,6 +60,9 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
 	}
     else
     {
-        sendMessage(fd, ":server 473 " + client.getNick() + " " + channelName + " :Cannot join channel (+i)\r\n");
+        if (channel->getModeInvite())
+            sendMessage(fd, ":MyChell.Beer 473 " + client.getNick() + " " + channelName + " :Cannot join channel (+i)\r\n");
+        else
+            sendMessage(fd, ":MyChell.Beer 471 " + client.getNick() + " " + channelName + " :Cannot join channel (+l)\r\n");
 	}
 }

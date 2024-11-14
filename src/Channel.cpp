@@ -207,10 +207,4 @@ void	Channel::rmClient(Client &client)
 			break ;
 		}
 	}
-	// for (int i = 0; i < client.getChannelList().size(); i++) {
-	// 	if (client.getChannelList()[i]->getName() == this->getName()) {
-	// 		client.getChannelList().erase(client.getChannelList().begin() + i);
-	// 		break;
-	// 	}
-	// }
 }

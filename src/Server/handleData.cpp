@@ -24,7 +24,6 @@ static std::string toUpper(std::string str)
 }
 
 /*====== Handle Data after getData ======*/
-// TODO La je vais faire des if vraiment moche, faudra vraimmmment faire un code plus propre
 // TODO handle unknown commmand (send message)
 void	Server::handleData(int fd, char *buffer) {
     Parsing	parser;
@@ -33,39 +32,42 @@ void	Server::handleData(int fd, char *buffer) {
     for (size_t i = 0; i < parser.message.size(); i++) { // TODO va falloir faire des verif plus secure a chaque commandes
         if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving")
             commandQUIT(fd);
-		if (parser.message[i].size() > 0 && parser.message[i][0] == "PING")
+		else if (parser.message[i].size() > 0 && parser.message[i][0] == "PING")
 			commandPING(fd, client, parser.message[i][1]);
-		if (toUpper(parser.message[i][0]) == "MOTD")
+		else if (toUpper(parser.message[i][0]) == "MOTD")
             commandMOTD(fd);
-		if (toUpper(parser.message[i][0]) == "NAMES") {
+		else if (toUpper(parser.message[i][0]) == "NAMES")
 			commandNAMES(fd, parser.message[i], client);
-		}
-		if (toUpper(parser.message[i][0]) == "PART") {
+		else if (toUpper(parser.message[i][0]) == "PART") {
 			commandPART(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "PRIVMSG") {
+		else if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "PRIVMSG") {
 			commandPRIVMSG(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "WHO") {
+		else if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "WHO") {
             commandWHO(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "MODE") {
+		else if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "MODE") {
 			commandMODE(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "JOIN") {
+		else if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "JOIN") {
             commandJOIN(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "TOPIC") {
+		else if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "TOPIC") {
             commandTOPIC(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "KICK") {
+		else if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "KICK") {
             commandKICK(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "INVITE") {
+		else if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "INVITE") {
             commandINVITE(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "NICK") {
+		else if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "NICK") {
             commandNICK(fd, parser.message[i], client);
 		}
+		else if (parser.message[i].size() > 0) {
+			sendMessage(fd, ":MyChell.Beer 421 " + client.getNick() + " " + parser.message[i][0] + " :Unknown command\r\n");
+		}
+
     }
 }

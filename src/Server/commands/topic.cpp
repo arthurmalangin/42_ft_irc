@@ -16,7 +16,7 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
 {
 	if (msg.size() < 2|| msg[1].empty())
 	{
-        sendMessage(fd, ":server 461 " + client.getNick() + " TOPIC :Not enough parameters\r\n");
+        sendMessage(fd, ":MyChell.Beer 461 " + client.getNick() + " TOPIC :Not enough parameters\r\n");
         return ;
     }
 
@@ -33,7 +33,7 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
 
     if (channel == NULL)
 	{
-        sendMessage(fd, ":server 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
+        sendMessage(fd, ":MyChell.Beer 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
         return ;
     }
 
@@ -53,7 +53,7 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
 		else // not tested
 		{ 
 			// >> :bitcoin.uk.eu.dal.net 482 LouisI #igorr :You're not channel operator
-			sendMessage(fd, ":server 331 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
+			sendMessage(fd, ":MyChell.Beer 331 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
 			//Send error
 		}
 	}
@@ -62,8 +62,8 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
 		if (!channel->getTopic().empty())
 		{
 			//>> :bitcoin.uk.eu.dal.net 332 LouisI #potato :No potato                 here
-			sendMessage(fd, ":server 332 " + client.getNick() + " " + channelName + " " + channel->getTopic() + "\r\n");
-			sendMessage(fd, ":server 333 " + client.getNick() + " " + channelName + " " +  
+			sendMessage(fd, ":MyChell.Beer 332 " + client.getNick() + " " + channelName + " " + channel->getTopic() + "\r\n");
+			sendMessage(fd, ":MyChell.Beer 333 " + client.getNick() + " " + channelName + " " +  
 			channel->getTopicAuthInfo()[0] + "!~" + channel->getTopicAuthInfo()[1] + "@" + channel->getTopicAuthInfo()[2] + ".ip " +
 			channel->getTopicAuthInfo()[3] + "\r\n");
 			// Send topic
@@ -71,7 +71,7 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
 		else
 		{
 			//>> :bitcoin.uk.eu.dal.net 331 Arthur_ #adzar :No topic is set.
-			sendMessage(fd, ":server 331 " + client.getNick() + " " + channelName + " :No topic is set.\r\n");
+			sendMessage(fd, ":MyChell.Beer 331 " + client.getNick() + " " + channelName + " :No topic is set.\r\n");
 			//send no topic message
 		}
 	}

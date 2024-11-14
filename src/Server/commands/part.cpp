@@ -16,7 +16,7 @@ void Server::commandPART(int fd, std::vector<std::string> msg, Client &client)
 {	
     if (msg.size() < 3|| msg[1].empty())
     {
-        sendMessage(fd, ":server 461 " + client.getNick() + " PART :Not enough parameters\r\n");
+        sendMessage(fd, ":MyChell.Beer 461 " + client.getNick() + " PART :Not enough parameters\r\n");
         return ;
     }
 
@@ -33,7 +33,7 @@ void Server::commandPART(int fd, std::vector<std::string> msg, Client &client)
 
     if (channel == NULL)   
     {
-        sendMessage(fd, ":server 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
+        sendMessage(fd, ":MyChell.Beer 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
         return ;
     }
 	if (msg[2] == ":Leaving")

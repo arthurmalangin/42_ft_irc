@@ -126,7 +126,6 @@ void Server::acceptTheClient(void)
 	struct pollfd		newClientPoll;
 	Client*				newClientObj = new Client();
 
-	//std::cout << "accptcli" << std::endl;
 	int newClientFd = accept(this->_fdSrvSocket, (sockaddr *)&newClientAddr, &newClientAddrSize);
 	
 	fcntl(newClientFd, F_SETFL, O_NONBLOCK);

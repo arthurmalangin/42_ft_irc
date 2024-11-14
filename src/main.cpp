@@ -18,10 +18,6 @@ flatpak install flathub io.github.Hexchat
 flatpak run io.github.Hexchat
 */
 
-// TODO
-// Set the parser as an pure virtual class?
-// Send every message using macros ?
-
 int main(int argc, char **argv)
 {
 	if (argc < 3)
