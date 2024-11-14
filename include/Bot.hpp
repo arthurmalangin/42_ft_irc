@@ -27,7 +27,6 @@
 # include <signal.h>
 # include <stdio.h>
 # include <sstream>
-#include "Parsing.hpp"
 
 class Bot {
 	public:
@@ -51,6 +50,7 @@ class Bot {
 		std::string	_ip;
 		struct pollfd	_fdBot;
 		int	_fdBotSocket;
+		bool _connected;
 };
 
 #endif

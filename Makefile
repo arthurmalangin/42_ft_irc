@@ -19,7 +19,6 @@ CC				=		c++
 FLAG			=		-std=c++98 -g 
 
 C_BONUS_FILE	=		Bonus/main.cpp 				\
-						Parsing.cpp					\
 						Bonus/handleData.cpp		\
 						Bonus/Bot.cpp
 

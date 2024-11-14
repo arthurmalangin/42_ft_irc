@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bot.cpp                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/14 08:32:20 by amalangi          #+#    #+#             */
+/*   Updated: 2024/11/14 08:33:03 by amalangi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/Bot.hpp"
 
 int Bot::_signal = 0;
@@ -12,9 +24,7 @@ Bot::Bot(std::string ip, int port, std::string password) {
 	servAddr.sin_port = htons(port);
 	servAddr.sin_addr.s_addr = inet_addr(ip.c_str());
 
-    if (connect(BotSocketFd, (sockaddr*)&servAddr, sizeof(servAddr)) < 0) {
-            std::cerr << "Erreur de connexion au serveur\n";
-    }
+	_connected = connect(BotSocketFd, (sockaddr*)&servAddr, sizeof(servAddr)) < 0 ? false : true;
 
 	int	en = 1;
 	setsockopt(BotSocketFd, SOL_SOCKET, SO_REUSEADDR, &en, sizeof(en));
@@ -32,10 +42,12 @@ Bot::Bot(std::string ip, int port, std::string password) {
 	this->_ip = ip;
 	this->_password = password;
 
+	std::cout << "========================" << std::endl;
 	std::cout << "Bot constructor called" << std::endl;
 	std::cout << "IP: " << this->_ip << std::endl;
 	std::cout << "Port: " << this->_port << std::endl;
-	std::cout << "Password: " << this->_password << std::endl;	
+	std::cout << "Password: " << this->_password << std::endl;
+	std::cout << "========================" << std::endl;
 }
 
 void Bot::handleSignal(int sig)
@@ -51,7 +63,9 @@ void Bot::getData()
 	
 	if (byteWrite <= 0) // Disconnected client
 	{
+		Bot::_signal = 1;
 		std::cout << "\e[1;31m" << "Bot <" << _fdBotSocket << "> Recieve <= byteWrite !" << "\e[0;37m" << std::endl;
+
 		return ;
 	}
 	buffer[byteWrite] = '\0';
@@ -63,16 +77,20 @@ void Bot::getData()
 void Bot::runBot() {
 	signal(SIGINT, Bot::handleSignal);
 	signal(SIGQUIT, Bot::handleSignal);
-	sendMessage(_fdBotSocket, "PASS " + _password + "\r\n");
-	sendMessage(_fdBotSocket, "NICK Bot\r\n");
-    sendMessage(_fdBotSocket, "USER Bot 0 * :IRC Bot\r\n");
-	while (Bot::_signal == 0) {
-		poll(&_fdBot, 1, -1); // bloque l'exec jusqu'a se qu'un event se produise dans l'un des fd de la liste
-		if (_fdBot.revents & POLLIN) // Si data a read dans le fd. On utilise & et pas == car c'est une comparaison de bit a bit
-		{
-			getData();
+	if (_connected) {
+		sendMessage(_fdBotSocket, "PASS " + _password + "\r\n");
+		sendMessage(_fdBotSocket, "NICK Bot\r\n");
+		sendMessage(_fdBotSocket, "USER Bot 0 * :IRC Bot\r\n");
+		while (Bot::_signal == 0) {
+			poll(&_fdBot, 1, -1);
+			if (_fdBot.revents & POLLIN)
+			{
+				getData();
+			}
 		}
 	}
+	else
+		std::cout << "Bot Not connected" << std::endl;
 	std::cout << "\e[1;33m" << "\nBot Stopped" << "\e[0;37m" << std::endl;
 }
 
@@ -93,5 +111,6 @@ std::string	Bot::getIp() const {
 
 /*====== Utils ======*/
 int		Bot::sendMessage(int fd, std::string messageFormated) {
+	//std::cout << "sendMessage: " << messageFormated << std::endl;
 	return (send(fd, messageFormated.c_str(), messageFormated.size(), 0));
 }
