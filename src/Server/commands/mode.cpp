@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:28:42 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:54:20 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ void	Server::commandMODE(int fd, std::vector<std::string> msg, Client &client)
 		sendMessage(fd, ":server 324 " + client.getNick() + " " + channelName + " +" + options + "\r\n");
 		sendMessage(fd, ":server 329 " + client.getNick() + " " + channelName + " " + Server::getTime() + "\r\n");
 		return;
+	}
+
+	if (!channel->isOp(client))
+	{
+		sendMessage(fd, ":server 331 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
+		return ;
 	}
 
 	for (size_t i = 2; i < msg.size(); i++)
@@ -242,8 +248,8 @@ static void	handleOperator(bool sign, Server* server, Channel* channel, const Cl
 		std::string errorMessage = ":server 401 " + client.getNick() + " " + arg + " :No such nick/channel\r\n";
 		server->sendMessage(client.getFd(), errorMessage);
 
-		errorMessage = ":server 441 " + client.getNick() + " " + arg + " " + channel->getName() + " :They aren't on that channel\r\n";
-		server->sendMessage(client.getFd(), errorMessage);
+		// errorMessage = ":server 441 " + client.getNick() + " " + arg + " " + channel->getName() + " :They aren't on that channel\r\n";
+		// server->sendMessage(client.getFd(), errorMessage);
 	}
 }
 
@@ -251,8 +257,15 @@ static void	handleLimit(bool sign, Server* server, Channel* channel, const Clien
 {
 	size_t max = (arg.empty() || !ft_isnum(arg)) ? 0 : ft_stoui(arg);
 
-	if (max > 1024 || max == 0)
-		return;
+    if (sign)
+    {
+        if (max > 1024 || max == 0)
+            return;
+
+        channel->setMaxMembers(max);
+    }
+    else
+        channel->setMaxMembers(0);
 
 	channel->setMaxMembers(max);
 
@@ -267,33 +280,3 @@ static void	handleLimit(bool sign, Server* server, Channel* channel, const Clien
 		server->sendMessage(users[i]->getFd(), modeChangeMessage);
 	}
 }
-
-/*
-◦ MODE - Changer le mode du channel :
-— i : Définir/supprimer le canal sur invitation uniquement
-— t : Définir/supprimer les restrictions de la commande TOPIC pour les opérateurs de canaux
-— k : Définir/supprimer la clé du canal (mot de passe)
-— o : Donner/retirer le privilège de l’opérateur de canal
-— l : Définir/supprimer la limite d’utilisateurs pour le canal
-
-On traite qu'un - a la fois 
-
-MODE #potato -i
-:lair.nl.eu.dal.net 482 LouisI #potato :You're not channel operator
-*/
-
-/*
-	
-	MODE #potato 
-	:lair.nl.eu.dal.net 324 Arthur_ #potato + 
-	:lair.nl.eu.dal.net 329 Arthur_ #potato 1728345832 // Code timestamp
-
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
-	//>> :bitcoin.uk.eu.dal.net 329 LouisI #toao 1728301143
-	char buffer[20]; // taille suffisankte pour contenir un long
-	sprintf(buffer, "%ld", tv.tv_sec);
-	std::string(buffer)
-	sendMessage(fd, ":MyChell.beer 329 " + client.getNick() + " " + channelName + " " + std::string(buffer) + "\r\n");
-	
-*/
