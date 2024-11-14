@@ -69,21 +69,3 @@ void	Server::commandKICK(int fd, std::vector<std::string> msg, Client &client)
 		sendMessage(fd, ":server 331 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
 	}
 }
-
-/*
-
-<< KICK #dp LouisXX
->> :LouisXX!~LouisGab@77.200.137.91.ip KICK :#dp LouisXX:LouisXX
-
-
-
- Usage: KICK <nick> [reason], kicks the nick from the current channel (needs chanop)
- 
-<< KICK #tot LouisI
->> :Arthur_!~Arthur@72b7-f536-9bc1-e681-4374.rev.sfr.net KICK #tot LouisI :Arthur_
->> :Arthur_!~Arthur@72b7-f536-9bc1-e681-4374.rev.sfr.net KICK #tot ineed :no weed
-
->> :Arthur_!~Arthur@72b7-f536-9bc1-e681-4374.rev.sfr.net KICK #tot LouisI :Arthur_
-
-
-*/

@@ -184,7 +184,7 @@ void	Channel::addOp(Client &client)
 void	Channel::rmOp(Client &op)
 {
 	for (size_t i = 0; i < _opList.size(); i++) {
-		if (op.getFd() == _opList[i]->getFd()) // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
+		if (op.getFd() == _opList[i]->getFd())
 		{
 			_opList.erase(_opList.begin() + i);
 			break ;
@@ -201,7 +201,7 @@ void	Channel::rmClient(Client &client)
 {
 	for (size_t i = 0; i < _clientList.size(); i++)
 	{
-		if (client.getFd() == _clientList[i]->getFd()) // j'utilise le fd comme id au cas ou il y'aurais pu avoir des modif et faussement invalider la condition
+		if (client.getFd() == _clientList[i]->getFd())
 		{
 			_clientList.erase(_clientList.begin() + i);
 			break ;

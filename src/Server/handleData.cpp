@@ -67,8 +67,5 @@ void	Server::handleData(int fd, char *buffer) {
 		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "NICK") {
             commandNICK(fd, parser.message[i], client);
 		}
-		if (parser.message[i].size() > 0 && toUpper(parser.message[i][0]) == "USER") {
-            commandUSER(fd, parser.message[i], client);
-		}
     }
 }

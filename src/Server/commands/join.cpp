@@ -62,11 +62,4 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
     {
         sendMessage(fd, ":server 473 " + client.getNick() + " " + channelName + " :Cannot join channel (+i)\r\n");
 	}
-    /*
-    Un serveur irc random
-    >> :sakura.jp.as.dal.net 324 ElPueblo #potato + 
-
-    le notre 
-    >> :server 324 ElPueblo #tatat +t
-    */
 }

@@ -14,7 +14,6 @@
 
 void Server::commandNAMES(int fd, std::vector<std::string> msg,Client &client)
 {
-	// TODO add safety
 	std::string	channelName = msg[1];
     Channel		*channel = NULL;
 	
@@ -42,9 +41,3 @@ void Server::commandNAMES(int fd, std::vector<std::string> msg,Client &client)
 	sendMessage(fd, ":MyChell.beer 353 " + client.getNick() + " = " + channelName + " :" + clientListString + "\r\n");
 	sendMessage(fd, ":MyChell.beer 366 " + client.getNick() + " " + channelName + " :End of /NAMES list\r\n");
 }
-
-// << WHO #ragna
-// >> :lion.tx.us.dal.net 353 Arthur_ = #ragna :@Arthur_ 
-// >> :lion.tx.us.dal.net 366 Arthur_ #ragna :End of /NAMES list.
-// >> :lion.tx.us.dal.net 324 Arthur_ #ragna + 
-// >> :lion.tx.us.dal.net 329 Arthur_ #ragna 1728168074

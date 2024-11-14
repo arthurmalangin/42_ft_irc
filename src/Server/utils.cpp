@@ -49,6 +49,7 @@ Client &Server::getClientByNickName(std::string nickName)
 void Server::disconnectClientByFd(int fd)
 {
 	std::cout << "disconnectClientByFd(" << fd << ")" << std::endl;
+	commandQUIT(fd);
 	for (size_t i = 0; i < _fdList.size(); i++)
 	{
 		if (_fdList[i].fd == fd)

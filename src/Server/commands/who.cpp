@@ -14,6 +14,7 @@
 
 void	Server::commandWHO(int fd, std::vector<std::string> msg, Client &client)
 {
+    std::cout << "commandWHO" << std::endl;
 	if (msg.size() < 2 || msg[1].empty())
     {
         sendMessage(fd, ":server 461 " + client.getNick() + " WHO :Not enough parameters\r\n");

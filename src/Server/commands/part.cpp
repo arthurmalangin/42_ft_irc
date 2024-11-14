@@ -45,9 +45,7 @@ void Server::commandPART(int fd, std::vector<std::string> msg, Client &client)
             client.getIp() + ".ip" + " PART :" + channelName + " :Leaving \r\n");
 		}
 		channel->rmClient(client);
-		//channel->rmOp(client); //plus opti de faire direct ca car, check si il est op avant de le rm fait deux iteration de for, alors que la 1
+		channel->rmOp(client);
 		//client.rmChannel(*channel); 
 	}
 }
-// >> :LouisI!~LouisII@72b7-f536-9bc1-e681-4374.rev.sfr.net PART #adm :Leaving
-//<< PART #hoho :Leaving

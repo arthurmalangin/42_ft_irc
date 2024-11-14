@@ -37,7 +37,6 @@ C_FILE			=		main.cpp					\
 						Server/commands/privmsg.cpp	\
 						Server/commands/kick.cpp	\
 						Server/commands/invite.cpp	\
-						Server/commands/user.cpp	\
 						Server/authentication.cpp	\
 						Server/handleData.cpp		\
 						Server/utils.cpp			\
