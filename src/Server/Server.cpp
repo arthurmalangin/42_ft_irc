@@ -71,6 +71,7 @@ Server::~Server()
 	{
 		delete _channelList[i];
 	}
+	close(this->_fdSrvSocket);
 	std::cout << "Server destructor executed.." << std::endl;
 }
 

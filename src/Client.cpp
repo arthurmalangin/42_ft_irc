@@ -33,6 +33,7 @@ Client::Client(const Client &src)
 }
 Client::~Client(void)
 {
+	close(this->_fd);
 	std::cout << "\e[1;31m" << "Client destructor called for: " << this->getNick() << "\e[0;37m" << std::endl;
 }
 

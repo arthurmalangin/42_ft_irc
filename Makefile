@@ -16,7 +16,7 @@ NAME_BONUS			=		bot
 
 CC				=		c++
 
-FLAG			=		-std=c++98 -g 
+FLAG			=		-Wextra -Wall -Werror -std=c++98 -g 
 
 C_BONUS_FILE	=		Bonus/main.cpp 				\
 						Bonus/handleData.cpp		\

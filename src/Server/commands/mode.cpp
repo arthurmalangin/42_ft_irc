@@ -45,7 +45,12 @@ static const ModeHandler modeHandlers[] = {
 void	Server::commandMODE(int fd, std::vector<std::string> msg, Client &client)
 {
 	std::string channelName = msg[1];
-	Channel* channel = &getChannel(channelName);
+	try {
+		Channel* channel = &getChannel(channelName);
+	} catch (const std::exception &e) {
+		sendMessage(fd, ":server 502 " + client.getNick() + " " + ":Can't change mode for other users\r\n");
+		return ;
+	}
 	std::string options = fetchOptions(*channel);
 
 	if (msg.size() == 2 || (msg.size() == 3 && msg[2].empty()))
@@ -74,7 +79,6 @@ void	Server::commandMODE(int fd, std::vector<std::string> msg, Client &client)
 
 			if (handlerIndex != -1)
 			{
-				std::cout << "Option: " << currentWord[j] << ", Sign: " << sign << ", Arg: " << arg << std::endl;
 				if (currentWord[j] == 'k' && arg.empty())
 					break;
 
