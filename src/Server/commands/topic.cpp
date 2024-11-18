@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:37:18 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/28 15:02:18 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:26:13 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,3 +89,4 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
 
 >> :bitcoin.uk.eu.dal.net 333 LouisI #adzar Arthur_!~Arthur@72b7-f536-9bc1-e681-4374.rev.sfr.net 1728490701
 */
+

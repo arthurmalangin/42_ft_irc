@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/11/14 13:05:28 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:09:11 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,13 @@ static const ModeHandler modeHandlers[] = {
 void	Server::commandMODE(int fd, std::vector<std::string> msg, Client &client)
 {
 	std::string channelName = msg[1];
-	try {
-		Channel* channel = &getChannel(channelName);
-	} catch (const std::exception &e) {
+	Channel* channel;
+	try
+	{
+		channel = &getChannel(channelName);
+	}
+	catch (const std::exception &e)
+	{
 		sendMessage(fd, ":server 502 " + client.getNick() + " " + ":Can't change mode for other users\r\n");
 		return ;
 	}
@@ -251,9 +255,6 @@ static void	handleOperator(bool sign, Server* server, Channel* channel, const Cl
 	{
 		std::string errorMessage = ":server 401 " + client.getNick() + " " + arg + " :No such nick/channel\r\n";
 		server->sendMessage(client.getFd(), errorMessage);
-
-		// errorMessage = ":server 441 " + client.getNick() + " " + arg + " " + channel->getName() + " :They aren't on that channel\r\n";
-		// server->sendMessage(client.getFd(), errorMessage);
 	}
 }
 
@@ -269,9 +270,9 @@ static void	handleLimit(bool sign, Server* server, Channel* channel, const Clien
         channel->setMaxMembers(max);
     }
     else
+	{
         channel->setMaxMembers(0);
-
-	channel->setMaxMembers(max);
+	}
 
 	std::vector<Client *> users = channel->getClientList();
 
