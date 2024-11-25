@@ -17,17 +17,6 @@
 #include <cstdlib>
 #include <ctime>
 
-static std::string toUpper(std::string str)
-{
-    std::string	lowerStr;
-
-    for (size_t i = 0; i < str.length(); ++i)
-	{
-		lowerStr += toupper(str[i]);
-    }
-    return (lowerStr);
-}
-
 std::vector<std::string> split(const std::string &str, char delimiter) {
     std::vector<std::string> tokens;
     std::stringstream ss(str);
@@ -40,8 +29,8 @@ std::vector<std::string> split(const std::string &str, char delimiter) {
 }
 
 std::string getNick(const std::string &str) {
-    int posStart = str.find(":");
-    int posEnd = str.find("!");
+    size_t posStart = str.find(":");
+    size_t posEnd = str.find("!");
 
     if (posStart == std::string::npos || posEnd == std::string::npos || posStart >= posEnd) {
         return ""; 

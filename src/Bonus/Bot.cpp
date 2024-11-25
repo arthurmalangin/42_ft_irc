@@ -95,7 +95,7 @@ void Bot::runBot() {
 }
 
 Bot::~Bot(void) {
-	
+	close(this->_fdBotSocket);
 }
 
 /*====== Getters ======*/
