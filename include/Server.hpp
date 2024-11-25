@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:04 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/30 13:00:53 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:01:57 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ class Server
 		static void	handleSignal(int sig);
 		
 		/*====== Utils ======*/
+		void elpueblo();
 		int		sendMessage(int fd, std::string messageFormated);
 		static	std::string getTime(void);
 		Client	&getClientByFd(int fd);

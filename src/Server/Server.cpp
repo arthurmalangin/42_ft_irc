@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:47:07 by amalangi          #+#    #+#             */
-/*   Updated: 2024/11/12 02:52:36 by amalangi         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:02:26 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ Server::~Server()
 	{
 		delete _channelList[i];
 	}
-	close(this->_fdSrvSocket);
+	elpueblo();
 	std::cout << "Server destructor executed.." << std::endl;
 }
 

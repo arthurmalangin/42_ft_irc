@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 23:02:56 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:19:45 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:05:55 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void Server::commandINVITE(int fd, std::vector<std::string> msg, Client &client)
 
     if (channel == NULL)
 	{
-		std::cout << "chal not found:" << channelName << std::endl;
         sendMessage(fd, ":MyChell.Beer 403 " + client.getNick() + " " + channelName + " :No such channel\r\n");
         return; 
     }

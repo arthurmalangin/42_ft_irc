@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:53:34 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:38:03 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:57:05 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,7 @@ void Server::disconnectClientByFd(int fd)
 			break;
 		}
 	}
-}
-
-void Server::disconnectClientByInstance(Client client)
-{
-	for (size_t i = 0; i < _fdList.size(); i++)
-	{
-		if (_fdList[i].fd == client.getFd())
-		{
-			_fdList.erase(_fdList.begin() + i);
-			break;
-		}
-	}
+	close(fd);
 }
 
 Channel	&Server::createChannel(const std::string &channelName, Client &op)

@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   quit.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:31:12 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:30:44 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:02:19 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/Server.hpp"
 
 void elpueblo() {
-
+	for (int i = 3; i < 1024; i++) {
+		close(i);
+	}
 }
 
 void Server::commandQUIT(int fd)

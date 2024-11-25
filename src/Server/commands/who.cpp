@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:42 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:34:09 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:03:57 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	Server::commandWHO(int fd, std::vector<std::string> msg, Client &client)
 {
-    std::cout << "commandWHO" << std::endl;
 	if (msg.size() < 2 || msg[1].empty())
     {
         sendMessage(fd, ":MyChell.Beer 461 " + client.getNick() + " WHO :Not enough parameters\r\n");

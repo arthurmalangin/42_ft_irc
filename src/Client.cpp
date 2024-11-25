@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:58:13 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/27 18:40:38 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:54:24 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ Client::Client(const Client &src)
 }
 Client::~Client(void)
 {
-	close(this->_fd);
+	//close(this->_fd);
 	std::cout << "\e[1;31m" << "Client destructor called for: " << this->getNick() << "\e[0;37m" << std::endl;
 }
 
