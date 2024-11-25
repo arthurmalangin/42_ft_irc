@@ -24,12 +24,11 @@ static std::string toUpper(std::string str)
 }
 
 /*====== Handle Data after getData ======*/
-// TODO handle unknown commmand (send message)
 void	Server::handleData(int fd, char *buffer) {
     Parsing	parser;
 	Client &client = getClientByFd(fd);
 	parser.parseBuffer(buffer);
-    for (size_t i = 0; i < parser.message.size(); i++) { // TODO va falloir faire des verif plus secure a chaque commandes
+    for (size_t i = 0; i < parser.message.size(); i++) {
         if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving")
             commandQUIT(fd);
 		else if (parser.message[i].size() > 0 && parser.message[i][0] == "PING")

@@ -149,12 +149,12 @@ void Server::runServer(void)
 	signal(SIGQUIT, Server::handleSignal);
 	while (Server::_signal == 0)
 	{
-		poll(&_fdList[0],_fdList.size(), -1); // bloque l'exec jusqu'a se qu'un event se produise dans l'un des fd de la liste
+		poll(&_fdList[0],_fdList.size(), -1);
 		for (size_t i = 0; i < _fdList.size(); i++)
 		{
-			if (_fdList[i].revents & POLLIN) // Si data a read dans le fd. On utilise & et pas == car c'est une comparaison de bit a bit
+			if (_fdList[i].revents & POLLIN)
 			{
-				if (_fdList[i].fd != _fdSrvSocket) // si fd a lire est celui du serveur, c'est un client qui veux se connecter, sinon c'est un client qui envoie des info a read
+				if (_fdList[i].fd != _fdSrvSocket)
 					getData(_fdList[i].fd);
 				else
 					acceptTheClient();
@@ -170,7 +170,7 @@ void Server::getData(int fd)
 	char	buffer[2048];
 	ssize_t	byteWrite =  recv(fd, &buffer, 2047, 0);
 	
-	if (byteWrite <= 0) // Disconnected client
+	if (byteWrite <= 0)
 	{
 		std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected for send no data !" << "\e[0;37m" << std::endl;
 		disconnectClientByFd(fd);

@@ -21,7 +21,7 @@ std::string Server::getTime(void) {
 	struct timeval tv;
 
 	gettimeofday(&tv, NULL);
-	char buffer[20]; // taille suffisante pour contenir un long
+	char buffer[20];
     sprintf(buffer, "%ld", tv.tv_sec);
 	return (std::string(buffer));
 }
@@ -68,10 +68,8 @@ void Server::disconnectClientByFd(int fd)
 			break;
 		}
 	}
-	close(fd);
 }
 
-//NotTested and leak
 void Server::disconnectClientByInstance(Client client)
 {
 	for (size_t i = 0; i < _fdList.size(); i++)
@@ -82,7 +80,6 @@ void Server::disconnectClientByInstance(Client client)
 			break;
 		}
 	}
-	close(client.getFd());
 }
 
 Channel	&Server::createChannel(const std::string &channelName, Client &op)

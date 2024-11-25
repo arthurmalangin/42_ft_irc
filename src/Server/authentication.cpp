@@ -12,8 +12,6 @@
 
 #include "../../include/Server.hpp"
 
-// TODO Possible probleme: si dans le premier echange de donnee/buffer il n'y a pas de password le client sera kick
-// peut etre qu'avec une mauvaise connexion il l'envoie en deuxieme buffer 
 void Server::authentication(int fd, const char *buffer)
 {
 	Parsing	parser;

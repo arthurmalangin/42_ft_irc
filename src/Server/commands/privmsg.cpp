@@ -20,7 +20,7 @@ void	Server::commandPRIVMSG(int fd, std::vector<std::string> msg, Client &client
         return ;
     }
 
-	if (msg[1].find('#') != std::string::npos) // # find so send message to a channel
+	if (msg[1].find('#') != std::string::npos)
 	{
 		std::string channelName = msg[1];
 		Channel *channel = NULL;
@@ -47,7 +47,7 @@ void	Server::commandPRIVMSG(int fd, std::vector<std::string> msg, Client &client
 				"@" + client.getIp() + ".ip" + " PRIVMSG " + channelName + " " + msg[2] + "\r\n");
 		}
 	}
-	else // Send message to user
+	else
 	{ 
 		std::string userNick = msg[1];
 		Client *cli = NULL;

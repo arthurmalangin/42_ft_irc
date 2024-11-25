@@ -36,5 +36,4 @@ void Server::commandQUIT(int fd)
 		client.getChannelList()[d]->rmOp(client);
 	}
 	std::cout << "\e[1;31m" << "Client <" << fd << "> Disconnected !" << "\e[0;37m" << std::endl;
-	//disconnectClientByFd(fd); car disconnectClientByFd appelle maintenant commandQUIT
 }

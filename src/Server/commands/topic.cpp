@@ -37,7 +37,7 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
         return ;
     }
 
-	if (msg.size() == 3) //set topic
+	if (msg.size() == 3)
 	{ 
 		if (channel->isOp(client) || !channel->getModeTopic())
 		{
@@ -50,43 +50,23 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
 				sendMessage(users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " TOPIC " + channelName + " " + msg[2] + "\r\n");
 			}
 		}
-		else // not tested
+		else
 		{ 
-			// >> :bitcoin.uk.eu.dal.net 482 LouisI #igorr :You're not channel operator
 			sendMessage(fd, ":MyChell.Beer 331 " + client.getNick() + " " + channelName + " :You're not channel operator\r\n");
-			//Send error
 		}
 	}
 	else
 	{
 		if (!channel->getTopic().empty())
 		{
-			//>> :bitcoin.uk.eu.dal.net 332 LouisI #potato :No potato                 here
 			sendMessage(fd, ":MyChell.Beer 332 " + client.getNick() + " " + channelName + " " + channel->getTopic() + "\r\n");
 			sendMessage(fd, ":MyChell.Beer 333 " + client.getNick() + " " + channelName + " " +  
 			channel->getTopicAuthInfo()[0] + "!~" + channel->getTopicAuthInfo()[1] + "@" + channel->getTopicAuthInfo()[2] + ".ip " +
 			channel->getTopicAuthInfo()[3] + "\r\n");
-			// Send topic
 		}
 		else
 		{
-			//>> :bitcoin.uk.eu.dal.net 331 Arthur_ #adzar :No topic is set.
 			sendMessage(fd, ":MyChell.Beer 331 " + client.getNick() + " " + channelName + " :No topic is set.\r\n");
-			//send no topic message
 		}
 	}
 }
-
-/*
-
-<< TOPIC #potato :No potato                 here
-
-<< TOPIC #adzar
->> :bitcoin.uk.eu.dal.net 332 LouisI #adzar :hihi
->> :bitcoin.uk.eu.dal.net 333 LouisI #adzar Arthur_!~Arthur@72b7-f536-9bc1-e681-4374.rev.sfr.net 1728490701
-
-// users[i]->getFd(), ":" + client.getNick() + "!~" + client.getUser() + "@" + client.getIp() + ".ip" + " PRIVMSG "
-
->> :bitcoin.uk.eu.dal.net 333 LouisI #adzar Arthur_!~Arthur@72b7-f536-9bc1-e681-4374.rev.sfr.net 1728490701
-*/
-

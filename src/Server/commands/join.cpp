@@ -13,10 +13,6 @@
 #include "../../../include/Server.hpp"
 
 void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
-    /*	
-        TODO Error if :
-        Max number of clients is already in channel
-    */
     if (msg.size() < 2 || msg[1].empty())
     {
         sendMessage(fd, ":MyChell.Beer 461 " + client.getNick() + " JOIN :Not enough parameters\r\n");
@@ -51,7 +47,6 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
     {
         if (msg[2].empty() || msg[2] != channel->getModeKeyPassword())
         {
-            // :punch.wa.us.dal.net 475 jeanhgfj #asdfghjkliop :Cannot join channel (+k)
             sendMessage(fd, ":MyChell.Beer 475 " + client.getNick() + " " + channelName + " :Cannot join channel (+k)\r\n");
             return ;
         }

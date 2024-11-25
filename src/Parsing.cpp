@@ -42,17 +42,6 @@ Parsing &Parsing::operator=(const Parsing &src)
 
 /*====== Parsing functions ======*/
 
-// static void parseMessage(const std::vector<std::vector<std::string> >& message)
-// {
-// 	for (size_t i = 0; i < message.size(); ++i)
-// 	{
-// 		std::cout << "====== "<< i <<" ======" << std::endl;
-// 		for (size_t j = 0; j < message[i].size(); ++j)
-// 			std::cout << message[i][j] << std::endl;
-// 		std::cout << "==============" << std::endl;
-// 	}
-// }
-
 void Parsing::parseBuffer(std::string buffer)
 {
 	std::vector<std::string>	tab;
@@ -75,5 +64,4 @@ void Parsing::parseBuffer(std::string buffer)
 		else if (buffer[i] != '\r')
 			tmp += buffer[i];
 	}
-	//parseMessage(message);
 }

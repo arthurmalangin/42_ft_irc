@@ -61,7 +61,7 @@ void Bot::getData()
 	char	buffer[2048];
 	ssize_t	byteWrite =  recv(_fdBotSocket, &buffer, 2047, 0);
 	
-	if (byteWrite <= 0) // Disconnected client
+	if (byteWrite <= 0)
 	{
 		Bot::_signal = 1;
 		std::cout << "\e[1;31m" << "Bot <" << _fdBotSocket << "> Recieve <= byteWrite !" << "\e[0;37m" << std::endl;
@@ -111,6 +111,5 @@ std::string	Bot::getIp() const {
 
 /*====== Utils ======*/
 int		Bot::sendMessage(int fd, std::string messageFormated) {
-	//std::cout << "sendMessage: " << messageFormated << std::endl;
 	return (send(fd, messageFormated.c_str(), messageFormated.size(), 0));
 }

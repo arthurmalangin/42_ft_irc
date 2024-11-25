@@ -43,8 +43,6 @@ std::string getNick(const std::string &str) {
     int posStart = str.find(":");
     int posEnd = str.find("!");
 
-    //std::cout << "debug getNick: posStart: " << posStart << " posEnd: " << posEnd << std::endl;
-
     if (posStart == std::string::npos || posEnd == std::string::npos || posStart >= posEnd) {
         return ""; 
     }
@@ -85,7 +83,6 @@ std::string sendInfo() {
 void	Bot::handleData(char *buffer) {
     std::vector <std::string> parsedMessage = split(buffer, ' ');
 	if (parsedMessage.size() > 3 && parsedMessage[1] == "PRIVMSG" ) {
-		//std::cout << "Debug 2: " << parsedMessage[2] << " 3: " << parsedMessage[3] << std::endl;
 		if (parsedMessage[3] == ":#info\r\n")
 			sendMessage(_fdBotSocket, "PRIVMSG " + getNick(parsedMessage[0]) + " :" + sendInfo() + "\r\n");
 		else {

@@ -46,6 +46,5 @@ void Server::commandPART(int fd, std::vector<std::string> msg, Client &client)
 		}
 		channel->rmClient(client);
 		channel->rmOp(client);
-		//client.rmChannel(*channel); 
 	}
 }
