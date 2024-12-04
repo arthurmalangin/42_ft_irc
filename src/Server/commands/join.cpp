@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:19:29 by amalangi          #+#    #+#             */
-/*   Updated: 2024/12/04 17:23:07 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/12/04 20:18:51 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void Server::commandJOIN(int fd, std::vector<std::string> msg, Client &client) {
 
     if (!channel->getModeKeyPassword().empty())
     {
-        if (msg[2].empty() || msg[2] != channel->getModeKeyPassword())
+        if (msg.size() < 3 || msg[2].empty() || msg[2] != channel->getModeKeyPassword())
         {
             sendMessage(fd, ":MyChell.Beer 475 " + client.getNick() + " " + channelName + " :Cannot join channel (+k)\r\n");
             return ;

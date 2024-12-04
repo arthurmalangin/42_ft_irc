@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handleData.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amalangi <amalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 22:18:17 by amalangi          #+#    #+#             */
-/*   Updated: 2024/10/30 13:00:11 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/12/04 20:14:26 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	Server::handleData(int fd, char *buffer) {
 	Client &client = getClientByFd(fd);
 	parser.parseBuffer(buffer);
     for (size_t i = 0; i < parser.message.size(); i++) {
-        if (parser.message[i].size() > 0 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving")
+        if (parser.message[i].size() > 1 && parser.message[i][0] == "QUIT" && parser.message[i][1] == ":Leaving")
             commandQUIT(fd);
 		else if (parser.message[i].size() > 0 && parser.message[i][0] == "PING")
 			commandPING(fd, client, parser.message[i][1]);
