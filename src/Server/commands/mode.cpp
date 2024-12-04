@@ -6,7 +6,7 @@
 /*   By: rwintgen <rwintgen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 02:13:14 by amalangi          #+#    #+#             */
-/*   Updated: 2024/11/18 16:09:11 by rwintgen         ###   ########.fr       */
+/*   Updated: 2024/12/04 20:24:20 by rwintgen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,10 @@ static void	handleTopic(bool sign, Server* server, Channel* channel, const Clien
 
 static void	handleKey(bool sign, Server* server, Channel* channel, const Client& client, const std::string& arg)
 {
-	channel->setModeKey(arg);
+	if (sign)
+		channel->setModeKey(arg);
+	else 
+		channel->setModeKey("");
 
 	std::vector<Client *> users = channel->getClientList();
 
