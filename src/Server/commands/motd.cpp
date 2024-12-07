@@ -12,15 +12,13 @@
 
 #include "../../../include/Server.hpp"
 
-#include <iomanip> // Pour std::setw
-#include <sstream> // Pour std::ostringstream
+#include <iomanip>
+#include <sstream>
 
 void Server::commandMOTD(int fd)
 {
     std::vector<std::string> motd_lines;
     ssize_t nbUser = this->_clientList.size();
-
-    // Formatage de la ligne "Number of Users"
     std::ostringstream oss;
     oss << "Number of Users: " << std::setw(3) << nbUser << "  ";
     
