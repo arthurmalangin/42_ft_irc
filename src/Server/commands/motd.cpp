@@ -12,23 +12,32 @@
 
 #include "../../../include/Server.hpp"
 
+#include <iomanip> // Pour std::setw
+#include <sstream> // Pour std::ostringstream
+
 void Server::commandMOTD(int fd)
 {
-	std::vector<std::string> motd_lines;
+    std::vector<std::string> motd_lines;
+    ssize_t nbUser = this->_clientList.size();
+
+    // Formatage de la ligne "Number of Users"
+    std::ostringstream oss;
+    oss << "Number of Users: " << std::setw(3) << nbUser << "  ";
+    
     motd_lines.push_back("-_-_-_- FT_IRC -_-_-_-");
-    motd_lines.push_back("Number of Users: xxx  ");
+    motd_lines.push_back(oss.str());
     motd_lines.push_back("====                  ");
     motd_lines.push_back("====                  ");
     motd_lines.push_back("By Rwintgen & Amalangi");
     motd_lines.push_back("-_-_-_-_-_-_-_-_-_-_- ");
 
-	sendMessage(fd, ":MyCheel.beer 375 : \n\n- Message of the Day - \r\n");
+    sendMessage(fd, ":MyCheel.beer 375 : \n\n- Message of the Day - \r\n");
 
-	for (size_t i = 0; i < motd_lines.size(); i++)
-	{
-		if (i == motd_lines.size() - 1)
-			sendMessage(fd, ":MyCheel.beer 376 : | " + motd_lines[i] + " | \r\n\n\n");
-		else
-			sendMessage(fd, ":MyCheel.beer 372 : | " + motd_lines[i] + " | \r\n");
-	}
+    for (size_t i = 0; i < motd_lines.size(); i++)
+    {
+        if (i == motd_lines.size() - 1)
+            sendMessage(fd, ":MyCheel.beer 376 : | " + motd_lines[i] + " | \r\n\n\n");
+        else
+            sendMessage(fd, ":MyCheel.beer 372 : | " + motd_lines[i] + " | \r\n");
+    }
 }
