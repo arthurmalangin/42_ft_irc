@@ -38,8 +38,11 @@ void	Server::commandTOPIC(int fd, std::vector<std::string> msg, Client &client)
     }
 
 	if (msg.size() == 3)
-	{ 
-		if (channel->isOp(client) || !channel->getModeTopic())
+	{
+		if (!channel->isInClientList(client)) {
+			sendMessage(fd, ":MyChell.Beer 442 " + client.getNick() + " " + channelName + " :You're not on that channel\r\n");
+		}
+		else if (channel->isOp(client) || !channel->getModeTopic())
 		{
 			std::vector<Client *>users = channel->getClientList();
 

@@ -236,12 +236,12 @@ static void	handleOperator(bool sign, Server* server, Channel* channel, const Cl
 {
 	try
 	{
-		Client target = server->getClientByNickName(arg);
+		Client *target = &server->getClientByNickName(arg);
 
 		if (sign)
-			channel->addOp(target);
+			channel->addOp(*target);
 		else
-			channel->rmOp(target);
+			channel->rmOp(*target);
 
 		std::vector<Client *> users = channel->getClientList();
 

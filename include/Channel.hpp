@@ -60,6 +60,7 @@ class Channel
 
 		std::vector<Client *>			getInviteList(void) const;
 		bool							isInInviteList(Client &client);
+		bool							isInClientList(Client &client);
 		void							addInviteList(Client &client);
 		void							rmInviteList(Client &client);
 

@@ -150,6 +150,16 @@ bool	Channel::isInInviteList(Client &client)
 	return (false);
 }
 
+bool	Channel::isInClientList(Client &client)
+{
+	for (size_t i = 0; i < _clientList.size(); i++)
+	{
+		if (client.getFd() == _clientList[i]->getFd())
+			return (true);
+	}
+	return (false);
+}
+
 void	Channel::addInviteList(Client &client)
 {
 	_inviteList.push_back(&client);
