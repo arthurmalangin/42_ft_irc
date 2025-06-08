@@ -1,2 +1,2 @@
 # 42_ft_irc
-Créez votre propre serveur IRC, en suivant les RFC standards d'Internet.
+Complete IRC (Internet Relay Chat) server implementation supporting multiple simultaneous clients, channel management, user authentication, and standard IRC commands. Built from scratch following RFC specifications.
